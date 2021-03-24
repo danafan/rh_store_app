@@ -75,167 +75,167 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(context),
-      body: Container(
-          color: Color(0xffF3F6F5),
-          child: ListView(
-            children: <Widget>[
-              // 商品报告
-              Padding(
-                padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(15),
-                        right: ScreenUtil().setWidth(15),
-                        bottom: ScreenUtil().setHeight(25)),
-                    child: Column(
-                      children: <Widget>[
-                        //时间选项
-                        _timeTab(),
-                        //自定义时间弹框
-                        this._typeIndex == '4'
-                            ? _customTime(context)
-                            : Divider(height: 0),
-                        Divider(height: 1),
-                        //内容头部
-                        _contentTitle('经营数据', '实际到账 = 核销金额 * 90%'),
-                        // 内容行
-                        Container(
-                          height: ScreenUtil().setHeight(100),
-                          alignment: Alignment.center,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _dataItem(context, '实际到账', '805.23'),
-                                _dataItem(context, '核销金额', '1200.24'),
-                                _dataItem(context, '核销数量', '8')
-                              ]),
-                        ),
-                        // 内容行
-                        Container(
-                          height: ScreenUtil().setHeight(100),
-                          alignment: Alignment.center,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _dataItem(context, '预计收益', '722.12'),
-                                _dataItem(context, '下单金额', '965.20'),
-                                _dataItem(context, '下单数量', '3')
-                              ]),
-                        ),
-                        Divider(height: 1),
-                        //内容头部
-                        _contentTitle('商品分析', '按上架套餐销量从高到低排序'),
-                        //套餐表格
-                        Container(
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(
-                                      color: Color(0xffEDF0F7),
-                                    ),
-                                    left: BorderSide(
-                                      color: Color(0xffEDF0F7),
-                                    ),
-                                    right: BorderSide(
-                                      color: Color(0xffEDF0F7),
-                                    ))),
-                            child: Column(children: <Widget>[
-                              //表头
-                              _tableHeader(),
-                              //每一行
-                              _tableItem('老坛酸菜鱼米饭+一份米饭', '12', '1242.24'),
-                              _tableItem('老坛酸菜鱼米饭+一份米饭', '12', '1242.24'),
-                              _tableItem('老坛酸菜鱼米饭+一份米饭', '12', '1242.24'),
-                              _tableItem('老坛酸菜鱼米饭+一份米饭', '12', '1242.24'),
-                              _tableItem('老坛酸菜鱼米饭+一份米饭套餐一份米饭套餐一份米饭套餐一份米饭套餐',
-                                  '12', '1242.24'),
-                            ]))
-                      ],
-                    )),
-              )
-            ],
+      appBar: PreferredSize(
+          preferredSize:
+              Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(340)),
+          child: AppBar(
+            backgroundColor: Color(0xff0a0b17),
+            brightness: Brightness.dark,
+            flexibleSpace: Column(children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).padding.top),
+              _storeInfo(),
+              //扫码核销
+              _checkWidget(),
+              // 公告
+              _messageWidget(context),
+            ]),
           )),
+      body: Container(
+          child: ListView(
+        children: <Widget>[
+          // 商品报告
+          Padding(
+            padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                padding: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(15),
+                    right: ScreenUtil().setWidth(15),
+                    bottom: ScreenUtil().setHeight(25)),
+                child: Column(
+                  children: <Widget>[
+                    //时间选项
+                    _timeTab(),
+                    //自定义时间弹框
+                    this._typeIndex == '4'
+                        ? _customTime(context)
+                        : Divider(height: 0),
+                    Divider(height: 1),
+                    //内容头部
+                    _contentTitle('经营数据', '实际到账 = 核销金额 * 90%'),
+                    // 内容行
+                    Container(
+                      height: ScreenUtil().setHeight(100),
+                      alignment: Alignment.center,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            _dataItem(context, '实际到账', '805.23'),
+                            _dataItem(context, '核销金额', '1200.24'),
+                            _dataItem(context, '核销数量', '8')
+                          ]),
+                    ),
+                    // 内容行
+                    Container(
+                      height: ScreenUtil().setHeight(100),
+                      alignment: Alignment.center,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            _dataItem(context, '预计收益', '722.12'),
+                            _dataItem(context, '下单金额', '965.20'),
+                            _dataItem(context, '下单数量', '3')
+                          ]),
+                    ),
+                    Divider(height: 1),
+                    //内容头部
+                    _contentTitle('商品分析', '按上架套餐销量从高到低排序'),
+                    //套餐表格
+                    Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: BorderSide(
+                                  color: Color(0xffEDF0F7),
+                                ),
+                                left: BorderSide(
+                                  color: Color(0xffEDF0F7),
+                                ),
+                                right: BorderSide(
+                                  color: Color(0xffEDF0F7),
+                                ))),
+                        child: Column(children: <Widget>[
+                          //表头
+                          _tableHeader(),
+                          //每一行
+                          _tableItem('老坛酸菜鱼套餐老坛酸菜鱼套餐', '12', '1242.24'),
+                          _tableItem('老坛酸菜鱼套餐', '12', '1242.24'),
+                          _tableItem('老坛酸菜鱼套餐', '12', '1242.24'),
+                          _tableItem('老坛酸菜鱼套餐', '12', '1242.24'),
+                          _tableItem('老坛酸菜鱼套餐', '12', '1242.24'),
+                        ]))
+                  ],
+                )),
+          )
+        ],
+      )),
     );
   }
 
-  //appbar
-  _appBar(context) {
-    return PreferredSize(
-      preferredSize:
-          Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(322)),
-      child: Column(children: <Widget>[
-        Expanded(
-            flex: 1,
-            child: AppBar(
-              backgroundColor: Color(0xff0a0b17),
-              brightness:Brightness.dark,
-              title: Container(
-                  color: Color(0xff0a0b17),
-                  padding: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(15),
-                      right: ScreenUtil().setWidth(15)),
-                  child: Row(children: <Widget>[
-                    Expanded(
-                        flex: 1,
-                        child: Text('盛宴海鲜自助餐厅',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16))),
-                    Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Color(0xffdcf6ef),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      height: 16,
-                      width: 56,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              decoration: BoxDecoration(
-                                  color: Color(0xff47af5d),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
-                              height: 10,
-                              width: 10),
-                          Text(
-                            '营业中',
-                            style: TextStyle(fontSize: 10,color:Color(0xff333333)),
-                          )
-                        ],
-                      ),
-                    )
-                  ])),
-            )),
-        //扫码核销
-        _checkWidget(),
-        // 公告
-        _messageWidget(context),
-      ]),
-    );
+//商家信息
+  _storeInfo() {
+    return Container(
+        height: ScreenUtil().setHeight(60),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(15), right: ScreenUtil().setWidth(15)),
+        child: Row(children: <Widget>[
+          Expanded(
+              flex: 1,
+              child: Text('盛宴海鲜自助餐厅',
+                  style: TextStyle(
+                      color: Color(0xffd1b171),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1)),
+          SizedBox(width: ScreenUtil().setWidth(30)),
+          Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: Color(0xffdcf6ef),
+                borderRadius: BorderRadius.all(
+                    Radius.circular(ScreenUtil().setHeight(15)))),
+            height: ScreenUtil().setHeight(30),
+            width: ScreenUtil().setWidth(118),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xff47af5d),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(ScreenUtil().setHeight(8)))),
+                    height: ScreenUtil().setHeight(16),
+                    width: ScreenUtil().setHeight(16)),
+                Text(
+                  '营业中',
+                  style: TextStyle(fontSize: 11, color: Color(0xff333333)),
+                )
+              ],
+            ),
+          )
+        ]));
   }
 
 //扫码、输码核销
   _checkWidget() {
     return Container(
-      height: ScreenUtil().setHeight(160),
-      color: Color(0xff0a0b17),
+      height: ScreenUtil().setHeight(220),
       child: Center(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Icon(Icons.center_focus_weak, color: Colors.white),
+              Icon(Icons.center_focus_weak, color: Colors.white, size: 36),
               SizedBox(height: ScreenUtil().setHeight(8)),
-              Text('扫码核销', style: TextStyle(color: Colors.white))
+              Text('扫码核销', style: TextStyle(color: Colors.white, fontSize: 16))
             ]),
             Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Icon(Icons.dialpad, color: Colors.white),
+              Icon(Icons.dialpad, color: Colors.white, size: 30),
               SizedBox(height: ScreenUtil().setHeight(8)),
-              Text('扫码核销', style: TextStyle(color: Colors.white))
+              Text('输码核销', style: TextStyle(color: Colors.white, fontSize: 16))
             ])
           ])),
     );
@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
   _messageWidget(context) {
     return Container(
         color: Colors.white,
-        height: ScreenUtil().setHeight(62),
+        height: ScreenUtil().setHeight(60),
         padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(15), right: ScreenUtil().setWidth(15)),
         child: Center(
@@ -253,13 +253,14 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Icon(Icons.volume_up,
-                    size: 20, color: Theme.of(context).primaryColor),
+                    size: 22, color: Theme.of(context).primaryColor),
                 SizedBox(width: ScreenUtil().setWidth(8)),
                 Expanded(
                     flex: 1,
                     child: Text(
                       '我说你小子是学好难，学坏不用教啊，不知道就算了，知道了可不行',
                       overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Color(0xff333333), fontSize: 14),
                     )),
                 SizedBox(width: ScreenUtil().setWidth(8)),
                 Icon(Icons.arrow_forward_ios, size: 16)
@@ -294,15 +295,15 @@ class _HomePageState extends State<HomePage> {
                   ? Theme.of(context).primaryColor
                   : Color(0xffEDF0F7),
               borderRadius: BorderRadius.circular(3)),
-          width: ScreenUtil().setWidth(130),
-          height: ScreenUtil().setHeight(48),
+          width: ScreenUtil().setWidth(136),
+          height: ScreenUtil().setHeight(52),
           alignment: Alignment.center,
           child: Text('${text}',
               style: TextStyle(
                   color: type == this._typeIndex
                       ? Colors.white
                       : Color(0xff333333),
-                  fontSize: 14)),
+                  fontSize: 15)),
         ));
   }
 
@@ -310,46 +311,47 @@ class _HomePageState extends State<HomePage> {
   _customTime(context) {
     return Container(
         alignment: Alignment.center,
-        height: ScreenUtil().setHeight(50),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(this.now.year, 1, 1),
-                        maxTime: DateTime(
-                            this.now.year, this.now.month, this.now.day),
-                        onConfirm: (date) {
-                      _judgeTime('1', date);
-                    }, currentTime: DateTime.now(), locale: LocaleType.zh);
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Text('${this._starTime}'),
-                      Icon(Icons.keyboard_arrow_down, size: 16)
-                    ],
-                  )),
-              Text('至'),
-              InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(this.now.year, 1, 1),
-                        maxTime: DateTime(
-                            this.now.year, this.now.month, this.now.day),
-                        onConfirm: (date) {
-                      _judgeTime('2', date);
-                    }, currentTime: DateTime.now(), locale: LocaleType.zh);
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Text('${this._endTime}'),
-                      Icon(Icons.keyboard_arrow_down, size: 16)
-                    ],
-                  ))
-            ]));
+        height: ScreenUtil().setHeight(60),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
+            Widget>[
+          InkWell(
+              onTap: () {
+                DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    minTime: DateTime(this.now.year, 1, 1),
+                    maxTime:
+                        DateTime(this.now.year, this.now.month, this.now.day),
+                    onConfirm: (date) {
+                  _judgeTime('1', date);
+                }, currentTime: DateTime.now(), locale: LocaleType.zh);
+              },
+              child: Row(
+                children: <Widget>[
+                  Text('${this._starTime}',
+                      style: TextStyle(color: Color(0xff333333), fontSize: 15)),
+                  Icon(Icons.keyboard_arrow_down, size: 16)
+                ],
+              )),
+          Text('至', style: TextStyle(color: Color(0xff333333), fontSize: 15)),
+          InkWell(
+              onTap: () {
+                DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    minTime: DateTime(this.now.year, 1, 1),
+                    maxTime:
+                        DateTime(this.now.year, this.now.month, this.now.day),
+                    onConfirm: (date) {
+                  _judgeTime('2', date);
+                }, currentTime: DateTime.now(), locale: LocaleType.zh);
+              },
+              child: Row(
+                children: <Widget>[
+                  Text('${this._endTime}',
+                      style: TextStyle(color: Color(0xff333333), fontSize: 15)),
+                  Icon(Icons.keyboard_arrow_down, size: 16)
+                ],
+              ))
+        ]));
   }
 
 //内容头部
@@ -364,10 +366,10 @@ class _HomePageState extends State<HomePage> {
               Text('${title}',
                   style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600)),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold)),
               Text('${desc}',
-                  style: TextStyle(color: Color(0xff8a8a8a), fontSize: 12)),
+                  style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14)),
             ]));
   }
 
@@ -378,7 +380,10 @@ class _HomePageState extends State<HomePage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text('${label}',
-              style: TextStyle(color: Color(0xff333333), fontSize: 14)),
+              style: TextStyle(
+                  color: Color(0xff333333),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),
           Text('${val}',
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
@@ -401,7 +406,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                           color: Color(0xff333333),
                           fontSize: 14,
-                          fontWeight: FontWeight.w600)))),
+                          fontWeight: FontWeight.bold)))),
           Container(
             alignment: Alignment.center,
             width: ScreenUtil().setWidth(180),
@@ -409,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                     color: Color(0xff333333),
                     fontSize: 14,
-                    fontWeight: FontWeight.w600)),
+                    fontWeight: FontWeight.bold)),
           ),
           Container(
             alignment: Alignment.center,
@@ -418,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                     color: Color(0xff333333),
                     fontSize: 14,
-                    fontWeight: FontWeight.w600)),
+                    fontWeight: FontWeight.bold)),
           )
         ]));
   }
@@ -436,20 +441,20 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                   padding: EdgeInsets.only(left: ScreenUtil().setWidth(15)),
                   child: Text('${goods_name}',
-                      style: TextStyle(color: Color(0xff333333), fontSize: 13),
+                      style: TextStyle(color: Color(0xff333333), fontSize: 14),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2))),
+                      maxLines: 1))),
           Container(
             alignment: Alignment.center,
             width: ScreenUtil().setWidth(180),
             child: Text('${number}',
-                style: TextStyle(color: Color(0xff333333), fontSize: 13)),
+                style: TextStyle(color: Color(0xff333333), fontSize: 14)),
           ),
           Container(
             alignment: Alignment.center,
             width: ScreenUtil().setWidth(180),
             child: Text('${money}',
-                style: TextStyle(color: Color(0xff333333), fontSize: 13)),
+                style: TextStyle(color: Color(0xff333333), fontSize: 14)),
           )
         ]));
   }

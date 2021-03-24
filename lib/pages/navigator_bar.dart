@@ -11,7 +11,7 @@ class NavigatorBar extends StatefulWidget {
 }
 
 class _NavigatorBarState extends State<NavigatorBar> {
-  int _currentPageIndex = 1; //当前选中的导航下标
+  int _currentPageIndex = 0; //当前选中的导航下标
 
   List<Widget> _pageList = [
     HomePage(),

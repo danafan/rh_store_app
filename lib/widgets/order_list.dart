@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import './order_item.dart';
+import './loading_more.dart';
+import './list_bottom.dart';
 
 class OrderList extends StatefulWidget {
   String _listType = '1'; //订单列表筛选条件（1:全部；2:待核销；3:已完成；4:已退款）
@@ -79,60 +81,23 @@ class _OrderListState extends State<OrderList> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: RefreshIndicator(
-        onRefresh: this.onRefresh,
-        child: ListView.builder(
-            controller: this._scrollController,
-            itemCount: this.orderList.length + 1,
-            itemBuilder: (context, index) {
-              if (index < this.orderList.length) {
-                return OrderItem(this.orderList[index]);
+    return RefreshIndicator(
+      onRefresh: this.onRefresh,
+      child: ListView.builder(
+        padding: EdgeInsets.all(8),
+          controller: this._scrollController,
+          itemCount: this.orderList.length + 1,
+          itemBuilder: (context, index) {
+            if (index < this.orderList.length) {
+              return OrderItem(this.orderList[index]);
+            } else {
+              if (this._isLoad) {
+                return LoadingMore();
               } else {
-                return this.renderBottom();
+                return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
               }
-            }),
-      ),
+            }
+          }),
     );
-  }
-
-  //列表底部加载中提示
-  Widget renderBottom() {
-    if (this._isLoad) {
-      return Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '努力加载中...',
-              style: TextStyle(
-                fontSize: 15,
-                color: Color(0xFF333333),
-              ),
-            ),
-            Padding(padding: EdgeInsets.only(left: 10)),
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 3),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        child: Text(
-          this._isOver?'到底了':'上拉加载更多',
-          style: TextStyle(
-            fontSize: 15,
-            color: Color(0xFF333333),
-          ),
-        ),
-      );
-    }
   }
 }
