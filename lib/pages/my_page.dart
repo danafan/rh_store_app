@@ -59,9 +59,14 @@ class _MyPageState extends State<MyPage> {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text('账单>>',
+                        InkWell(
+                          onTap:(){
+                            Navigator.pushNamed(context, '/bill_page');
+                          },
+                          child:Text('账单>>',
                             style: TextStyle(
                                 color: Color(0xff8a8a8a), fontSize: 14))
+                        )
                       ],
                     ),
                   ),
@@ -239,13 +244,12 @@ class _MyPageState extends State<MyPage> {
         child: Container(
           width: ScreenUtil().setWidth(160),
           child: Column(children: <Widget>[
-            Icon(icon, size: 30),
+            Icon(icon, size: 28),
             Text(
               '${label}',
               style: TextStyle(
                   color: Color(0xff333333),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 15),
             )
           ]),
         ));

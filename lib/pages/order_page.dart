@@ -16,12 +16,12 @@ class _OrderPageState extends State<OrderPage>
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, initialIndex: 0, length: 4);
+    _tabController = TabController(vsync: this, initialIndex: 0, length: 4);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    this._tabController.dispose();
     // TODO: implement dispose
     super.dispose();
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../pages/navigator_bar.dart';
 import '../widgets/photo_view.dart';
 import '../pages/commentPages/complaint.dart';
+import '../pages/myPages/bill_page.dart';
 import '../pages/myPages/store_setting.dart';
 import '../pages/myPages/package_management.dart';
 import '../pages/myPages/store_menu.dart';
@@ -14,6 +15,7 @@ final routes = {
   '/': (context) => NavigatorBar(),
   '/photo_view': (context,{arguments}) => PhotoView(arguments:arguments),
   '/complaint': (context,{arguments}) => Complaint(arguments:arguments),
+  '/bill_page': (context) => BillPage(),
   '/store_setting': (context) => StoreSetting(),
   '/package_management': (context) => PackageManagement(),
   '/store_menu': (context) => StoreMenu(),

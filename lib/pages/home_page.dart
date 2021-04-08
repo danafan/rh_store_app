@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize:
-              Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(340)),
+              Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(360)),
           child: AppBar(
             backgroundColor: Color(0xff0a0b17),
             brightness: Brightness.dark,
@@ -144,6 +144,8 @@ class _HomePageState extends State<HomePage> {
                     _contentTitle('商品分析', '按上架套餐销量从高到低排序'),
                     //套餐表格
                     Container(
+                        margin:
+                            EdgeInsets.only(top: ScreenUtil().setHeight(10)),
                         decoration: BoxDecoration(
                             border: Border(
                                 top: BorderSide(
@@ -245,7 +247,7 @@ class _HomePageState extends State<HomePage> {
   _messageWidget(context) {
     return Container(
         color: Colors.white,
-        height: ScreenUtil().setHeight(60),
+        height: ScreenUtil().setHeight(80),
         padding: EdgeInsets.only(
             left: ScreenUtil().setWidth(15), right: ScreenUtil().setWidth(15)),
         child: Center(
@@ -272,7 +274,7 @@ class _HomePageState extends State<HomePage> {
   _timeTab() {
     return Container(
         alignment: Alignment.center,
-        height: ScreenUtil().setHeight(80),
+        height: ScreenUtil().setHeight(100),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -368,6 +370,7 @@ class _HomePageState extends State<HomePage> {
                       color: Color(0xff333333),
                       fontSize: 16,
                       fontWeight: FontWeight.bold)),
+              SizedBox(height: ScreenUtil().setHeight(6)),
               Text('${desc}',
                   style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14)),
             ]));
