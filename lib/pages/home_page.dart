@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import '../service/picker_tool.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -318,14 +319,28 @@ class _HomePageState extends State<HomePage> {
             Widget>[
           InkWell(
               onTap: () {
-                DatePicker.showDatePicker(context,
-                    showTitleActions: true,
-                    minTime: DateTime(this.now.year, 1, 1),
-                    maxTime:
-                        DateTime(this.now.year, this.now.month, this.now.day),
-                    onConfirm: (date) {
-                  _judgeTime('1', date);
-                }, currentTime: DateTime.now(), locale: LocaleType.zh);
+                JhPickerTool.showDatePicker(context,
+                        dateType: DateType.YMD,
+                        // dateType: DateType.YM,
+                        //dateType: DateType.YMD_HM,
+                        //dateType: DateType.YMD_AP_HM,
+                        //title: "请选择2",
+                        minValue: DateTime(2020, 08,01),
+                        maxValue: DateTime(now.year, now.month, now.day),
+                        //value: DateTime(2020,10,10),
+                        clickCallback: (var str, var time) {
+                          this.setState(() {
+                            current_month = str;
+                          });
+                    });
+                // DatePicker.showDatePicker(context,
+                //     showTitleActions: true,
+                //     minTime: DateTime(this.now.year, 1, 1),
+                //     maxTime:
+                //         DateTime(this.now.year, this.now.month, this.now.day),
+                //     onConfirm: (date) {
+                //   _judgeTime('1', date);
+                // }, currentTime: DateTime.now(), locale: LocaleType.zh);
               },
               child: Row(
                 children: <Widget>[

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:rh_store_app/widgets/list_bottom.dart';
 import 'package:rh_store_app/widgets/loading_more.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import '../../service/picker_tool.dart';
 
 class BillPage extends StatefulWidget {
   @override
@@ -12,7 +13,9 @@ class BillPage extends StatefulWidget {
 class _BillPageState extends State<BillPage> {
   //当前时间
   var now = new DateTime.now();
-  //评论列表
+  //选中的当前月份
+  String current_month = "";
+  //账单列表
   List<String> _commentList = [];
   //是否加载中
   bool _isLoad = false;
@@ -31,7 +34,7 @@ class _BillPageState extends State<BillPage> {
       if (!this._isLoad &&
           this._scrollController.position.pixels >=
               this._scrollController.position.maxScrollExtent) {
-        if (this._commentList.length >= 100) {
+        if (this._commentList.length >= 30) {
           //如果所有数据加载完毕
           setState(() {
             this._isOver = true;
@@ -46,12 +49,29 @@ class _BillPageState extends State<BillPage> {
         }
       }
     });
+    //设置当前选中月
+    this.current_month = now.year.toString() +
+        '-' +
+        (now.month < 10 ? '0' + now.month.toString() : now.month.toString());
   }
 
   //加载更多数据
   Future _loadMoreData() {
     return Future.delayed(Duration(seconds: 1), () {
-      List<String> newsList = ['1', '2', '3', '1', '2', '3'];
+      List<String> newsList = [
+        '1',
+        '2',
+        '3',
+        '1',
+        '2',
+        '3',
+        '1',
+        '2',
+        '3',
+        '1',
+        '2',
+        '3'
+      ];
       setState(() {
         this._isLoad = false;
         this._commentList.addAll(newsList);
@@ -75,38 +95,43 @@ class _BillPageState extends State<BillPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size(
-                ScreenUtil().setWidth(750),
-                ScreenUtil().setHeight(260) -
-                    MediaQuery.of(context).padding.top),
-            child: AppBar(
-                backgroundColor: Color(0xffffffff),
-                brightness: Brightness.light,
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: Color(0xff333333)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-                title: Text('账单', style: TextStyle(color: Color(0xff333333))),
-                flexibleSpace: _filterTime())),
         body: RefreshIndicator(
             onRefresh: this.onRefresh,
-            child: ListView.builder(
-                padding: EdgeInsets.all(8),
-                controller: this._scrollController,
-                itemCount: this._commentList.length + 1,
-                itemBuilder: (context, index) {
-                  if (index < this._commentList.length) {
-                    return _billItem('1', '100');
-                  } else {
-                    if (this._isLoad) {
-                      return LoadingMore();
-                    } else {
-                      return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
-                    }
-                  }
-                })));
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  backgroundColor: Color(0xffffffff),
+                  pinned: true,
+                  expandedHeight: ScreenUtil().setHeight(180),
+                  leading: IconButton(
+                      icon:
+                          Icon(Icons.arrow_back_ios, color: Color(0xff333333)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                  title: Text('账单', style: TextStyle(color: Color(0xff333333))),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: _filterTime(),
+                  ),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.all(8),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate((content, index) {
+                      if (index < this._commentList.length) {
+                        return _billItem('1', '100');
+                      } else {
+                        if (this._isLoad) {
+                          return LoadingMore();
+                        } else {
+                          return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
+                        }
+                      }
+                    }, childCount: this._commentList.length + 1),
+                  ),
+                )
+              ],
+            )));
   }
 
   //时间筛选
@@ -121,21 +146,26 @@ class _BillPageState extends State<BillPage> {
             children: <Widget>[
               InkWell(
                   onTap: () {
-                    DatePicker.showDatePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(this.now.year, 1),
-                        maxTime: DateTime(
-                            this.now.year, this.now.month),
-                        onConfirm: (date) {
-                          print(date);
-                      // _judgeTime('1', date);
-                    }, currentTime: DateTime.now(), locale: LocaleType.zh);
+                    JhPickerTool.showDatePicker(context,
+                        //dateType: DateType.YMD,
+                        dateType: DateType.YM,
+                        //dateType: DateType.YMD_HM,
+                        //dateType: DateType.YMD_AP_HM,
+                        //title: "请选择2",
+                        minValue: DateTime(2020, 08),
+                        maxValue: DateTime(now.year, now.month),
+                        //value: DateTime(2020,10,10),
+                        clickCallback: (var str, var time) {
+                          this.setState(() {
+                            current_month = str;
+                          });
+                    });
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '2020-04',
+                        '${current_month}',
                         style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: 16,
