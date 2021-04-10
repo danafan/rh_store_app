@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../service/picker_tool.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,30 +33,29 @@ class _HomePageState extends State<HomePage> {
 
   //判断开始时间是否大于结束时间
   _judgeTime(timeType, date) {
+    List _dateList = date.split('-');
     List _starTimeArr = this._starTime.split('-');
     List _endTimeArr = this._endTime.split('-');
     var _startDate;
     var _endDate;
     if (timeType == '1') {
-      _startDate = new DateTime(date.year, date.month, date.day);
+      _startDate = new DateTime(int.parse(_dateList[0]), int.parse(_dateList[1]), int.parse(_dateList[2]));
       _endDate = new DateTime(int.parse(_endTimeArr[0]),
           int.parse(_endTimeArr[1]), int.parse(_endTimeArr[2]));
     } else {
       _startDate = new DateTime(int.parse(_starTimeArr[0]),
           int.parse(_starTimeArr[1]), int.parse(_starTimeArr[2]));
-      _endDate = new DateTime(date.year, date.month, date.day);
+      _endDate = new DateTime(int.parse(_dateList[0]), int.parse(_dateList[1]), int.parse(_dateList[2]));
     }
     if (_startDate.isBefore(_endDate) ||
         _startDate.isAtSameMomentAs(_endDate)) {
-      String _currentTime =
-          '${date.year.toString()}-${date.month.toString()}-${date.day.toString()}';
       if (timeType == '1') {
         this.setState(() {
-          _starTime = _currentTime;
+          _starTime = date;
         });
       } else {
         this.setState(() {
-          _endTime = _currentTime;
+          _endTime = date;
         });
       }
       //根据当前时间区间获取数据
@@ -321,26 +319,11 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 JhPickerTool.showDatePicker(context,
                         dateType: DateType.YMD,
-                        // dateType: DateType.YM,
-                        //dateType: DateType.YMD_HM,
-                        //dateType: DateType.YMD_AP_HM,
-                        //title: "请选择2",
                         minValue: DateTime(2020, 08,01),
                         maxValue: DateTime(now.year, now.month, now.day),
-                        //value: DateTime(2020,10,10),
                         clickCallback: (var str, var time) {
-                          this.setState(() {
-                            current_month = str;
-                          });
+                          _judgeTime('1', str);
                     });
-                // DatePicker.showDatePicker(context,
-                //     showTitleActions: true,
-                //     minTime: DateTime(this.now.year, 1, 1),
-                //     maxTime:
-                //         DateTime(this.now.year, this.now.month, this.now.day),
-                //     onConfirm: (date) {
-                //   _judgeTime('1', date);
-                // }, currentTime: DateTime.now(), locale: LocaleType.zh);
               },
               child: Row(
                 children: <Widget>[
@@ -352,14 +335,13 @@ class _HomePageState extends State<HomePage> {
           Text('至', style: TextStyle(color: Color(0xff333333), fontSize: 15)),
           InkWell(
               onTap: () {
-                DatePicker.showDatePicker(context,
-                    showTitleActions: true,
-                    minTime: DateTime(this.now.year, 1, 1),
-                    maxTime:
-                        DateTime(this.now.year, this.now.month, this.now.day),
-                    onConfirm: (date) {
-                  _judgeTime('2', date);
-                }, currentTime: DateTime.now(), locale: LocaleType.zh);
+                JhPickerTool.showDatePicker(context,
+                        dateType: DateType.YMD,
+                        minValue: DateTime(2020, 08,01),
+                        maxValue: DateTime(now.year, now.month, now.day),
+                        clickCallback: (var str, var time) {
+                          _judgeTime('2', str);
+                    });
               },
               child: Row(
                 children: <Widget>[

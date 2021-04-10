@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:rh_store_app/widgets/list_bottom.dart';
 import 'package:rh_store_app/widgets/loading_more.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../service/picker_tool.dart';
 
 class BillPage extends StatefulWidget {

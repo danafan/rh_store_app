@@ -146,14 +146,8 @@ class JhPickerTool {
             time.minute.toString() +
             "分";
       } else {
-        timeStr = time.year.toString() +
-            "年" +
-            time.month.toString() +
-            "月" +
-            time.day.toString() +
-            "日";
+        timeStr = time.year.toString() + "-" + (time.month < 10 ? '0' + time.month.toString():time.month.toString()) + "-" + (time.day < 10 ? '0' + time.day.toString():time.day.toString());
       }
-//          print(formatDate(DateTime(1989, 02, 21), [yyyy, '-', mm, '-', dd]));
       clickCallback(timeStr, picker.adapter.text);
     });
   }
