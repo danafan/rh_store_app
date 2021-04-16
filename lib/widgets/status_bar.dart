@@ -5,7 +5,6 @@ class StatusBar extends StatelessWidget {
   StatusBar(this._backGroundColor);
   @override
   Widget build(BuildContext context) {
-    print('wqe');
     return Container(
       color: _backGroundColor,
       height: MediaQuery.of(context).padding.top,

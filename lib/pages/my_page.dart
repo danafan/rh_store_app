@@ -60,13 +60,12 @@ class _MyPageState extends State<MyPage> {
                               fontWeight: FontWeight.bold),
                         ),
                         InkWell(
-                          onTap:(){
-                            Navigator.pushNamed(context, '/bill_page');
-                          },
-                          child:Text('账单>>',
-                            style: TextStyle(
-                                color: Color(0xff8a8a8a), fontSize: 14))
-                        )
+                            onTap: () {
+                              Navigator.pushNamed(context, '/bill_page');
+                            },
+                            child: Text('账单>>',
+                                style: TextStyle(
+                                    color: Color(0xff8a8a8a), fontSize: 14)))
                       ],
                     ),
                   ),
@@ -80,20 +79,24 @@ class _MyPageState extends State<MyPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           _moneyWidget('钱包余额（元）', '0.00'),
-                          Container(
-                            height: ScreenUtil().setHeight(42),
-                            width: ScreenUtil().setWidth(120),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(
-                                    ScreenUtil().setHeight(21))),
-                            child: Text(
-                              '提现',
-                              style: TextStyle(
-                                  color: Color(0xff333333), fontSize: 14),
-                            ),
-                          )
+                          InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/cash_page');
+                              },
+                              child: Container(
+                                height: ScreenUtil().setHeight(42),
+                                width: ScreenUtil().setWidth(120),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(
+                                        ScreenUtil().setHeight(21))),
+                                child: Text(
+                                  '提现',
+                                  style: TextStyle(
+                                      color: Color(0xff333333), fontSize: 14),
+                                ),
+                              ))
                         ],
                       )),
                   Container(
@@ -247,9 +250,7 @@ class _MyPageState extends State<MyPage> {
             Icon(icon, size: 28),
             Text(
               '${label}',
-              style: TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 15),
+              style: TextStyle(color: Color(0xff333333), fontSize: 15),
             )
           ]),
         ));

@@ -48,7 +48,7 @@ class _CommentItemState extends State<CommentItem> {
     return Container(
         margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            color: Colors.white, borderRadius: BorderRadius.circular(8)),
         padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <

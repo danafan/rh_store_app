@@ -99,16 +99,17 @@ class _BillPageState extends State<BillPage> {
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  backgroundColor: Color(0xffffffff),
+                  elevation: 0,
+                  backgroundColor: Color(0xff0a0b17),
                   pinned: true,
-                  expandedHeight: ScreenUtil().setHeight(180),
                   leading: IconButton(
                       icon:
-                          Icon(Icons.arrow_back_ios, color: Color(0xff333333)),
+                          Icon(Icons.arrow_back_ios, color: Color(0xffffffff)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
-                  title: Text('账单', style: TextStyle(color: Color(0xff333333))),
+                  title: Text('账单', style: TextStyle(color: Color(0xffffffff),fontSize: 18)),
+                  expandedHeight: 56 + ScreenUtil().setHeight(90),
                   flexibleSpace: FlexibleSpaceBar(
                     background: _filterTime(),
                   ),
@@ -136,7 +137,7 @@ class _BillPageState extends State<BillPage> {
   //时间筛选
   _filterTime() {
     return Column(children: <Widget>[
-      SizedBox(height: ScreenUtil().setHeight(160)),
+      SizedBox(height: MediaQuery.of(context).padding.top + 56),
       Container(
           padding: EdgeInsets.only(left: 8, right: 8),
           height: ScreenUtil().setHeight(90),
@@ -155,9 +156,9 @@ class _BillPageState extends State<BillPage> {
                         maxValue: DateTime(now.year, now.month),
                         //value: DateTime(2020,10,10),
                         clickCallback: (var str, var time) {
-                          this.setState(() {
-                            current_month = str;
-                          });
+                      this.setState(() {
+                        current_month = str;
+                      });
                     });
                   },
                   child: Row(
@@ -166,11 +167,11 @@ class _BillPageState extends State<BillPage> {
                       Text(
                         '${current_month}',
                         style: TextStyle(
-                            color: Color(0xff333333),
+                            color: Color(0xffffffff),
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
-                      Icon(Icons.arrow_right)
+                      Icon(Icons.arrow_right,color: Color(0xffffffff),)
                     ],
                   )),
               Column(
@@ -181,7 +182,7 @@ class _BillPageState extends State<BillPage> {
                     text: TextSpan(
                         text: '收入',
                         style:
-                            TextStyle(fontSize: 14, color: Color(0xff8a8a8a)),
+                            TextStyle(fontSize: 14, color: Color(0xffffffff)),
                         children: <TextSpan>[
                           TextSpan(
                               text: ' +13284.32 ',
@@ -192,25 +193,25 @@ class _BillPageState extends State<BillPage> {
                           TextSpan(
                               text: '2笔',
                               style: TextStyle(
-                                  fontSize: 14.0, color: Color(0xff8a8a8a)))
+                                  fontSize: 14.0, color: Color(0xffffffff)))
                         ]),
                   ),
                   RichText(
                     text: TextSpan(
                         text: '支出',
                         style:
-                            TextStyle(fontSize: 14, color: Color(0xff8a8a8a)),
+                            TextStyle(fontSize: 14, color: Color(0xffffffff)),
                         children: <TextSpan>[
                           TextSpan(
                               text: ' -134.38 ',
                               style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xff333333))),
+                                  color: Color(0xffffffff))),
                           TextSpan(
                               text: '1笔',
                               style: TextStyle(
-                                  fontSize: 14.0, color: Color(0xff8a8a8a)))
+                                  fontSize: 14.0, color: Color(0xffffffff)))
                         ]),
                   )
                 ],
