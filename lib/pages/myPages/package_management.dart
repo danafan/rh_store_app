@@ -35,7 +35,11 @@ class _PackageManagementState extends State<PackageManagement>
               style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
           actions: <Widget>[
             InkWell(
-                onTap: () {},
+                onTap: () {
+                  Map arg = {'pageType': '1'};    //1:新建套餐；2:编辑套餐
+                  Navigator.pushNamed(context, '/created_package',
+                      arguments: arg);
+                },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -44,7 +48,10 @@ class _PackageManagementState extends State<PackageManagement>
                       color: Color(0xffe25d2b),
                       size: 16,
                     ),
-                    Text('新建',style: TextStyle(color:Color(0xffe25d2b),fontSize: 14),),
+                    Text(
+                      '新建',
+                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14),
+                    ),
                     SizedBox(width: ScreenUtil().setWidth(30))
                   ],
                 ))
@@ -74,6 +81,7 @@ class _PackageManagementState extends State<PackageManagement>
               ))),
       body: TabBarView(
         controller: this._tabController,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           //已上架
           PackageList('1'),

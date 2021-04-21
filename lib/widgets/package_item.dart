@@ -3,41 +3,64 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PackageItem extends StatelessWidget {
-  String _listType;
+  String _itemType;
   int _index;
-  PackageItem(this._listType, this._index);
+  PackageItem(this._itemType, this._index);
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
         child: Slidable(
-      key: ValueKey("$_index"),
-      //配置的是右侧
-      secondaryActions: secondaryActionsArray(context),
-      //滑动的交互效果
-      actionPane: SlidableDrawerActionPane(),
-      //item内容
-      child: _packageItem(),
-    ));
+          key: ValueKey("$_index"),
+          //左侧滑动部分
+          actions: leftActionsArray(this._itemType, context),
+          //右侧滑动部分
+          secondaryActions: rightActionsArray(this._itemType, context),
+          //滑动的交互效果
+          actionPane: SlidableDrawerActionPane(),
+          //item内容
+          child: _packageItem(this._itemType),
+        ));
   }
 
   //item内容
-  _packageItem() {
+  _packageItem(_itemType) {
+    String _desc = ""; //中间提示文字
+    Color _descColor = Color(0xff8a8a8a); //提示文字颜色
+    if (_itemType == '1') {
+      //已上架
+      _desc = '已售12';
+    } else if (_itemType == '2') {
+      //已下架
+      _desc = '已下架';
+    } else if (_itemType == '3') {
+      //审核通过
+      _desc = '审核通过';
+      _descColor = Color(0xff58BA2D);
+    } else if (_itemType == '4') {
+      //审核拒绝
+      _desc = '审核拒绝';
+      _descColor = Color(0xffEB7276);
+    } else if (_itemType == '5') {
+      //待审核
+      _desc = '待审核';
+      _descColor = Color(0xffE5A751);
+    }
     return Container(
       color: Color(0xffffffff),
-      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
       child: Row(
         children: <Widget>[
           Image.network(
               'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-              height: ScreenUtil().setHeight(130),
-              width: ScreenUtil().setHeight(169),
+              height: ScreenUtil().setHeight(160),
+              width: ScreenUtil().setHeight(208),
               fit: BoxFit.cover),
           SizedBox(
             width: ScreenUtil().setWidth(10),
           ),
           Expanded(
               child: Container(
-                  height: ScreenUtil().setHeight(130),
+                  height: ScreenUtil().setHeight(140),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,9 +76,8 @@ class PackageItem extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '已售 32',
-                        style:
-                            TextStyle(color: Color(0xff8a8a8a), fontSize: 14),
+                        '${_desc}',
+                        style: TextStyle(color: _descColor, fontSize: 14),
                       ),
                       RichText(
                           text: TextSpan(
@@ -83,41 +105,70 @@ class PackageItem extends StatelessWidget {
     );
   }
 
+  //左侧可滑动的部分
+  List<Widget> leftActionsArray(_itemType, context) {
+    List<Widget> _settingButton = [];
+    if (_itemType == '1') {
+      //已上架
+      _settingButton.add(_iconSlideAction(
+          Icons.vertical_align_top, '置顶', Color(0xffe25d2b), () {
+        print('下架');
+      }));
+    } else if (_itemType == '2' || _itemType == '3') {
+      //已下架/审核通过
+      _settingButton
+          .add(_iconSlideAction(Icons.check, '上架', Color(0xffe25d2b), () {
+        print('删除');
+      }));
+    } else if (_itemType == '4') {
+      //审核拒绝
+      _settingButton
+          .add(_iconSlideAction(Icons.edit, '重新编辑', Color(0xffe25d2b), () {
+        Map arg = {'pageType': '2'};
+        Navigator.pushNamed(context, '/created_package', arguments: arg);
+      }));
+    }
+    return _settingButton;
+  }
+
   //右侧可滑动的部分
-  List<Widget> secondaryActionsArray(context) {
-    return [
-      SlideAction(
-        child: Container(
-          color: Colors.blueGrey,
-          child: Text("测试"),
-        ),
-      ),
-      SlideAction(
-        color: Colors.red,
-        child: Text("测试2"),
-      ),
-      IconSlideAction(
-        icon: Icons.add,
-        color: Colors.red,
-        onTap: () {
-          print("点击了add");
-          //主动关闭
-          Slidable.of(context).close();
-        },
-        closeOnTap: false,
-      ),
-      IconSlideAction(
-        //图标
-        icon: Icons.home,
-        //背景色
-        color: Colors.orange,
-        //点击事件回调
-        onTap: () {
-          print("点击了add");
-        },
-        //点击 false 不关闭 ，true关闭
-        closeOnTap: false,
-      )
-    ];
+  List<Widget> rightActionsArray(_itemType, context) {
+    List<Widget> _settingButton = [];
+    if (_itemType == '1') {
+      //已上架
+      _settingButton.add(_iconSlideAction(
+          Icons.vertical_align_bottom, '下架', Color(0xff8a8a8a), () {
+        print('下架');
+      }));
+    } else if (_itemType == '2' || _itemType == '3' || _itemType == '4') {
+      //已下架/审核通过/审核拒绝
+      _settingButton
+          .add(_iconSlideAction(Icons.delete, '删除', Color(0xff8a8a8a), () {
+        print('删除');
+      }));
+    } else if (_itemType == '5') {
+      //待审核
+      _settingButton.add(
+          _iconSlideAction(Icons.keyboard_return, '撤销', Color(0xff8a8a8a), () {
+        print('撤销');
+      }));
+    }
+    return _settingButton;
+  }
+
+  //滑动的按钮组件
+  _iconSlideAction(icon, text, color, callback) {
+    return IconSlideAction(
+      //图标
+      icon: icon,
+      //文字
+      caption: text,
+      //背景色
+      color: color,
+      //点击事件回调
+      onTap: callback,
+      //点击 false 不关闭 ，true关闭
+      closeOnTap: false,
+    );
   }
 }
