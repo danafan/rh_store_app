@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
-// import '../widgets/photo_view.dart';
 
 class CommentItem extends StatefulWidget {
   @override

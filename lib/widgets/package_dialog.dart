@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //添加分类的弹框
 class DialogWidget extends StatefulWidget {
+  Map packageItem;
   final dialogCallBack;
-  DialogWidget({this.dialogCallBack});
+  DialogWidget({this.packageItem, this.dialogCallBack});
 
   @override
   _DialogWidgetState createState() => _DialogWidgetState();
 }
 
 class _DialogWidgetState extends State<DialogWidget> {
+  Map packageItem;
   //弹框的分类名称
   final _cateNameController = new TextEditingController();
   //是否多选多
   bool _isMulti = false;
   //可选数量
   final _numController = new TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    packageItem = widget.packageItem;
+    _cateNameController.text = packageItem['cateName'];
+    _isMulti = packageItem['isMulti'];
+    _numController.text = packageItem['selectNum'];
+  }
 
   @override
   void dispose() {
@@ -101,13 +114,16 @@ class _DialogWidgetState extends State<DialogWidget> {
                       constraints:
                           BoxConstraints(maxHeight: ScreenUtil().setHeight(60)),
                       child: TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly, //数字，只能是整数
+                        ],
                         controller: this._numController,
                         style:
                             TextStyle(color: Color(0xff333333), fontSize: 16),
                         cursorColor: Color(0xff8a8a8a),
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: '可选数量',
+                          hintText: '可选数量（大于0的正整数）',
                           hintStyle: TextStyle(fontSize: 16),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -152,17 +168,17 @@ class _DialogWidgetState extends State<DialogWidget> {
                             } else if (this._isMulti &&
                                 this._numController.text == '') {
                               print('请输入可选数量');
+                            } else if (this._isMulti &&
+                                !RegExp(r"^[1-9]\d*$")
+                                    .hasMatch(this._numController.text)) {
+                              print('请输入正确的可选数量');
                             } else {
-                              List _menuList = [];
-                              Map res = {
-                                'type': 'confirm',
-                                'cateName': this._cateNameController.text,
-                                'totalNum':0,
-                                'menuList':_menuList,
-                                'isMulti': this._isMulti,
-                                'selectNum': this._numController.text,
-                              };
-                              widget.dialogCallBack(res);
+                              this.setState(() {
+                                this.packageItem['cateName'] = this._cateNameController.text;
+                                this.packageItem['isMulti'] = this._isMulti;
+                                this.packageItem['selectNum'] = this._numController.text;
+                              });
+                              widget.dialogCallBack(this.packageItem);
                             }
                           },
                           child: Container(
