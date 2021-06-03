@@ -8,7 +8,9 @@ import '../pages/myPages/cash_page.dart';
 import '../pages/myPages/store_setting.dart';
 import '../pages/myPages/package_management.dart';
 import '../pages/myPages/created_package.dart';
-import '../pages/myPages/store_menu.dart';
+import '../pages/myPages/category_page.dart';
+import '../pages/myPages/menu_page.dart';
+import '../pages/myPages/category_management.dart';
 import '../pages/myPages/bank_card.dart';
 
 
@@ -22,7 +24,9 @@ final routes = {
   '/store_setting': (context) => StoreSetting(),
   '/package_management': (context) => PackageManagement(),
   '/created_package': (context,{arguments}) => CreatedPackage(arguments:arguments),
-  '/store_menu': (context) => StoreMenu(),
+  '/category_page': (context) => CategoryPage(),
+  '/menu_page': (context) => MenuPage(),
+  '/category_management': (context) => CategoryManagement(),
   '/bank_card': (context) => BankCard(),
 };
 //固定写法

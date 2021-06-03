@@ -253,28 +253,28 @@ class _CreatedPackageState extends State<CreatedPackage> {
                         horizontal: ScreenUtil().setWidth(15)),
                     height: ScreenUtil().setHeight(180),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                      Text('备注',
-                          style: TextStyle(
-                              color: Color(0xff333333), fontSize: 16)),
-                      Expanded(
-                          child: TextField(
-                        controller: this._remarkController,
-                        style:
-                            TextStyle(color: Color(0xff333333), fontSize: 16),
-                        cursorColor: Color(0xffe25d2b),
-                        keyboardType: TextInputType.multiline,
-                        maxLines:5,
-                        decoration: InputDecoration(
-                          hintText: '用于特殊说明，展示在用户端套餐内容下面，不超过120字...',
-                          hintStyle: TextStyle(fontSize: 16),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(15)),
-                        ),
-                      ))
-                    ])),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('备注',
+                              style: TextStyle(
+                                  color: Color(0xff333333), fontSize: 16)),
+                          Expanded(
+                              child: TextField(
+                            controller: this._remarkController,
+                            style: TextStyle(
+                                color: Color(0xff333333), fontSize: 16),
+                            cursorColor: Color(0xffe25d2b),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                              hintText: '用于特殊说明，展示在用户端套餐内容下面，不超过120字...',
+                              hintStyle: TextStyle(fontSize: 16),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(15)),
+                            ),
+                          ))
+                        ])),
                 Divider(height: 1),
                 SizedBox(height: ScreenUtil().setHeight(50)),
                 ButtonWidget(
@@ -536,10 +536,12 @@ class _CreatedPackageState extends State<CreatedPackage> {
                     });
                   },
                   child: Container(
+                      padding: EdgeInsets.only(left: 8, right: 8),
                       height: ScreenUtil().setHeight(70),
                       alignment: Alignment.center,
                       child: Text(
                         this._cateList[index]['name'],
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: this._activeCateIndex == index
                                 ? Color(0xffe25d2b)
