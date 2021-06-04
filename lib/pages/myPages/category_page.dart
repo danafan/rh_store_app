@@ -102,7 +102,7 @@ class _CategoryPageState extends State<CategoryPage> {
   List<Widget> rightActionsArray(index, context) {
     List<Widget> _settingButton = [];
     _settingButton
-        .add(_iconSlideAction(Icons.delete, '删除', Color(0xff8a8a8a), () {
+        .add(_iconSlideAction(Icons.delete, '移除', Color(0xff8a8a8a), () {
       print('删除');
     }));
     return _settingButton;

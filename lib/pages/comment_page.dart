@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:rh_store_app/widgets/list_bottom.dart';
-import 'package:rh_store_app/widgets/loading_more.dart';
 
+import '../widgets/list_bottom.dart';
+import '../widgets/loading_more.dart';
 import '../widgets/comment_item.dart';
 
 class CommentPage extends StatefulWidget {
