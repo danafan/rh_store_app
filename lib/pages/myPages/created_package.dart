@@ -91,9 +91,18 @@ class _CreatedPackageState extends State<CreatedPackage> {
                         horizontal: ScreenUtil().setWidth(15)),
                     height: ScreenUtil().setHeight(90),
                     child: Row(children: <Widget>[
-                      Text('名称',
-                          style: TextStyle(
-                              color: Color(0xff333333), fontSize: 16)),
+                      RichText(
+                        text: TextSpan(
+                            text: '*',
+                            style: TextStyle(
+                                fontSize: 18, color: Color(0xffe25d2b)),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: '名称',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Color(0xff333333))),
+                            ]),
+                      ),
                       Expanded(
                           child: TextField(
                         controller: this._nameController,
@@ -118,16 +127,25 @@ class _CreatedPackageState extends State<CreatedPackage> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(15)),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                height: ScreenUtil().setHeight(90),
-                                alignment: Alignment.centerLeft,
-                                child: Text('图片',
+                              height: ScreenUtil().setHeight(90),
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                    text: '*',
                                     style: TextStyle(
-                                        color: Color(0xff333333),
-                                        fontSize: 16))),
+                                        fontSize: 18, color: Color(0xffe25d2b)),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: '图片',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xff333333))),
+                                    ]),
+                              ),
+                            ),
                             SizedBox(width: ScreenUtil().setWidth(15)),
                             Expanded(
                                 child: Container(
@@ -175,10 +193,19 @@ class _CreatedPackageState extends State<CreatedPackage> {
                             Container(
                                 height: ScreenUtil().setHeight(90),
                                 alignment: Alignment.centerLeft,
-                                child: Text('内容',
+                                child:  RichText(
+                          text: TextSpan(
+                              text: '*',
+                              style: TextStyle(
+                                  fontSize: 18, color: Color(0xffe25d2b)),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '内容',
                                     style: TextStyle(
-                                        color: Color(0xff333333),
-                                        fontSize: 16))),
+                                        fontSize: 16,
+                                        color: Color(0xff333333))),
+                              ]),
+                        ),),
                             SizedBox(width: ScreenUtil().setWidth(15)),
                             Expanded(
                                 child: Container(
@@ -198,9 +225,19 @@ class _CreatedPackageState extends State<CreatedPackage> {
                         horizontal: ScreenUtil().setWidth(15)),
                     height: ScreenUtil().setHeight(90),
                     child: Row(children: <Widget>[
-                      Text('价格',
-                          style: TextStyle(
-                              color: Color(0xff333333), fontSize: 16)),
+                       RichText(
+                          text: TextSpan(
+                              text: '*',
+                              style: TextStyle(
+                                  fontSize: 18, color: Color(0xffe25d2b)),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '价格',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xff333333))),
+                              ]),
+                        ),
                       SizedBox(
                         width: ScreenUtil().setWidth(10),
                       ),
@@ -280,6 +317,8 @@ class _CreatedPackageState extends State<CreatedPackage> {
                 ButtonWidget(
                     text: '提交',
                     buttonBack: () {
+                      final _moneyRegExp = new RegExp(
+                          r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
                       if (this._nameController.text == '') {
                         print('请输入套餐名称');
                       } else if (this._imageList.length == 0) {
@@ -288,6 +327,9 @@ class _CreatedPackageState extends State<CreatedPackage> {
                         print('至少上传一个商品');
                       } else if (this._priceController.text == '') {
                         print('请输入购买价格');
+                      } else if (!_moneyRegExp
+                          .hasMatch(this._priceController.text)) {
+                        print('价格需大于0且最多两位小数');
                       } else {
                         print('已成功');
                       }
@@ -715,6 +757,10 @@ class _CreatedPackageState extends State<CreatedPackage> {
         height: ScreenUtil().setWidth(150),
         fit: BoxFit.cover,
       ),
+      onTap: () {
+        var arg = {'images': this._imageList, 'index': 0, 'heroTag': '111'};
+        Navigator.pushNamed(context, '/photo_view', arguments: arg);
+      },
       onLongPress: () {
         showModalBottomSheet(
           context: context,

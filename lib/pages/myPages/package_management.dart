@@ -67,8 +67,8 @@ class _PackageManagementState extends State<PackageManagement>
                     labelColor: Color(0xff333333),
                     unselectedLabelColor: Color(0xff333333),
                     labelStyle:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    unselectedLabelStyle: TextStyle(fontSize: 16),
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                    unselectedLabelStyle: TextStyle(fontSize: 15),
                     indicatorColor: Theme.of(context).primaryColor,
                     indicatorWeight: 4.0,
                     indicatorSize: TabBarIndicatorSize.label,

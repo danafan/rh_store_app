@@ -117,7 +117,7 @@ class _CashPageState extends State<CashPage> {
                   if(this._cashMoneyController.text == ''){
                     print('请输入提现金额');
                   }else if(!_moneyRegExp.hasMatch(this._cashMoneyController.text)){
-                    print('请输入正确提现金额,最多两位小数');
+                    print('提现金额需大于0且最多两位小数');
                   }else if(double.parse(this._cashMoneyController.text) > double.parse(this._withdrawable)){
                     print('提现金额不能超过可提现金额');
                   }else{

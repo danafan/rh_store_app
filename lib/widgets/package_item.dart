@@ -52,8 +52,8 @@ class PackageItem extends StatelessWidget {
         children: <Widget>[
           Image.network(
               'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-              height: ScreenUtil().setHeight(160),
-              width: ScreenUtil().setHeight(208),
+              height: ScreenUtil().setHeight(150),
+              width: ScreenUtil().setHeight(195),
               fit: BoxFit.cover),
           SizedBox(
             width: ScreenUtil().setWidth(10),
@@ -72,7 +72,7 @@ class PackageItem extends StatelessWidget {
                         maxLines: 1,
                         style: TextStyle(
                             color: Color(0xff333333),
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
@@ -88,7 +88,7 @@ class PackageItem extends StatelessWidget {
                             TextSpan(
                                 text: '108  ',
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xffe25d2b))),
                             TextSpan(

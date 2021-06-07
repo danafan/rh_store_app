@@ -98,7 +98,8 @@ class _MenuPageState extends State<MenuPage> {
             actions: <Widget>[
               InkWell(
                   onTap: () {
-                    print('添加菜品');
+                    Map arg = {'pageType': '1','id':''};
+                    Navigator.pushNamed(context, '/add_menu', arguments: arg);
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,15 +151,20 @@ class _MenuPageState extends State<MenuPage> {
                         itemBuilder: (context, index) {
                           if (index < this._menuList.length) {
                             return Slidable(
-                              key: ValueKey("$index"),
-                              //右侧滑动部分
-                              secondaryActions:
-                                  rightActionsArray(index, context),
-                              //滑动的交互效果
-                              actionPane: SlidableDrawerActionPane(),
-                              //item内容
-                              child: _menuItemWidget(index),
-                            );
+                                key: ValueKey("$index"),
+                                //右侧滑动部分
+                                secondaryActions:
+                                    rightActionsArray(index, context),
+                                //滑动的交互效果
+                                actionPane: SlidableDrawerActionPane(),
+                                //item内容
+                                child: InkWell(
+                                    onTap: () {
+                                      Map arg = {'pageType': '2'};
+                                      Navigator.pushNamed(context, '/add_menu',
+                                          arguments: arg);
+                                    },
+                                    child: _menuItemWidget(index)));
                           } else {
                             if (this._isLoad) {
                               return LoadingMore();
@@ -250,8 +256,9 @@ class _MenuPageState extends State<MenuPage> {
             SizedBox(height: ScreenUtil().setHeight(10)),
             InkWell(
               onTap: () {
-                print('添加菜品');
-              },
+                    Map arg = {'pageType': '1','id':''};
+                    Navigator.pushNamed(context, '/add_menu', arguments: arg);
+                  },
               child: Container(
                 decoration: BoxDecoration(
                     color: Color(0xffe25d2b),

@@ -28,6 +28,12 @@ class _CategoryPageState extends State<CategoryPage> {
   int _activeMenuIndex;
 
   @override
+  void initState() {
+    super.initState();
+    print('重新请求');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -50,52 +56,60 @@ class _CategoryPageState extends State<CategoryPage> {
     return Container(
         color: Color(0xfff0f5f8),
         width: ScreenUtil().setWidth(220),
-        child: ListView.builder(
-            itemCount: this._cateList.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                  onTap: () {
-                    this.setState(() {
-                      _activeCateIndex = index;
-                    });
-                  },
-                  child: Container(
-                      padding: EdgeInsets.only(left: 8, right: 8),
-                      color: this._activeCateIndex == index
-                          ? Color(0xffffffff)
-                          : Color(0xfff6fbfe),
-                      height: ScreenUtil().setHeight(90),
-                      alignment: Alignment.center,
-                      child: Text(
-                        this._cateList[index]['name'],
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: this._activeCateIndex == index
-                                ? Color(0xffe25d2b)
-                                : Color(0xff333333),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      )));
-            }));
+        alignment: Alignment.center,
+        child: this._cateList.length == 0
+            ? Text('暂无分类')
+            : ListView.builder(
+                itemCount: this._cateList.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                      onTap: () {
+                        this.setState(() {
+                          _activeCateIndex = index;
+                        });
+                      },
+                      child: Container(
+                          padding: EdgeInsets.only(left: 8, right: 8),
+                          color: this._activeCateIndex == index
+                              ? Color(0xffffffff)
+                              : Color(0xfff6fbfe),
+                          height: ScreenUtil().setHeight(90),
+                          alignment: Alignment.center,
+                          child: Text(
+                            this._cateList[index]['name'],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: this._activeCateIndex == index
+                                    ? Color(0xffe25d2b)
+                                    : Color(0xff333333),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          )));
+                }));
   }
 
   //底部弹框显示分类下菜品列表
   _menulistWidget() {
     return Expanded(
-        child: ListView.builder(
-            padding: EdgeInsets.only(left: 8),
-            itemCount: this._menuList.length,
-            itemBuilder: (context, index) {
-              return Slidable(
-                key: ValueKey("$index"),
-                //右侧滑动部分
-                secondaryActions: rightActionsArray(index, context),
-                //滑动的交互效果
-                actionPane: SlidableDrawerActionPane(),
-                //item内容
-                child: _menuItemWidget(index),
-              );
-            }));
+        child: Container(
+      alignment: Alignment.center,
+      child: this._menuList.length == 0
+          ? Text('暂无菜品')
+          : ListView.builder(
+              padding: EdgeInsets.only(left: 8),
+              itemCount: this._menuList.length,
+              itemBuilder: (context, index) {
+                return Slidable(
+                  key: ValueKey("$index"),
+                  //右侧滑动部分
+                  secondaryActions: rightActionsArray(index, context),
+                  //滑动的交互效果
+                  actionPane: SlidableDrawerActionPane(),
+                  //item内容
+                  child: _menuItemWidget(index),
+                );
+              }),
+    ));
   }
 
   //右侧可滑动的部分
@@ -175,22 +189,37 @@ class _CategoryPageState extends State<CategoryPage> {
               color: Color(0xfff9f9f9),
               width: ScreenUtil().setWidth(220),
               alignment: Alignment.center,
-              child: Text('分类管理',
-                  style: TextStyle(color: Color(0xff333333), fontSize: 14)))),
-      Expanded(
-          child: Container(
-              height: ScreenUtil().setHeight(90),
-              color: Color(0xffe25d2b),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.add_circle_outline,
-                        size: 18, color: Color(0xffffffff)),
-                    Text('添加菜品',
+                    Text('管理',
                         style:
-                            TextStyle(color: Color(0xffffffff), fontSize: 14)),
-                  ])))
+                            TextStyle(color: Color(0xffe25d2b), fontSize: 14)),
+                    SizedBox(width: ScreenUtil().setWidth(8)),
+                    Icon(Icons.playlist_play,
+                        size: 22, color: Color(0xffe25d2b))
+                  ]))),
+      Expanded(
+          child: InkWell(
+        onTap: () {
+          Map arg = {'id': this._cateList[_activeCateIndex]['id'],'name':this._cateList[_activeCateIndex]['name']};
+          Navigator.pushNamed(context, '/choose_menu', arguments: arg);
+        },
+        child: Container(
+            height: ScreenUtil().setHeight(90),
+            color: Color(0xffe25d2b),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.add_circle_outline,
+                      size: 18, color: Color(0xffffffff)),
+                  SizedBox(width: ScreenUtil().setWidth(8)),
+                  Text('加入菜品',
+                      style: TextStyle(color: Color(0xffffffff), fontSize: 14)),
+                ])),
+      ))
     ]);
   }
 }

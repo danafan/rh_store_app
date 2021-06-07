@@ -149,8 +149,8 @@ class _MyPageState extends State<MyPage> {
                               '店铺设置', Icons.insert_chart, 'store_setting'),
                           _toolWidget('套餐管理', Icons.restaurant_menu,
                               'package_management'),
-                          _toolWidget('分类管理', Icons.dashboard, 'category_page'),
-                          _toolWidget('菜单管理', Icons.assignment, 'menu_page'),
+                          _toolWidget('菜单分类', Icons.dashboard, 'category_page'),
+                          _toolWidget('店铺菜单', Icons.assignment, 'menu_page'),
                           _toolWidget(
                               '银行卡', Icons.account_balance_wallet, 'bank_card'),
                           _toolWidget('联系我们', Icons.sms, 'bank_card')

@@ -10,6 +10,8 @@ import '../pages/myPages/package_management.dart';
 import '../pages/myPages/created_package.dart';
 import '../pages/myPages/category_page.dart';
 import '../pages/myPages/menu_page.dart';
+import '../pages/myPages/add_menu.dart';
+import '../pages/myPages/choose_menu.dart';
 import '../pages/myPages/category_management.dart';
 import '../pages/myPages/bank_card.dart';
 
@@ -26,6 +28,8 @@ final routes = {
   '/created_package': (context,{arguments}) => CreatedPackage(arguments:arguments),
   '/category_page': (context) => CategoryPage(),
   '/menu_page': (context) => MenuPage(),
+  '/add_menu': (context,{arguments}) => AddMenu(arguments:arguments),
+  '/choose_menu': (context,{arguments}) => ChooseMenu(arguments:arguments),
   '/category_management': (context) => CategoryManagement(),
   '/bank_card': (context) => BankCard(),
 };
