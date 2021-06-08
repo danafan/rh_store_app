@@ -1,5 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:image_picker/image_picker.dart';
+
+import '../../service/picker_tool.dart';
 
 class StoreSetting extends StatefulWidget {
   @override
@@ -7,6 +12,35 @@ class StoreSetting extends StatefulWidget {
 }
 
 class _StoreSettingState extends State<StoreSetting> {
+  //选中的图片地址
+  List _imageList = [];
+  final picker = ImagePicker();
+  //所有的状态列表
+  List _statusList = [
+    {'id': '1', 'name': '营业中'},
+    {'id': '2', 'name': '已打烊'},
+    {'id': '3', 'name': '已停业'}
+  ];
+  //默认选中的营业状态
+  String _selectId = "";
+  int _selectIndex;
+  String _statusName = "";
+
+  @override
+  void initState() {
+    super.initState();
+    //处理营业状态
+    this.setState(() {
+      this._selectId = '1';
+      for (var i = 0; i < this._statusList.length; i++) {
+        if (this._statusList[i]['id'] == this._selectId) {
+          _selectIndex = i;
+          _statusName = this._statusList[i]['name'];
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +66,7 @@ class _StoreSettingState extends State<StoreSetting> {
               false,
               InkWell(
                 onTap: () {
-                  print('选择图片');
+                  this.getImage();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -57,12 +91,23 @@ class _StoreSettingState extends State<StoreSetting> {
               true,
               InkWell(
                 onTap: () {
-                  print('营业状态');
+                  List _nameList = [];
+                  for (var i = 0; i < this._statusList.length; i++) {
+                    _nameList.add(this._statusList[i]['name']);
+                  }
+                  JhPickerTool.showStringPicker(context, data: _nameList,
+                      clickCallBack: (int index, var str) {
+                    this.setState(() {
+                      _selectId = this._statusList[index]['id'];
+                      _selectIndex = index;
+                      _statusName = this._statusList[index]['name'];
+                    });
+                  }, normalIndex: this._selectIndex);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('营业中'),
+                    Text('${this._statusName}'),
                     SizedBox(width: ScreenUtil().setWidth(8)),
                     Icon(Icons.arrow_forward_ios,
                         size: 16, color: Color(0xff8a8a8a))
@@ -74,7 +119,7 @@ class _StoreSettingState extends State<StoreSetting> {
               false,
               InkWell(
                 onTap: () {
-                  print('店铺地址');
+                  print('调用地图获取位置');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +191,7 @@ class _StoreSettingState extends State<StoreSetting> {
                   print('营业资质');
                 },
                 child: Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a)),
+                    size: 16, color: Color(0xff8a8a8a)),
               )),
         ],
       ),
@@ -156,11 +201,7 @@ class _StoreSettingState extends State<StoreSetting> {
   //每一行
   _rowItem(title, is_only, _widget) {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setHeight(20),
-          ScreenUtil().setHeight(20),
-          ScreenUtil().setHeight(20),
-          ScreenUtil().setHeight(20)),
+      padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
       decoration: BoxDecoration(
           color: Color(0xffffffff),
           border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
@@ -188,5 +229,18 @@ class _StoreSettingState extends State<StoreSetting> {
         ],
       ),
     );
+  }
+
+  //获取相册
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      this.setState(() {
+        this._imageList.add(File(pickedFile.path));
+      });
+      print(this._imageList);
+    } else {
+      print('没有选择图片');
+    }
   }
 }

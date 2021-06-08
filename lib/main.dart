@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
       allowFontScaling: false,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/store_setting',
+        initialRoute: '/business_hours',
         onGenerateRoute: onGenerateRoute,
         theme: ThemeData(primaryColor: Color(0xffe25d2b)),
       ),

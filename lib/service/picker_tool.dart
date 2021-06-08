@@ -34,25 +34,8 @@ class JhPickerTool {
     openModalPicker(context,
         adapter: adapter ?? PickerDataAdapter(pickerdata: data, isArray: false),
         clickCallBack: (Picker picker, List<int> selecteds) {
-      //          print(picker.adapter.text);
       clickCallBack(selecteds[0], data[selecteds[0]]);
     }, selecteds: [normalIndex ?? 0], title: title);
-  }
-
-  /** 多列 */
-  static void showArrayPicker<T>(
-    BuildContext context, {
-    @required List<T> data,
-    String title,
-    List<int> normalIndex,
-    PickerDataAdapter adapter,
-    @required ArrayClickCallback clickCallBack,
-  }) {
-    openModalPicker(context,
-        adapter: adapter ?? PickerDataAdapter(pickerdata: data, isArray: true),
-        clickCallBack: (Picker picker, List<int> selecteds) {
-      clickCallBack(selecteds, picker.getSelectedValues());
-    }, selecteds: normalIndex, title: title);
   }
 
   static void openModalPicker(
@@ -79,6 +62,22 @@ class JhPickerTool {
             selectedTextStyle: TextStyle(color: Colors.black),
             onConfirm: clickCallBack)
         .showModal(context);
+  }
+
+  /** 多列 */
+  static void showArrayPicker<T>(
+    BuildContext context, {
+    @required List<T> data,
+    String title,
+    List<int> normalIndex,
+    PickerDataAdapter adapter,
+    @required ArrayClickCallback clickCallBack,
+  }) {
+    openModalPicker(context,
+        adapter: adapter ?? PickerDataAdapter(pickerdata: data, isArray: true),
+        clickCallBack: (Picker picker, List<int> selecteds) {
+      clickCallBack(selecteds, picker.getSelectedValues());
+    }, selecteds: normalIndex, title: title);
   }
 
   /** 日期选择器*/
@@ -120,7 +119,11 @@ class JhPickerTool {
       var time = (picker.adapter as DateTimePickerAdapter).value;
       var timeStr;
       if (dateType == DateType.YM) {
-        timeStr = time.year.toString() + "-" + (time.month < 10 ? '0' + time.month.toString():time.month.toString());
+        timeStr = time.year.toString() +
+            "-" +
+            (time.month < 10
+                ? '0' + time.month.toString()
+                : time.month.toString());
       } else if (dateType == DateType.YMD_HM) {
         timeStr = time.year.toString() +
             "年" +
@@ -146,7 +149,13 @@ class JhPickerTool {
             time.minute.toString() +
             "分";
       } else {
-        timeStr = time.year.toString() + "-" + (time.month < 10 ? '0' + time.month.toString():time.month.toString()) + "-" + (time.day < 10 ? '0' + time.day.toString():time.day.toString());
+        timeStr = time.year.toString() +
+            "-" +
+            (time.month < 10
+                ? '0' + time.month.toString()
+                : time.month.toString()) +
+            "-" +
+            (time.day < 10 ? '0' + time.day.toString() : time.day.toString());
       }
       clickCallback(timeStr, picker.adapter.text);
     });

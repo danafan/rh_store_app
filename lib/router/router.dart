@@ -6,6 +6,7 @@ import '../pages/commentPages/complaint.dart';
 import '../pages/myPages/bill_page.dart';
 import '../pages/myPages/cash_page.dart';
 import '../pages/myPages/store_setting.dart';
+import '../pages/myPages/business_hours.dart';
 import '../pages/myPages/package_management.dart';
 import '../pages/myPages/created_package.dart';
 import '../pages/myPages/category_page.dart';
@@ -24,6 +25,7 @@ final routes = {
   '/bill_page': (context) => BillPage(),
   '/cash_page': (context) => CashPage(),
   '/store_setting': (context) => StoreSetting(),
+  '/business_hours': (context) => BusinessHours(),
   '/package_management': (context) => PackageManagement(),
   '/created_package': (context,{arguments}) => CreatedPackage(arguments:arguments),
   '/category_page': (context) => CategoryPage(),
