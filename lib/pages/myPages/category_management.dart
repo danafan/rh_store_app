@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widgets/dialog_widget.dart';
+
 class CategoryManagement extends StatefulWidget {
   @override
   _CategoryManagementState createState() => _CategoryManagementState();
@@ -29,13 +31,28 @@ class _CategoryManagementState extends State<CategoryManagement> {
           actions: <Widget>[
             InkWell(
                 onTap: () {
-                  _dialogWidget('新增分类', _contentWidget(), () {
+                  showDialog<Null>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: DialogWidget(
+                            title: '新增分类',
+                            content_widget: _contentWidget(),
+                            cancel_fun: () {
+                              this.setState(() {
+                                this._nameController.text = "";
+                              });
+                            },
+                            confirm_fun: () {
+                              print('新增');
+                              print(this._nameController.text);
+                            }),
+                      );
+                    },
+                  ).then((val) {
                     this.setState(() {
                       this._nameController.text = "";
                     });
-                  }, () {
-                    print('新增');
-                    print(this._nameController.text);
                   });
                 },
                 child: Row(
@@ -99,15 +116,30 @@ class _CategoryManagementState extends State<CategoryManagement> {
                           this._nameController.text =
                               _categoryList[index]['name'];
                         });
-                        _dialogWidget('编辑分类', _contentWidget(), () {
+                        showDialog<Null>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: DialogWidget(
+                                  title: '编辑分类',
+                                  content_widget: _contentWidget(),
+                                  cancel_fun: () {
+                                    this.setState(() {
+                                      this._nameController.text = "";
+                                    });
+                                  },
+                                  confirm_fun: () {
+                                    //编辑
+                                    print('编辑');
+                                    print(this._cateId);
+                                    print(this._nameController.text);
+                                  }),
+                            );
+                          },
+                        ).then((val) {
                           this.setState(() {
                             this._nameController.text = "";
                           });
-                        }, () {
-                          //编辑
-                          print('编辑');
-                          print(this._cateId);
-                          print(this._nameController.text);
                         });
                       },
                       child: Icon(Icons.border_color,
@@ -119,18 +151,29 @@ class _CategoryManagementState extends State<CategoryManagement> {
                         this.setState(() {
                           _cateId = _categoryList[index]['id'];
                         });
-                        _dialogWidget(
-                            '提示',
-                            Container(
-                                padding: EdgeInsets.only(
-                                    top: ScreenUtil().setHeight(30),
-                                    bottom: ScreenUtil().setHeight(30)),
-                                child: Text('确认删除该分类？')), () {
-                          print('取消删除');
-                        }, () {
-                          //删除
-                          print('删除');
-                          print(this._cateId);
+                        showDialog<Null>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: DialogWidget(
+                                  title: '提示',
+                                  content_widget: Container(
+                                      padding: EdgeInsets.only(
+                                          top: ScreenUtil().setHeight(30),
+                                          bottom: ScreenUtil().setHeight(30)),
+                                      child: Text('确认删除该分类？')),
+                                  cancel_fun: () {
+                                    print('取消删除');
+                                  },
+                                  confirm_fun: () {
+                                    //删除
+                                    print('删除');
+                                    print(this._cateId);
+                                  }),
+                            );
+                          },
+                        ).then((val) {
+                          print('弹框关闭');
                         });
                       },
                       child: Icon(Icons.delete,
@@ -162,74 +205,5 @@ class _CategoryManagementState extends State<CategoryManagement> {
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
           ),
         ));
-  }
-
-  //弹框组件
-  _dialogWidget(title, content_widget, cancel_fun, confirm_fun) {
-    return showDialog<Null>(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                // 触摸收起键盘
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child: SingleChildScrollView(
-                  child: Column(children: <Widget>[
-                Container(
-                    height: ScreenUtil().setHeight(80),
-                    alignment: Alignment.center,
-                    child: Text(title,
-                        style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold))),
-                Divider(height: ScreenUtil().setHeight(1)),
-                Container(
-                  padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
-                  child: content_widget,
-                ),
-                Divider(height: ScreenUtil().setHeight(1)),
-                Container(
-                    height: ScreenUtil().setHeight(68),
-                    child: Row(children: <Widget>[
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                cancel_fun();
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '取消',
-                                    style: TextStyle(
-                                        color: Color(0xff333333), fontSize: 14),
-                                  )))),
-                      Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                confirm_fun();
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffe25d2b),
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(5))),
-                                  alignment: Alignment.center,
-                                  child: Text('确认',
-                                      style: TextStyle(
-                                          color: Color(0xffffffff),
-                                          fontSize: 14)))))
-                    ]))
-              ]))),
-        );
-      },
-    ).then((val) {
-      cancel_fun();
-    });
   }
 }

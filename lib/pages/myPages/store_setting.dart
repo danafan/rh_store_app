@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../service/picker_tool.dart';
+import '../../widgets/dialog_widget.dart';
 
 class StoreSetting extends StatefulWidget {
   @override
@@ -25,6 +26,9 @@ class _StoreSettingState extends State<StoreSetting> {
   String _selectId = "";
   int _selectIndex;
   String _statusName = "";
+
+  //输入框Controller
+  final _textFieldController = new TextEditingController();
 
   @override
   void initState() {
@@ -51,16 +55,8 @@ class _StoreSettingState extends State<StoreSetting> {
       ),
       body: Column(
         children: <Widget>[
-          _rowItem(
-              '店铺名称',
-              true,
-              Text('盛宴海鲜自助餐厅',
-                  style: TextStyle(color: Color(0xff333333), fontSize: 14))),
-          _rowItem(
-              '经营品类',
-              true,
-              Text('火锅',
-                  style: TextStyle(color: Color(0xff333333), fontSize: 14))),
+          _rowItem('店铺名称', true, _rowExpandWidget('盛宴海鲜自助餐厅', true)),
+          _rowItem('经营品类', true, _rowExpandWidget('火锅', true)),
           _rowItem(
               '店铺主图',
               false,
@@ -69,7 +65,7 @@ class _StoreSettingState extends State<StoreSetting> {
                   this.getImage();
                 },
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(5),
@@ -104,15 +100,7 @@ class _StoreSettingState extends State<StoreSetting> {
                     });
                   }, normalIndex: this._selectIndex);
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('${this._statusName}'),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a))
-                  ],
-                ),
+                child: _rowExpandWidget(this._statusName, false),
               )),
           _rowItem(
               '店铺地址',
@@ -121,66 +109,78 @@ class _StoreSettingState extends State<StoreSetting> {
                 onTap: () {
                   print('调用地图获取位置');
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('杭州市萧山区城厢街道127号'),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a))
-                  ],
-                ),
+                child: _rowExpandWidget('杭州市萧山区城厢街道127号', false),
               )),
           _rowItem(
               '营业时间',
               true,
               InkWell(
                 onTap: () {
-                  print('营业时间');
+                  Navigator.pushNamed(context, '/business_hours');
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('7:00 - 19:00'),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a))
-                  ],
-                ),
+                child: _rowExpandWidget('周一至周五 (7:00 - 21:00)', false),
               )),
           _rowItem(
               '联系人',
               true,
               InkWell(
                 onTap: () {
-                  print('联系人');
+                  showDialog<Null>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: DialogWidget(
+                            title: '联系人',
+                            content_widget: _contentWidget('联系人'),
+                            cancel_fun: () {
+                              this.setState(() {
+                                this._textFieldController.text = "";
+                              });
+                            },
+                            confirm_fun: () {
+                              print('提交编辑联系人');
+                              print(this._textFieldController.text);
+                            }),
+                      );
+                    },
+                  ).then((val) {
+                    this.setState(() {
+                      this._textFieldController.text = "";
+                    });
+                  });
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('彪子'),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a))
-                  ],
-                ),
+                child: _rowExpandWidget('彪子', false),
               )),
           _rowItem(
               '联系电话',
               true,
               InkWell(
                 onTap: () {
-                  print('联系电话');
+                  showDialog<Null>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: DialogWidget(
+                            title: '联系电话',
+                            content_widget: _contentWidget('联系电话'),
+                            cancel_fun: () {
+                              this.setState(() {
+                                this._textFieldController.text = "";
+                              });
+                            },
+                            confirm_fun: () {
+                              print('提交编辑联系电话');
+                              print(this._textFieldController.text);
+                            }),
+                      );
+                    },
+                  ).then((val) {
+                    this.setState(() {
+                      this._textFieldController.text = "";
+                    });
+                  });
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('13067828143'),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Color(0xff8a8a8a))
-                  ],
-                ),
+                child: _rowExpandWidget('13067882143', false),
               )),
           SizedBox(height: ScreenUtil().setHeight(20)),
           _rowItem(
@@ -188,10 +188,10 @@ class _StoreSettingState extends State<StoreSetting> {
               true,
               InkWell(
                 onTap: () {
+                  Navigator.pushNamed(context, '/business_info');
                   print('营业资质');
                 },
-                child: Icon(Icons.arrow_forward_ios,
-                    size: 16, color: Color(0xff8a8a8a)),
+                child: _rowExpandWidget('', false),
               )),
         ],
       ),
@@ -209,6 +209,7 @@ class _StoreSettingState extends State<StoreSetting> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
+            width: ScreenUtil().setWidth(220),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -225,9 +226,30 @@ class _StoreSettingState extends State<StoreSetting> {
                               color: Color(0xffe25d2b), fontSize: 12)))
                 ]),
           ),
-          _widget
+          Expanded(child: _widget)
         ],
       ),
+    );
+  }
+
+  //每一行后半部分
+  _rowExpandWidget(text, offstage) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Expanded(
+            child: Container(
+          alignment: Alignment.centerRight,
+          child: Text('${text}',
+              style: TextStyle(fontSize: 14, color: Color(0xff333333)),
+              overflow: TextOverflow.ellipsis),
+        )),
+        SizedBox(width: ScreenUtil().setWidth(8)),
+        Offstage(
+            offstage: offstage,
+            child: Icon(Icons.arrow_forward_ios,
+                size: 16, color: Color(0xff8a8a8a)))
+      ],
     );
   }
 
@@ -242,5 +264,27 @@ class _StoreSettingState extends State<StoreSetting> {
     } else {
       print('没有选择图片');
     }
+  }
+
+  //联系人、联系电话弹框
+  _contentWidget(hintText) {
+    return Container(
+        constraints: BoxConstraints(maxHeight: ScreenUtil().setHeight(60)),
+        child: TextField(
+          controller: this._textFieldController,
+          style: TextStyle(color: Color(0xff333333), fontSize: 16),
+          cursorColor: Color(0xff8a8a8a),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(fontSize: 16),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
+          ),
+        ));
   }
 }

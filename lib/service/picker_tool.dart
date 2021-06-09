@@ -38,32 +38,6 @@ class JhPickerTool {
     }, selecteds: [normalIndex ?? 0], title: title);
   }
 
-  static void openModalPicker(
-    BuildContext context, {
-    @required PickerAdapter adapter,
-    String title,
-    List<int> selecteds,
-    @required PickerConfirmCallback clickCallBack,
-  }) {
-    new Picker(
-            adapter: adapter,
-            title: new Text(title ?? "",
-                style: TextStyle(color: kTitleColor, fontSize: kTextFontSize)),
-            selecteds: selecteds,
-            cancelText: '取消',
-            confirmText: '确定',
-            cancelTextStyle:
-                TextStyle(color: kBtnColor, fontSize: kTextFontSize),
-            confirmTextStyle:
-                TextStyle(color: kBtnColor, fontSize: kTextFontSize),
-            textAlign: TextAlign.right,
-            itemExtent: kItemHeight,
-            height: kPickerHeight,
-            selectedTextStyle: TextStyle(color: Colors.black),
-            onConfirm: clickCallBack)
-        .showModal(context);
-  }
-
   /** 多列 */
   static void showArrayPicker<T>(
     BuildContext context, {
@@ -159,5 +133,31 @@ class JhPickerTool {
       }
       clickCallback(timeStr, picker.adapter.text);
     });
+  }
+
+  static void openModalPicker(
+    BuildContext context, {
+    @required PickerAdapter adapter,
+    String title,
+    List<int> selecteds,
+    @required PickerConfirmCallback clickCallBack,
+  }) {
+    new Picker(
+            adapter: adapter,
+            title: new Text(title ?? "",
+                style: TextStyle(color: kTitleColor, fontSize: kTextFontSize)),
+            selecteds: selecteds,
+            cancelText: '取消',
+            confirmText: '确定',
+            cancelTextStyle:
+                TextStyle(color: kBtnColor, fontSize: kTextFontSize),
+            confirmTextStyle:
+                TextStyle(color: kBtnColor, fontSize: kTextFontSize),
+            textAlign: TextAlign.right,
+            itemExtent: kItemHeight,
+            height: kPickerHeight,
+            selectedTextStyle: TextStyle(color: Colors.black),
+            onConfirm: clickCallBack)
+        .showModal(context);
   }
 }
