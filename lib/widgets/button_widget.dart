@@ -12,10 +12,7 @@ class ButtonWidget extends StatelessWidget {
         onTap: () {
           this.buttonBack();
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-          Container(
+        child: Container(
               width: ScreenUtil().setWidth(680),
               height: ScreenUtil().setHeight(80),
               alignment: Alignment.center,
@@ -32,8 +29,7 @@ class ButtonWidget extends StatelessWidget {
               ),
               child: Text(
                 '${this.text}',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ))
-        ]));
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              )));
   }
 }

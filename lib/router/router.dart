@@ -16,6 +16,7 @@ import '../pages/myPages/add_menu.dart';
 import '../pages/myPages/choose_menu.dart';
 import '../pages/myPages/category_management.dart';
 import '../pages/myPages/bank_card.dart';
+import '../pages/myPages/edit_bank.dart';
 
 
 //配置路由
@@ -36,6 +37,7 @@ final routes = {
   '/choose_menu': (context,{arguments}) => ChooseMenu(arguments:arguments),
   '/category_management': (context) => CategoryManagement(),
   '/bank_card': (context) => BankCard(),
+  '/edit_bank': (context) => EditBank(),
 };
 //固定写法
 var onGenerateRoute = (RouteSettings settings) {

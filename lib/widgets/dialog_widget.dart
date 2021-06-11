@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogWidget extends StatefulWidget {
-  // title, content_widget, cancel_fun, confirm_fun
   String title;
   var content_widget;
   final cancel_fun;
