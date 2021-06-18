@@ -17,6 +17,9 @@ import '../pages/myPages/choose_menu.dart';
 import '../pages/myPages/category_management.dart';
 import '../pages/myPages/bank_card.dart';
 import '../pages/myPages/edit_bank.dart';
+import '../pages/login_regis.dart';
+import '../pages/login.dart';
+import '../pages/into_certificate.dart';
 
 
 //配置路由
@@ -38,6 +41,9 @@ final routes = {
   '/category_management': (context) => CategoryManagement(),
   '/bank_card': (context) => BankCard(),
   '/edit_bank': (context) => EditBank(),
+  '/login_regis': (context) => LoginRegis(),
+  '/login': (context,{arguments}) => Login(arguments:arguments),
+  '/into_certificate': (context) => IntoCertificate(),
 };
 //固定写法
 var onGenerateRoute = (RouteSettings settings) {
