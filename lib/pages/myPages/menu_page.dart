@@ -93,12 +93,12 @@ class _MenuPageState extends State<MenuPage> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0a0b17),
-            brightness: Brightness.light,
+            brightness: Brightness.dark,
             title: Text('菜单管理', style: TextStyle(fontSize: 18)),
             actions: <Widget>[
               InkWell(
                   onTap: () {
-                    Map arg = {'pageType': '1','id':''};
+                    Map arg = {'pageType': '1'};
                     Navigator.pushNamed(context, '/add_menu', arguments: arg);
                   },
                   child: Row(

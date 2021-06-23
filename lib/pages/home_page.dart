@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../service/picker_tool.dart';
+
+import '../service/toast_tool.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,13 +42,15 @@ class _HomePageState extends State<HomePage> {
     var _startDate;
     var _endDate;
     if (timeType == '1') {
-      _startDate = new DateTime(int.parse(_dateList[0]), int.parse(_dateList[1]), int.parse(_dateList[2]));
+      _startDate = new DateTime(int.parse(_dateList[0]),
+          int.parse(_dateList[1]), int.parse(_dateList[2]));
       _endDate = new DateTime(int.parse(_endTimeArr[0]),
           int.parse(_endTimeArr[1]), int.parse(_endTimeArr[2]));
     } else {
       _startDate = new DateTime(int.parse(_starTimeArr[0]),
           int.parse(_starTimeArr[1]), int.parse(_starTimeArr[2]));
-      _endDate = new DateTime(int.parse(_dateList[0]), int.parse(_dateList[1]), int.parse(_dateList[2]));
+      _endDate = new DateTime(int.parse(_dateList[0]), int.parse(_dateList[1]),
+          int.parse(_dateList[2]));
     }
     if (_startDate.isBefore(_endDate) ||
         _startDate.isAtSameMomentAs(_endDate)) {
@@ -61,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       //根据当前时间区间获取数据
       _getData();
     } else {
-      print('时间不符合');
+      ToastTool.toastWidget(context, msg: '开始时间不能大于结束时间');
     }
   }
 
@@ -225,21 +230,32 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: ScreenUtil().setHeight(220),
       child: Center(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-            Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <
+                  Widget>[
+        InkWell(
+            onTap: scan,
+            child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               Icon(Icons.center_focus_weak, color: Colors.white, size: 36),
               SizedBox(height: ScreenUtil().setHeight(8)),
               Text('扫码核销', style: TextStyle(color: Colors.white, fontSize: 16))
-            ]),
-            Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Icon(Icons.dialpad, color: Colors.white, size: 30),
-              SizedBox(height: ScreenUtil().setHeight(8)),
-              Text('输码核销', style: TextStyle(color: Colors.white, fontSize: 16))
-            ])
-          ])),
+            ])),
+        Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          Icon(Icons.dialpad, color: Colors.white, size: 30),
+          SizedBox(height: ScreenUtil().setHeight(8)),
+          Text('输码核销', style: TextStyle(color: Colors.white, fontSize: 16))
+        ])
+      ])),
     );
+  }
+
+  // scan() async {
+  //   var status = await Permission.camera.request();
+  //   print(status);
+  // }
+
+  scan(){
+    Navigator.pushNamed(context, '/qr_code_scanner');
   }
 
 //公告
@@ -318,12 +334,12 @@ class _HomePageState extends State<HomePage> {
           InkWell(
               onTap: () {
                 JhPickerTool.showDatePicker(context,
-                        dateType: DateType.YMD,
-                        minValue: DateTime(2020, 08,01),
-                        maxValue: DateTime(now.year, now.month, now.day),
-                        clickCallback: (var str, var time) {
-                          _judgeTime('1', str);
-                    });
+                    dateType: DateType.YMD,
+                    minValue: DateTime(2020, 08, 01),
+                    maxValue: DateTime(now.year, now.month, now.day),
+                    clickCallback: (var str, var time) {
+                  _judgeTime('1', str);
+                });
               },
               child: Row(
                 children: <Widget>[
@@ -336,12 +352,12 @@ class _HomePageState extends State<HomePage> {
           InkWell(
               onTap: () {
                 JhPickerTool.showDatePicker(context,
-                        dateType: DateType.YMD,
-                        minValue: DateTime(2020, 08,01),
-                        maxValue: DateTime(now.year, now.month, now.day),
-                        clickCallback: (var str, var time) {
-                          _judgeTime('2', str);
-                    });
+                    dateType: DateType.YMD,
+                    minValue: DateTime(2020, 08, 01),
+                    maxValue: DateTime(now.year, now.month, now.day),
+                    clickCallback: (var str, var time) {
+                  _judgeTime('2', str);
+                });
               },
               child: Row(
                 children: <Widget>[

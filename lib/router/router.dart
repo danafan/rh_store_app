@@ -20,31 +20,40 @@ import '../pages/myPages/edit_bank.dart';
 import '../pages/login_regis.dart';
 import '../pages/login.dart';
 import '../pages/into_certificate.dart';
-
+import '../pages/into_identity.dart';
+import '../pages/into_admin.dart';
+import '../pages/audit_status.dart';
+import '../pages/qr_code_scanner.dart';
 
 //配置路由
 final routes = {
-  '/': (context) => NavigatorBar(),
-  '/photo_view': (context,{arguments}) => PhotoView(arguments:arguments),
-  '/complaint': (context,{arguments}) => Complaint(arguments:arguments),
+  '/navigator': (context) => NavigatorBar(),
+  '/photo_view': (context, {arguments}) => PhotoView(arguments: arguments),
+  '/complaint': (context, {arguments}) => Complaint(arguments: arguments),
   '/bill_page': (context) => BillPage(),
   '/cash_page': (context) => CashPage(),
   '/store_setting': (context) => StoreSetting(),
   '/business_hours': (context) => BusinessHours(),
   '/business_info': (context) => BusinessInfo(),
   '/package_management': (context) => PackageManagement(),
-  '/created_package': (context,{arguments}) => CreatedPackage(arguments:arguments),
+  '/created_package': (context, {arguments}) =>
+      CreatedPackage(arguments: arguments),
   '/category_page': (context) => CategoryPage(),
   '/menu_page': (context) => MenuPage(),
-  '/add_menu': (context,{arguments}) => AddMenu(arguments:arguments),
-  '/choose_menu': (context,{arguments}) => ChooseMenu(arguments:arguments),
+  '/add_menu': (context, {arguments}) => AddMenu(arguments: arguments),
+  '/choose_menu': (context, {arguments}) => ChooseMenu(arguments: arguments),
   '/category_management': (context) => CategoryManagement(),
   '/bank_card': (context) => BankCard(),
   '/edit_bank': (context) => EditBank(),
   '/login_regis': (context) => LoginRegis(),
-  '/login': (context,{arguments}) => Login(arguments:arguments),
+  '/login': (context, {arguments}) => Login(arguments: arguments),
   '/into_certificate': (context) => IntoCertificate(),
+  '/into_identity': (context) => IntoIdentity(),
+  '/into_admin': (context) => IntoAdmin(),
+  '/audit_status': (context) => AuditStatus(),
+  '/qr_code_scanner': (context) => QRScannerPage(),
 };
+
 //固定写法
 var onGenerateRoute = (RouteSettings settings) {
 // 统一处理

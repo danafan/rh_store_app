@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
+import '../service/toast_tool.dart';
+
 
 class CommentItem extends StatefulWidget {
   @override
@@ -273,7 +275,9 @@ class _CommentItemState extends State<CommentItem> {
                                   )),
                               SizedBox(width: 5),
                               InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    ToastTool.toastWidget(context, msg: '已回复');
+                                  },
                                   child: Container(
                                       height: ScreenUtil().setHeight(50),
                                       width: ScreenUtil().setWidth(110),

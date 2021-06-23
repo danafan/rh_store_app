@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../service/picker_tool.dart';
 import '../../widgets/button_widget.dart';
 
+import '../../service/toast_tool.dart';
+
 class BusinessHours extends StatefulWidget {
   @override
   _BusinessHoursState createState() => _BusinessHoursState();
@@ -52,6 +54,7 @@ class _BusinessHoursState extends State<BusinessHours> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text('设置营业时间',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
         ),
@@ -125,7 +128,7 @@ class _BusinessHoursState extends State<BusinessHours> {
                           this._timeArr.add(_timeMap);
                         });
                       } else {
-                        print('最多设置3个营业时间段！');
+                        ToastTool.toastWidget(context, msg: '最多设置3个营业时间段！');
                       }
                     },
                     child: Row(

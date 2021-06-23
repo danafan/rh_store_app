@@ -7,14 +7,22 @@ import '../widgets/row_widget.dart';
 import '../widgets/text_field.dart';
 import '../widgets/image_widget.dart';
 
+import '../service/toast_tool.dart';
+
 class IntoCertificate extends StatefulWidget {
   @override
   _IntoCertificateState createState() => _IntoCertificateState();
 }
 
 class _IntoCertificateState extends State<IntoCertificate> {
-  //输入框Controller
-  final _countController = new TextEditingController();
+  //商家名称
+  final _storeNameController = new TextEditingController();
+  //商户简称
+  final _referredController = new TextEditingController();
+  //商家链接
+  final _urlController = new TextEditingController();
+  //证件注册号
+  final _idNoController = new TextEditingController();
   //证件图片
   List _certificateImg = [];
 
@@ -28,7 +36,8 @@ class _IntoCertificateState extends State<IntoCertificate> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0a0b17),
-        title: Text('商户证件信息',
+        brightness: Brightness.dark,
+        title: Text('商户信息',
             style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
       ),
       body: SingleChildScrollView(
@@ -41,24 +50,52 @@ class _IntoCertificateState extends State<IntoCertificate> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xffF1F6F9)))),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(20),
+                        vertical: ScreenUtil().setHeight(3)),
+                    child: Text(
+                      '商户信息用途是为商家注册微信商户号，热乎优选承诺保护商家隐私安全，信息绝不外露，请放心填写!',
+                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                    ),
+                  ),
                   RowWidget(
                       label: '商家名称',
                       expandWidget: TextFieldWidget(
-                          controller: this._countController,
-                          hintText: '商家名称，2~110个字符，支持括号',
-                          keyboardType: '2'),
+                          controller: this._storeNameController,
+                          hintText: '与营业执照的商家名称一致',
+                          keyboardType: '1'),
+                      alignment: 'center'),
+                  RowWidget(
+                      label: '商家简称',
+                      expandWidget: TextFieldWidget(
+                          controller: this._referredController,
+                          hintText: '在支付完成页向买家展示',
+                          keyboardType: '1'),
+                      alignment: 'center'),
+                  RowWidget(
+                      label: '商家链接',
+                      expandWidget: TextFieldWidget(
+                          controller: this._urlController,
+                          hintText: '店铺主页链接',
+                          keyboardType: '1'),
                       alignment: 'center'),
                   RowWidget(
                       label: '证件注册号',
                       expandWidget: TextFieldWidget(
-                          controller: this._countController,
-                          hintText: '注册号/统一社会信用代码',
+                          controller: this._idNoController,
+                          hintText: '与营业执照上的注册号一致',
                           keyboardType: '1'),
                       alignment: 'center'),
                   RowWidget(
                       label: '证件图片',
-                      expandWidget: Container(
-                          child: this._certificateImg.length == 0
+                      expandWidget: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          this._certificateImg.length == 0
                               ? UploadImg(callBack: (_imgFile) {
                                   this.setState(() {
                                     this._certificateImg.add(_imgFile);
@@ -70,17 +107,50 @@ class _IntoCertificateState extends State<IntoCertificate> {
                                     this.setState(() {
                                       this._certificateImg.removeAt(0);
                                     });
-                                  })),
+                                  }),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: ScreenUtil().setHeight(3)),
+                            child: Text(
+                              '*营业执照图片',
+                              style: TextStyle(
+                                  color: Color(0xffe25d2b), fontSize: 12),
+                            ),
+                          ),
+                        ],
+                      ),
                       alignment: 'start'),
-                  _toastWidget('*营业执照的证件图片'),
-                  SizedBox(height: ScreenUtil().setHeight(20)),
+                  SizedBox(height: ScreenUtil().setHeight(30)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ButtonWidget(
-                          text: '提交审核',
+                          text: '提交',
                           buttonBack: () {
-                            print('object');
+                            // if (this._storeNameController.text == '') {
+                              // ToastTool.toastWidget(context, msg: '请输入商家名称');
+                            // } else if (this._referredController.text == '') {
+                              // ToastTool.toastWidget(context, msg: '请输入商家简称');
+                            // } else if (this._urlController.text == '') {
+                              // ToastTool.toastWidget(context, msg: '请输入商家链接');
+                            // } else if (this._idNoController.text == '') {
+                              // ToastTool.toastWidget(context, msg: '请输入证件号');
+                            // } else if (this._certificateImg.length == 0) {
+                              // ToastTool.toastWidget(context, msg: '请上传证件图片');
+                            // } else {
+                            //   Map req = {
+                            //     'merchant_name': this._storeNameController.text,
+                            //     'merchant_shortname':
+                            //         this._referredController.text,
+                            //     'store_url': this._urlController.text,
+                            //     'business_license_number':
+                            //         this._idNoController.text,
+                            //     'business_license_copy': this._certificateImg[0]
+                            //   };
+                            //   print(req);
+                            //   Navigator.pushNamed(context, '/into_identity');
+                            // }
+                            Navigator.pushNamed(context, '/into_identity');
                           })
                     ],
                   )
@@ -88,23 +158,4 @@ class _IntoCertificateState extends State<IntoCertificate> {
               ))),
     );
   }
-
-  //底部提示
-  _toastWidget(_text) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(20),
-          vertical: ScreenUtil().setHeight(3)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _text,
-            style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
-          )
-        ],
-      ),
-    );
-  }
-
 }

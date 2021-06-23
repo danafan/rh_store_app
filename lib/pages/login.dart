@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
 import '../widgets/button_widget.dart';
+import '../service/toast_tool.dart';
 
 class Login extends StatefulWidget {
   Map arguments;
@@ -22,7 +23,7 @@ class _LoginState extends State<Login> {
   //倒计时计时器
   var _timer = null;
   //倒计时时间
-  int _countdownTime = 6;
+  int _countdownTime = 60;
   //获取验证码文字
   String _codeText = "获取验证码";
 
@@ -39,6 +40,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text(widget.arguments['pageType'] == '1' ? '新商户签约' : '商户登录',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
         ),
@@ -105,17 +107,18 @@ class _LoginState extends State<Login> {
                           SizedBox(width: ScreenUtil().setWidth(10)),
                           InkWell(
                             onTap: () {
-                              if (this._countdownTime == 6) {
+                              if (this._countdownTime == 60) {
                                 if (this._phoneController.text == '') {
-                                  print('请输入手机号');
+                                  ToastTool.toastWidget(context, msg: '请输入手机号');
                                 } else if (!_phoneRegExp
                                     .hasMatch(this._phoneController.text)) {
-                                  print('请输入正确的手机号');
+                                  ToastTool.toastWidget(context,
+                                      msg: '请输入正确的手机号');
                                 } else {
                                   this._startCountdownTimer();
                                 }
                               } else {
-                                print('操作频繁');
+                                ToastTool.toastWidget(context, msg: '操作频繁');
                               }
                             },
                             child: Container(
@@ -135,14 +138,20 @@ class _LoginState extends State<Login> {
                   ButtonWidget(
                       text: widget.arguments['pageType'] == '1' ? '提交' : '登录',
                       buttonBack: () {
-                        Navigator.pushNamed(context, '/into_certificate');
+                        if (widget.arguments['pageType'] == '1') {
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              '/into_certificate', (route) => route == null);
+                        } else {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/navigator', (route) => route == null);
+                        }
                         // if (this._phoneController.text == '') {
-                        //   print('请输入手机号');
+                        //ToastTool.toastWidget(context, msg: '请输入手机号');
                         // } else if (!_phoneRegExp
                         //     .hasMatch(this._phoneController.text)) {
-                        //   print('请输入正确的手机号');
+                        //ToastTool.toastWidget(context, msg: '请输入正确的手机号');
                         // } else if (this._codeController.text == '') {
-                        //   print('请输入验证码');
+                        //ToastTool.toastWidget(context, msg: '请输入验证码');
                         // } else {
                         //   print('提交');
                         // }
@@ -163,7 +172,7 @@ class _LoginState extends State<Login> {
           this._codeText = '重新获取' + this._countdownTime.toString() + 's';
         } else {
           this._timer.cancel();
-          this._countdownTime = 6;
+          this._countdownTime = 60;
           this._codeText = '获取验证码';
         }
       });

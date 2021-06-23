@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../widgets/button_widget.dart';
 import '../../widgets/dialog_widget.dart';
+import '../../service/toast_tool.dart';
 
 class BankCard extends StatefulWidget {
   @override
@@ -82,6 +83,7 @@ class _BankCardState extends State<BankCard> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0a0b17),
+            brightness: Brightness.dark,
             title: Text(
               '银行卡管理',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18),
@@ -107,7 +109,7 @@ class _BankCardState extends State<BankCard> {
         InkWell(
           onTap: () {
             Map arg = {'pageType': '1', 'id': ''};
-            Navigator.pushNamed(context, '/add_menu', arguments: arg);
+            Navigator.pushNamed(context, '/edit_bank');
           },
           child: Container(
             decoration: BoxDecoration(
@@ -210,7 +212,7 @@ class _BankCardState extends State<BankCard> {
                         ),
                         cancel_fun: () {},
                         confirm_fun: () {
-                          print('确认解除');
+                          ToastTool.toastWidget(context, msg: '银行卡已解除');
                         }),
                   );
                 },

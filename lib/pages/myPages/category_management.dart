@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../widgets/dialog_widget.dart';
+import '../../service/toast_tool.dart';
 
 class CategoryManagement extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class _CategoryManagementState extends State<CategoryManagement> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text('分类管理', style: TextStyle(fontSize: 18)),
           actions: <Widget>[
             InkWell(
@@ -44,7 +46,7 @@ class _CategoryManagementState extends State<CategoryManagement> {
                               });
                             },
                             confirm_fun: () {
-                              print('新增');
+                              ToastTool.toastWidget(context, msg: '添加成功');
                               print(this._nameController.text);
                             }),
                       );
@@ -166,15 +168,12 @@ class _CategoryManagementState extends State<CategoryManagement> {
                                     print('取消删除');
                                   },
                                   confirm_fun: () {
-                                    //删除
-                                    print('删除');
+                                    ToastTool.toastWidget(context, msg: '已删除');
                                     print(this._cateId);
                                   }),
                             );
                           },
-                        ).then((val) {
-                          print('弹框关闭');
-                        });
+                        ).then((val) {});
                       },
                       child: Icon(Icons.delete,
                           size: 22, color: Color(0xff8a8a8a)),

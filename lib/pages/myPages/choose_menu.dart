@@ -5,6 +5,8 @@ import '../../widgets/search_widget.dart';
 import '../../widgets/list_bottom.dart';
 import '../../widgets/loading_more.dart';
 
+import '../../service/toast_tool.dart';
+
 class ChooseMenu extends StatefulWidget {
   Map arguments;
   ChooseMenu({this.arguments});
@@ -194,7 +196,7 @@ class _ChooseMenuState extends State<ChooseMenu> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0a0b17),
-            brightness: Brightness.light,
+            brightness: Brightness.dark,
             title: Text('选择菜品', style: TextStyle(fontSize: 18)),
             bottom: PreferredSize(
               child: Container(
@@ -264,8 +266,9 @@ class _ChooseMenuState extends State<ChooseMenu> {
                       child: InkWell(
                     onTap: () {
                       if (_activeIdList.length == 0) {
-                        print('请选择菜品');
+                        ToastTool.toastWidget(context, msg: '还没有选择的菜品哦～');
                       } else {
+                        ToastTool.toastWidget(context, msg: '菜品添加成功~');
                         print(this._activeIdList);
                         print(this._categoryId);
                         Navigator.pushNamed(context, '/category_page');

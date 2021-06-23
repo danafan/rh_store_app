@@ -12,6 +12,7 @@ class _BusinessInfoState extends State<BusinessInfo> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0a0b17),
+            brightness: Brightness.dark,
             title: Text(
               '营业资质',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18),

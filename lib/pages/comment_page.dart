@@ -78,8 +78,8 @@ class _CommentPageState extends State<CommentPage> {
             preferredSize:
                 Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(90)),
             child: AppBar(
-              backgroundColor: Colors.white,
-              brightness: Brightness.light,
+              backgroundColor: Color(0xff0a0b17),
+              brightness: Brightness.dark,
               title: _topLabel(),
             )),
         body: RefreshIndicator(
@@ -113,7 +113,7 @@ class _CommentPageState extends State<CommentPage> {
               children: <Widget>[
                 Text('综合评分',
                     style: TextStyle(
-                        color: Color(0xff333333),
+                        color: Color(0xffffffff),
                         fontSize: 14,
                         fontWeight: FontWeight.bold)),
                 Row(
@@ -137,7 +137,7 @@ class _CommentPageState extends State<CommentPage> {
               children: <Widget>[
                 Text('评价总数',
                     style: TextStyle(
-                        color: Color(0xff333333),
+                        color: Color(0xffffffff),
                         fontSize: 14,
                         fontWeight: FontWeight.bold)),
                 Row(
@@ -161,7 +161,7 @@ class _CommentPageState extends State<CommentPage> {
               children: <Widget>[
                 Text('好评率',
                     style: TextStyle(
-                        color: Color(0xff333333),
+                        color: Color(0xffffffff),
                         fontSize: 14,
                         fontWeight: FontWeight.bold)),
                 Row(

@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../widgets/package_dialog.dart';
 import '../../widgets/button_widget.dart';
 
+import '../../service/toast_tool.dart';
+
 class CreatedPackage extends StatefulWidget {
   Map arguments;
   CreatedPackage({this.arguments});
@@ -72,6 +74,7 @@ class _CreatedPackageState extends State<CreatedPackage> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text(
             '${this._pageType == '1' ? '新建' : '编辑'}套餐',
             style: TextStyle(color: Color(0xffffffff), fontSize: 18),
@@ -320,16 +323,16 @@ class _CreatedPackageState extends State<CreatedPackage> {
                       final _moneyRegExp = new RegExp(
                           r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
                       if (this._nameController.text == '') {
-                        print('请输入套餐名称');
+                        ToastTool.toastWidget(context, msg: '请输入套餐名称');
                       } else if (this._imageList.length == 0) {
-                        print('至少上传一张图片');
+                        ToastTool.toastWidget(context, msg: '至少上传一张图片');
                       } else if (this._packageList.length == 0) {
-                        print('至少上传一个商品');
+                        ToastTool.toastWidget(context, msg: '至少上传一个商品');
                       } else if (this._priceController.text == '') {
-                        print('请输入购买价格');
+                        ToastTool.toastWidget(context, msg: '请输入购买价格');
                       } else if (!_moneyRegExp
                           .hasMatch(this._priceController.text)) {
-                        print('价格需大于0且最多两位小数');
+                            ToastTool.toastWidget(context, msg: '价格需大于0且最多两位小数');
                       } else {
                         print('已成功');
                       }

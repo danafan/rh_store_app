@@ -38,6 +38,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text('分类管理', style: TextStyle(fontSize: 18))),
       body: Column(
         children: <Widget>[

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
 import '../widgets/button_widget.dart';
+import '../widgets/dialog_widget.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -163,7 +164,32 @@ class _MyPageState extends State<MyPage> {
             ButtonWidget(
                 text: '退出登录',
                 buttonBack: () {
-                  print('退出登录');
+                  showDialog<Null>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        child: DialogWidget(
+                            title: '提示',
+                            content_widget: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: ScreenUtil().setHeight(30)),
+                              child: Text('确认退出?'),
+                            ),
+                            cancel_fun: () {},
+                            confirm_fun: () {
+                              var arr = 173;
+                              for(var i = 0;i <= 192; i ++){
+                                arr += i;
+                              }
+                              print(arr);
+                              // Navigator.of(context).pop();
+                              // Navigator.pushNamed(context, '/login_regis');
+                              // Navigator.pushNamedAndRemoveUntil(context, '/login_regis',(route) => route == null);
+                              print('确认解除');
+                            }),
+                      );
+                    },
+                  ).then((val) {});
                 })
           ],
         ),

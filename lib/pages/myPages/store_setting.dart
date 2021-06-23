@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../service/picker_tool.dart';
 import '../../widgets/dialog_widget.dart';
+import '../../service/toast_tool.dart';
 
 class StoreSetting extends StatefulWidget {
   @override
@@ -50,6 +51,7 @@ class _StoreSettingState extends State<StoreSetting> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0a0b17),
+        brightness: Brightness.dark,
         title: Text('店铺设置',
             style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
       ),
@@ -62,6 +64,7 @@ class _StoreSettingState extends State<StoreSetting> {
               false,
               InkWell(
                 onTap: () {
+                  //ToastTool.toastWidget(context, msg: '本月您已修改过店铺主图，下个月再试试吧～');
                   this.getImage();
                 },
                 child: Row(
@@ -107,6 +110,7 @@ class _StoreSettingState extends State<StoreSetting> {
               false,
               InkWell(
                 onTap: () {
+                  // ToastTool.toastWidget(context, msg: '本月您已修改过店铺地址，下个月再试试吧～');
                   print('调用地图获取位置');
                 },
                 child: _rowExpandWidget('杭州市萧山区城厢街道127号', false),

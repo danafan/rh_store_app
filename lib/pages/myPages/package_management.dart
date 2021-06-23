@@ -31,6 +31,7 @@ class _PackageManagementState extends State<PackageManagement>
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text('套餐管理',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
           actions: <Widget>[

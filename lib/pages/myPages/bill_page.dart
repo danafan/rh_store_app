@@ -101,6 +101,7 @@ class _BillPageState extends State<BillPage> {
                 SliverAppBar(
                   elevation: 0,
                   backgroundColor: Color(0xff0a0b17),
+                  brightness: Brightness.dark,
                   pinned: true,
                   leading: IconButton(
                       icon:

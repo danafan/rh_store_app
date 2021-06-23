@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/button_widget.dart';
+import '../../service/picker_tool.dart';
+import '../../service/toast_tool.dart';
 
 class AddMenu extends StatefulWidget {
   Map arguments;
@@ -26,7 +28,7 @@ class _AddMenuState extends State<AddMenu> {
   final _unitController = new TextEditingController();
   //所有分类列表
   List _cateList = [
-    {'id': '', 'name': '暂不分配'},
+    {'id': '0', 'name': '暂不分配'},
     {'id': '1', 'name': '主食'},
     {'id': '2', 'name': '凉菜'},
     {'id': '3', 'name': '凉菜'},
@@ -35,8 +37,7 @@ class _AddMenuState extends State<AddMenu> {
     {'id': '6', 'name': '凉菜'},
   ];
   //选中的分类id
-  String _activeCateId = '';
-  String _activeCateName = '暂不分配';
+  int _activeCateIndex = 0;
 
   @override
   void initState() {
@@ -44,8 +45,6 @@ class _AddMenuState extends State<AddMenu> {
     super.initState();
     this.setState(() {
       this._pageType = widget.arguments['pageType'];
-      this._activeCateId = widget.arguments['id'];
-      this._activeCateName = widget.arguments['name'];
     });
   }
 
@@ -63,8 +62,9 @@ class _AddMenuState extends State<AddMenu> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Color(0xff0a0b17),
+            brightness: Brightness.dark,
             title: Text(
-              '${this._pageType == '1' ? '新建' : '编辑'}菜品',
+              '${this._pageType == '1' ? '添加' : '编辑'}菜品',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18),
             )),
         body: SingleChildScrollView(
@@ -247,36 +247,24 @@ class _AddMenuState extends State<AddMenu> {
                         Expanded(
                             child: InkWell(
                                 onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    backgroundColor: Colors.white,
-                                    enableDrag: false, //设置不能拖拽关闭
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                          height: ScreenUtil().setHeight(360),
-                                          child: ListView.builder(
-                                              itemCount: this._cateList.length,
-                                              itemBuilder: (context, index) {
-                                                return InkWell(
-                                                    onTap: () {
-                                                      this.setState(() {
-                                                        _activeCateId =
-                                                            this._cateList[
-                                                                index]['id'];
-                                                        _activeCateName =
-                                                            this._cateList[
-                                                                index]['name'];
-                                                      });
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: _categoryItemWidget(
-                                                        this._cateList[index]));
-                                              }));
-                                    },
-                                  );
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  List _nameList = [];
+                                  for (var i = 0;
+                                      i < this._cateList.length;
+                                      i++) {
+                                    _nameList.add(this._cateList[i]['name']);
+                                  }
+                                  JhPickerTool.showStringPicker(context,
+                                      data: _nameList,
+                                      clickCallBack: (int index, var str) {
+                                    this.setState(() {
+                                      _activeCateIndex = index;
+                                    });
+                                  }, normalIndex: this._activeCateIndex);
                                 },
-                                child: Text('${this._activeCateName}',
+                                child: Text(
+                                    '${this._cateList[this._activeCateIndex]['name']}',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Color(0xff8a8a8a)))))
@@ -288,40 +276,20 @@ class _AddMenuState extends State<AddMenu> {
                         final _moneyRegExp = new RegExp(
                             r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
                         if (this._nameController.text == '') {
-                          print('请输入菜品名称');
+                          ToastTool.toastWidget(context, msg: '请输入菜品名称');
                         } else if (this._imageList.length == 0) {
-                          print('请上传菜品主图');
+                          ToastTool.toastWidget(context, msg: '请上传菜品主图');
                         } else if (this._priceController.text == '') {
-                          print('请输入购买价格');
+                          ToastTool.toastWidget(context, msg: '请输入购买价格');
                         } else if (!_moneyRegExp
                             .hasMatch(this._priceController.text)) {
-                          print('价格需大于0且最多两位小数');
+                          ToastTool.toastWidget(context, msg: '价格需大于0且最多两位小数');
                         } else {
                           Navigator.of(context).pop();
                           print('已成功');
                         }
                       })
                 ]))));
-  }
-
-  //每一个分类的item
-  _categoryItemWidget(item) {
-    return Container(
-      decoration: BoxDecoration(
-          color: item['id'] == this._activeCateId
-              ? Color(0xffF1F6F9)
-              : Color(0xffffffff),
-          border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
-      height: ScreenUtil().setHeight(90),
-      width: double.infinity,
-      alignment: Alignment.center,
-      child: Text('${item['name']}',
-          style: TextStyle(
-              fontSize: 15,
-              color: item['id'] == this._activeCateId
-                  ? Color(0xffe25d2b)
-                  : Color(0xff333333))),
-    );
   }
 
   //上传图片(组件)

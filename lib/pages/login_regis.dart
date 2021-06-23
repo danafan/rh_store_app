@@ -9,6 +9,7 @@ class LoginRegis extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff0a0b17),
+          brightness: Brightness.dark,
           title: Text('签约/登录',
               style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
         ),
@@ -73,7 +74,7 @@ class LoginRegis extends StatelessWidget {
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   Text(
-                    '签约流程：手机号登录 -> 法人实名认证 -> 店铺信息 -> 资质认证 -> 完成注册',
+                    '签约流程：手机号注册 -> 商户信息验证 -> 法人身份信息验证 -> 超级管理员信息验证 -> 超级管理员签约 ->完成注册',
                     style: TextStyle(fontSize: 12, color: Color(0xff8a8a8a)),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),

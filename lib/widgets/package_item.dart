@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../service/toast_tool.dart';
+import '../widgets/dialog_widget.dart';
+
 class PackageItem extends StatelessWidget {
   String _itemType;
   int _index;
@@ -112,13 +115,47 @@ class PackageItem extends StatelessWidget {
       //已上架
       _settingButton.add(_iconSlideAction(
           Icons.vertical_align_top, '置顶', Color(0xffe25d2b), () {
-        print('下架');
+        showDialog<Null>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: DialogWidget(
+                  title: '提示',
+                  content_widget: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(30)),
+                    child: Text('确认将该商品展示在第一位?'),
+                  ),
+                  cancel_fun: () {},
+                  confirm_fun: () {
+                    ToastTool.toastWidget(context, msg: '已置顶');
+                  }),
+            );
+          },
+        ).then((val) {});
       }));
     } else if (_itemType == '2' || _itemType == '3') {
       //已下架/审核通过
       _settingButton
           .add(_iconSlideAction(Icons.check, '上架', Color(0xffe25d2b), () {
-        print('删除');
+        showDialog<Null>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: DialogWidget(
+                  title: '提示',
+                  content_widget: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(30)),
+                    child: Text('确认上架该商品?'),
+                  ),
+                  cancel_fun: () {},
+                  confirm_fun: () {
+                    ToastTool.toastWidget(context, msg: '已上架');
+                  }),
+            );
+          },
+        ).then((val) {});
       }));
     } else if (_itemType == '4') {
       //审核拒绝
@@ -138,19 +175,70 @@ class PackageItem extends StatelessWidget {
       //已上架
       _settingButton.add(_iconSlideAction(
           Icons.vertical_align_bottom, '下架', Color(0xff8a8a8a), () {
-        print('下架');
+        showDialog<Null>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: DialogWidget(
+                  title: '提示',
+                  content_widget: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(30)),
+                    child: Text('确认下架该商品?'),
+                  ),
+                  cancel_fun: () {},
+                  confirm_fun: () {
+                    ToastTool.toastWidget(context, msg: '已下架');
+                  }),
+            );
+          },
+        ).then((val) {});
       }));
     } else if (_itemType == '2' || _itemType == '3' || _itemType == '4') {
       //已下架/审核通过/审核拒绝
       _settingButton
           .add(_iconSlideAction(Icons.delete, '删除', Color(0xff8a8a8a), () {
-        print('删除');
+        showDialog<Null>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: DialogWidget(
+                  title: '提示',
+                  content_widget: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(30)),
+                    child: Text('确认删除该商品?'),
+                  ),
+                  cancel_fun: () {},
+                  confirm_fun: () {
+                    ToastTool.toastWidget(context, msg: '已删除');
+                  }),
+            );
+          },
+        ).then((val) {});
       }));
     } else if (_itemType == '5') {
       //待审核
       _settingButton.add(
           _iconSlideAction(Icons.keyboard_return, '撤销', Color(0xff8a8a8a), () {
-        print('撤销');
+        showDialog<Null>(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: DialogWidget(
+                  title: '提示',
+                  content_widget: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(30)),
+                    child: Text('撤销后平台将不再审核该商品，并删除该商品，确认撤销?'),
+                  ),
+                  cancel_fun: () {},
+                  confirm_fun: () {
+                    ToastTool.toastWidget(context, msg: '已撤销');
+                  }),
+            );
+          },
+        ).then((val) {});
       }));
     }
     return _settingButton;

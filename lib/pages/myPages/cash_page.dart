@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/screen_util.dart';
 import '../../widgets/button_widget.dart';
+import '../../service/toast_tool.dart';
 
 class CashPage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _CashPageState extends State<CashPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0a0b17),
+        brightness: Brightness.dark,
         title: Text('提现',
             style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
       ),
@@ -124,13 +126,13 @@ class _CashPageState extends State<CashPage> {
                     final _moneyRegExp = new RegExp(
                         r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
                     if (this._cashMoneyController.text == '') {
-                      print('请输入提现金额');
+                      ToastTool.toastWidget(context, msg: '请输入提现金额');
                     } else if (!_moneyRegExp
                         .hasMatch(this._cashMoneyController.text)) {
-                      print('提现金额需大于0且最多两位小数');
+                      ToastTool.toastWidget(context, msg: '提现金额需大于0且最多两位小数');
                     } else if (double.parse(this._cashMoneyController.text) >
                         double.parse(this._withdrawable)) {
-                      print('提现金额不能超过可提现金额');
+                      ToastTool.toastWidget(context, msg: '提现金额不能超过可提现金额');
                     } else {
                       print(this._cashMoneyController.text);
                     }

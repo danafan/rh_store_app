@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../service/toast_tool.dart';
+
 //添加分类的弹框
 class DialogWidget extends StatefulWidget {
   Map packageItem;
@@ -164,19 +166,21 @@ class _DialogWidgetState extends State<DialogWidget> {
                       child: InkWell(
                           onTap: () {
                             if (this._cateNameController.text == '') {
-                              print('请输入分类名称');
+                              ToastTool.toastWidget(context, msg: '请输入分类名称');
                             } else if (this._isMulti &&
                                 this._numController.text == '') {
-                              print('请输入可选数量');
+                              ToastTool.toastWidget(context, msg: '请输入可选数量');
                             } else if (this._isMulti &&
                                 !RegExp(r"^[1-9]\d*$")
                                     .hasMatch(this._numController.text)) {
-                              print('请输入正确的可选数量');
+                              ToastTool.toastWidget(context, msg: '请输入正确的可选数量');
                             } else {
                               this.setState(() {
-                                this.packageItem['cateName'] = this._cateNameController.text;
+                                this.packageItem['cateName'] =
+                                    this._cateNameController.text;
                                 this.packageItem['isMulti'] = this._isMulti;
-                                this.packageItem['selectNum'] = this._numController.text;
+                                this.packageItem['selectNum'] =
+                                    this._numController.text;
                               });
                               widget.dialogCallBack(this.packageItem);
                             }

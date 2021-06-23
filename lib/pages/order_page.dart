@@ -33,8 +33,8 @@ class _OrderPageState extends State<OrderPage>
             preferredSize:
                 Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(90)),
             child: AppBar(
-              backgroundColor: Colors.white,
-              brightness: Brightness.light,
+              backgroundColor: Color(0xff0a0b17),
+              brightness: Brightness.dark,
               title: TabBar(
                   controller: this._tabController,
                   labelColor: Color(0xff333333),
@@ -46,10 +46,18 @@ class _OrderPageState extends State<OrderPage>
                   indicatorWeight: 4.0,
                   indicatorSize: TabBarIndicatorSize.label,
                   tabs: <Widget>[
-                    Tab(text: '全部'),
-                    Tab(text: '待核销'),
-                    Tab(text: '已完成'),
-                    Tab(text: '已退款')
+                    Tab(
+                        child: Text('全部',
+                            style: TextStyle(color: Color(0xffffffff)))),
+                    Tab(
+                        child: Text('待核销',
+                            style: TextStyle(color: Color(0xffffffff)))),
+                    Tab(
+                        child: Text('已完成',
+                            style: TextStyle(color: Color(0xffffffff)))),
+                    Tab(
+                        child: Text('已退款',
+                            style: TextStyle(color: Color(0xffffffff)))),
                   ]),
             )),
         body: TabBarView(

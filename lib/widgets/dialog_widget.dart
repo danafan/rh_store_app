@@ -6,7 +6,15 @@ class DialogWidget extends StatefulWidget {
   var content_widget;
   final cancel_fun;
   final confirm_fun;
-  DialogWidget({this.title,this.content_widget,this.cancel_fun,this.confirm_fun});
+  String cancel_text;
+  String confim_text;
+  DialogWidget(
+      {this.title,
+      this.content_widget,
+      this.cancel_fun,
+      this.confirm_fun,
+      this.cancel_text = '取消',
+      this.confim_text = '确认'});
 
   @override
   _DialogWidgetState createState() => _DialogWidgetState();
@@ -49,7 +57,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                         child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              '取消',
+                              widget.cancel_text,
                               style: TextStyle(
                                   color: Color(0xff333333), fontSize: 14),
                             )))),
@@ -65,7 +73,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                                 borderRadius: BorderRadius.only(
                                     bottomRight: Radius.circular(5))),
                             alignment: Alignment.center,
-                            child: Text('确认',
+                            child: Text(widget.confim_text,
                                 style: TextStyle(
                                     color: Color(0xffffffff), fontSize: 14)))))
               ]))
