@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../service/config_tool.dart';
+
 class DialogWidget extends StatefulWidget {
   String title;
   var content_widget;
@@ -36,8 +38,8 @@ class _DialogWidgetState extends State<DialogWidget> {
               alignment: Alignment.center,
               child: Text('${widget.title}',
                   style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 16,
+                      color: RhColors.colorTitle,
+                      fontSize: RhFontSize.fontSize16,
                       fontWeight: FontWeight.bold))),
           Divider(height: ScreenUtil().setHeight(1)),
           Container(
@@ -59,23 +61,24 @@ class _DialogWidgetState extends State<DialogWidget> {
                             child: Text(
                               widget.cancel_text,
                               style: TextStyle(
-                                  color: Color(0xff333333), fontSize: 14),
+                                  color: RhColors.colorTitle,
+                                  fontSize: RhFontSize.fontSize14),
                             )))),
                 Expanded(
                     child: InkWell(
                         onTap: () {
                           widget.confirm_fun();
-                          Navigator.of(context).pop();
                         },
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Color(0xffe25d2b),
+                                color: RhColors.colorPrimary,
                                 borderRadius: BorderRadius.only(
                                     bottomRight: Radius.circular(5))),
                             alignment: Alignment.center,
                             child: Text(widget.confim_text,
                                 style: TextStyle(
-                                    color: Color(0xffffffff), fontSize: 14)))))
+                                    color: RhColors.colorWhite,
+                                    fontSize: RhFontSize.fontSize14)))))
               ]))
         ])));
   }

@@ -13,7 +13,6 @@ Future<void> main() async {
     permissionNames.add(PermissionName.Location);
     permissionNames.add(PermissionName.Camera);
     permissionNames.add(PermissionName.Storage);
-    // List<Permissions> permissions = await Permission.requestPermissions(permissionNames);
   runApp(MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
@@ -36,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       allowFontScaling: false,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/login_regis',
+        initialRoute: '/navigator',
         onGenerateRoute: onGenerateRoute,
         theme: ThemeData(primaryColor: Color(0xffe25d2b)),
       ),

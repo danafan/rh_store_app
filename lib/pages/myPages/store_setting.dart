@@ -55,10 +55,12 @@ class _StoreSettingState extends State<StoreSetting> {
         title: Text('店铺设置',
             style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
       ),
-      body: Column(
+      body: SingleChildScrollView(
+          child: Column(
         children: <Widget>[
           _rowItem('店铺名称', true, _rowExpandWidget('盛宴海鲜自助餐厅', true)),
           _rowItem('经营品类', true, _rowExpandWidget('火锅', true)),
+          _rowItem('登录名', true, _rowExpandWidget('13067882143', true)),
           _rowItem(
               '店铺主图',
               false,
@@ -198,7 +200,7 @@ class _StoreSettingState extends State<StoreSetting> {
                 child: _rowExpandWidget('', false),
               )),
         ],
-      ),
+      )),
     );
   }
 

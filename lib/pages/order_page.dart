@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
+import '../service/config_tool.dart';
+
 import '../widgets/order_list.dart';
 
 class OrderPage extends StatefulWidget {
@@ -22,7 +24,6 @@ class _OrderPageState extends State<OrderPage>
   @override
   void dispose() {
     this._tabController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -33,31 +34,40 @@ class _OrderPageState extends State<OrderPage>
             preferredSize:
                 Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(90)),
             child: AppBar(
-              backgroundColor: Color(0xff0a0b17),
+              backgroundColor: RhColors.colorAppBar,
               brightness: Brightness.dark,
               title: TabBar(
                   controller: this._tabController,
-                  labelColor: Color(0xff333333),
-                  unselectedLabelColor: Color(0xff333333),
-                  labelStyle:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                  unselectedLabelStyle: TextStyle(fontSize: 15),
-                  indicatorColor: Theme.of(context).primaryColor,
+                  labelColor: RhColors.colorTitle,
+                  unselectedLabelColor: RhColors.colorTitle,
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  unselectedLabelStyle: TextStyle(
+                      color: RhColors.colorWhite,
+                      fontSize: RhFontSize.fontSize16),
+                  indicatorColor: RhColors.colorPrimary,
                   indicatorWeight: 4.0,
                   indicatorSize: TabBarIndicatorSize.label,
                   tabs: <Widget>[
                     Tab(
                         child: Text('全部',
-                            style: TextStyle(color: Color(0xffffffff)))),
+                            style: TextStyle(
+                                color: RhColors.colorWhite,
+                                fontSize: RhFontSize.fontSize16))),
                     Tab(
                         child: Text('待核销',
-                            style: TextStyle(color: Color(0xffffffff)))),
+                            style: TextStyle(
+                                color: RhColors.colorWhite,
+                                fontSize: RhFontSize.fontSize16))),
                     Tab(
                         child: Text('已完成',
-                            style: TextStyle(color: Color(0xffffffff)))),
+                            style: TextStyle(
+                                color: RhColors.colorWhite,
+                                fontSize: RhFontSize.fontSize16))),
                     Tab(
                         child: Text('已退款',
-                            style: TextStyle(color: Color(0xffffffff)))),
+                            style: TextStyle(
+                                color: RhColors.colorWhite,
+                                fontSize: RhFontSize.fontSize16))),
                   ]),
             )),
         body: TabBarView(

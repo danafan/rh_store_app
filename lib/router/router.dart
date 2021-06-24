@@ -24,6 +24,7 @@ import '../pages/into_identity.dart';
 import '../pages/into_admin.dart';
 import '../pages/audit_status.dart';
 import '../pages/qr_code_scanner.dart';
+import '../pages/message_page.dart';
 
 //配置路由
 final routes = {
@@ -52,6 +53,7 @@ final routes = {
   '/into_admin': (context) => IntoAdmin(),
   '/audit_status': (context) => AuditStatus(),
   '/qr_code_scanner': (context) => QRScannerPage(),
+  '/message_page': (context) => MessagePage(),
 };
 
 //固定写法

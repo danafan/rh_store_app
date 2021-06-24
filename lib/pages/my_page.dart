@@ -178,7 +178,7 @@ class _MyPageState extends State<MyPage> {
                             cancel_fun: () {},
                             confirm_fun: () {
                               var arr = 173;
-                              for(var i = 0;i <= 192; i ++){
+                              for (var i = 0; i <= 192; i++) {
                                 arr += i;
                               }
                               print(arr);
@@ -210,32 +210,57 @@ class _MyPageState extends State<MyPage> {
             child: Image.network(
                 'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
                 height: ScreenUtil().setHeight(130),
-                width: ScreenUtil().setHeight(130),
+                width: ScreenUtil().setHeight(169),
                 fit: BoxFit.cover),
           ),
           SizedBox(width: ScreenUtil().setWidth(20)),
-          Container(
+          Expanded(
+              child: Container(
             height: ScreenUtil().setHeight(130),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text(
-                  '盛宴海鲜自助餐厅',
-                  style: TextStyle(
-                      color: Color(0xffd1b171),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '13067882143',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                )
+                Text('盛宴海鲜自助餐厅',
+                    style: TextStyle(
+                        color: Color(0xffd1b171),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1),
+                _storeStatusWidget()
               ],
             ),
+          ))
+        ],
+      ),
+    );
+  }
+
+  //营业状态
+  _storeStatusWidget() {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: Color(0xffdcf6ef),
+          borderRadius:
+              BorderRadius.all(Radius.circular(ScreenUtil().setHeight(15)))),
+      height: ScreenUtil().setHeight(30),
+      width: ScreenUtil().setWidth(118),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+              decoration: BoxDecoration(
+                  color: Color(0xff47af5d),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(ScreenUtil().setHeight(8)))),
+              height: ScreenUtil().setHeight(16),
+              width: ScreenUtil().setHeight(16)),
+          Text(
+            '营业中',
+            style: TextStyle(fontSize: 11, color: Color(0xff333333)),
           )
         ],
       ),
