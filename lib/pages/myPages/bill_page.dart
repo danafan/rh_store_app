@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+
 import 'package:rh_store_app/widgets/list_bottom.dart';
 import 'package:rh_store_app/widgets/loading_more.dart';
+
 import '../../service/picker_tool.dart';
+import '../../service/config_tool.dart';
 
 class BillPage extends StatefulWidget {
   @override
@@ -13,9 +16,9 @@ class _BillPageState extends State<BillPage> {
   //当前时间
   var now = new DateTime.now();
   //选中的当前月份
-  String current_month = "";
+  String _currentMonth = "";
   //账单列表
-  List<String> _commentList = [];
+  List<Map> _commentList = [];
   //是否加载中
   bool _isLoad = false;
   //是否加载了全部
@@ -49,7 +52,7 @@ class _BillPageState extends State<BillPage> {
       }
     });
     //设置当前选中月
-    this.current_month = now.year.toString() +
+    this._currentMonth = now.year.toString() +
         '-' +
         (now.month < 10 ? '0' + now.month.toString() : now.month.toString());
   }
@@ -57,19 +60,77 @@ class _BillPageState extends State<BillPage> {
   //加载更多数据
   Future _loadMoreData() {
     return Future.delayed(Duration(seconds: 1), () {
-      List<String> newsList = [
-        '1',
-        '2',
-        '3',
-        '1',
-        '2',
-        '3',
-        '1',
-        '2',
-        '3',
-        '1',
-        '2',
-        '3'
+      List<Map> newsList = [
+        {
+          'type': '1',
+          'name': '订单收入',
+          'subName': '胡晓川单人套餐',
+          'time': '2021_06_28 13:32:48',
+          'money': '99'
+        },
+        {
+          'type': '2',
+          'name': '账户提现',
+          'subName': '中国工商银行(3053)',
+          'time': '2021_06_28 13:32:48',
+          'money': '1088'
+        },
+        {
+          'type': '1',
+          'name': '订单收入',
+          'subName': '胡晓川单人套餐',
+          'time': '2021_06_28 13:32:48',
+          'money': '99'
+        },
+        {
+          'type': '2',
+          'name': '账户提现',
+          'subName': '中国工商银行(3053)',
+          'time': '2021_06_28 13:32:48',
+          'money': '1088'
+        },
+        {
+          'type': '1',
+          'name': '订单收入',
+          'subName': '胡晓川单人套餐',
+          'time': '2021_06_28 13:32:48',
+          'money': '99'
+        },
+        {
+          'type': '2',
+          'name': '账户提现',
+          'subName': '中国工商银行(3053)',
+          'time': '2021_06_28 13:32:48',
+          'money': '1088'
+        },
+        {
+          'type': '1',
+          'name': '订单收入',
+          'subName': '胡晓川单人套餐',
+          'time': '2021_06_28 13:32:48',
+          'money': '99'
+        },
+        {
+          'type': '2',
+          'name': '账户提现',
+          'subName': '中国工商银行(3053)',
+          'time': '2021_06_28 13:32:48',
+          'money': '1088'
+        },
+        {
+          'type': '1',
+          'name': '订单收入',
+          'subName': '胡晓川单人套餐',
+          'time': '2021_06_28 13:32:48',
+          'money': '99'
+        },
+        {
+          'type': '2',
+          'name': '账户提现',
+          'subName': '中国工商银行(3053)',
+          'time': '2021_06_28 13:32:48',
+          'money': '1088'
+        }
       ];
       setState(() {
         this._isLoad = false;
@@ -100,27 +161,30 @@ class _BillPageState extends State<BillPage> {
               slivers: <Widget>[
                 SliverAppBar(
                   elevation: 0,
-                  backgroundColor: Color(0xff0a0b17),
+                  backgroundColor: RhColors.colorAppBar,
                   brightness: Brightness.dark,
                   pinned: true,
                   leading: IconButton(
-                      icon:
-                          Icon(Icons.arrow_back_ios, color: Color(0xffffffff)),
+                      icon: Icon(Icons.arrow_back_ios,
+                          color: RhColors.colorWhite),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
-                  title: Text('账单', style: TextStyle(color: Color(0xffffffff),fontSize: 18)),
+                  title: Text('账单',
+                      style: TextStyle(
+                          color: RhColors.colorWhite,
+                          fontSize: RhFontSize.fontSize18)),
                   expandedHeight: 56 + ScreenUtil().setHeight(90),
                   flexibleSpace: FlexibleSpaceBar(
                     background: _filterTime(),
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((content, index) {
                       if (index < this._commentList.length) {
-                        return _billItem('1', '100');
+                        return _billItem(this._commentList[index]);
                       } else {
                         if (this._isLoad) {
                           return LoadingMore();
@@ -135,12 +199,12 @@ class _BillPageState extends State<BillPage> {
             )));
   }
 
-  //时间筛选
+  //顶部appbar
   _filterTime() {
     return Column(children: <Widget>[
       SizedBox(height: MediaQuery.of(context).padding.top + 56),
       Container(
-          padding: EdgeInsets.only(left: 8, right: 8),
+          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
           height: ScreenUtil().setHeight(90),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,17 +212,12 @@ class _BillPageState extends State<BillPage> {
               InkWell(
                   onTap: () {
                     JhPickerTool.showDatePicker(context,
-                        //dateType: DateType.YMD,
                         dateType: DateType.YM,
-                        //dateType: DateType.YMD_HM,
-                        //dateType: DateType.YMD_AP_HM,
-                        //title: "请选择2",
                         minValue: DateTime(2020, 08),
                         maxValue: DateTime(now.year, now.month),
-                        //value: DateTime(2020,10,10),
                         clickCallback: (var str, var time) {
                       this.setState(() {
-                        current_month = str;
+                        _currentMonth = str;
                       });
                     });
                   },
@@ -166,13 +225,16 @@ class _BillPageState extends State<BillPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '${current_month}',
+                        _currentMonth,
                         style: TextStyle(
-                            color: Color(0xffffffff),
-                            fontSize: 16,
+                            color: RhColors.colorWhite,
+                            fontSize: RhFontSize.fontSize16,
                             fontWeight: FontWeight.bold),
                       ),
-                      Icon(Icons.arrow_right,color: Color(0xffffffff),)
+                      Icon(
+                        Icons.arrow_right,
+                        color: RhColors.colorWhite,
+                      )
                     ],
                   )),
               Column(
@@ -182,37 +244,41 @@ class _BillPageState extends State<BillPage> {
                   RichText(
                     text: TextSpan(
                         text: '收入',
-                        style:
-                            TextStyle(fontSize: 14, color: Color(0xffffffff)),
+                        style: TextStyle(
+                            fontSize: RhFontSize.fontSize14,
+                            color: RhColors.colorWhite),
                         children: <TextSpan>[
                           TextSpan(
                               text: ' +13284.32 ',
                               style: TextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: RhFontSize.fontSize18,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xffe25d2b))),
+                                  color: RhColors.colorPrimary)),
                           TextSpan(
                               text: '2笔',
                               style: TextStyle(
-                                  fontSize: 14.0, color: Color(0xffffffff)))
+                                  fontSize: RhFontSize.fontSize14,
+                                  color: RhColors.colorWhite))
                         ]),
                   ),
                   RichText(
                     text: TextSpan(
                         text: '支出',
-                        style:
-                            TextStyle(fontSize: 14, color: Color(0xffffffff)),
+                        style: TextStyle(
+                            fontSize: RhFontSize.fontSize14,
+                            color: RhColors.colorWhite),
                         children: <TextSpan>[
                           TextSpan(
                               text: ' -134.38 ',
                               style: TextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: RhFontSize.fontSize18,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xffffffff))),
+                                  color: RhColors.colorWhite)),
                           TextSpan(
                               text: '1笔',
                               style: TextStyle(
-                                  fontSize: 14.0, color: Color(0xffffffff)))
+                                  fontSize: RhFontSize.fontSize14,
+                                  color: RhColors.colorWhite))
                         ]),
                   )
                 ],
@@ -223,13 +289,13 @@ class _BillPageState extends State<BillPage> {
   }
 
   //账单item
-  _billItem(type, number) {
+  _billItem(item) {
     return Container(
-      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+      margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(10)),
       padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
       height: ScreenUtil().setHeight(138),
       decoration: BoxDecoration(
-          color: Color(0xffffffff), borderRadius: BorderRadius.circular(5)),
+          color: RhColors.colorWhite, borderRadius: BorderRadius.circular(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -237,30 +303,27 @@ class _BillPageState extends State<BillPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              type == '1'
-                  ? Text('订单收入',
-                      style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold))
-                  : Text('提现',
-                      style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold)),
-              type == '1'
-                  ? Text('胡晓川单人套餐',
-                      style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14))
-                  : Text('中国银行（3053）',
-                      style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14)),
-              Text('操作时间：2020-08-20 13:42:34',
-                  style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14))
+              Text(item['name'],
+                  style: TextStyle(
+                      color: RhColors.colorTitle,
+                      fontSize: RhFontSize.fontSize14,
+                      fontWeight: FontWeight.bold)),
+              Text(item['subName'],
+                  style: TextStyle(
+                      color: RhColors.colorTitle,
+                      fontSize: RhFontSize.fontSize14)),
+              Text('操作时间：${item['time']}',
+                  style: TextStyle(
+                      color: RhColors.colorDesc,
+                      fontSize: RhFontSize.fontSize12))
             ],
           ),
-          Text('${type == '1' ? '+' : '-'}100',
+          Text('${item['type'] == '1' ? '+' : '-'}${item['money']}',
               style: TextStyle(
-                  color: type == '1' ? Color(0xffe25d2b) : Color(0xff333333),
-                  fontSize: 18,
+                  color: item['type'] == '1'
+                      ? RhColors.colorPrimary
+                      : RhColors.colorTitle,
+                  fontSize: RhFontSize.fontSize16,
                   fontWeight: FontWeight.bold))
         ],
       ),

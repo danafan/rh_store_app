@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
+import '../../service/config_tool.dart';
+
 class BusinessInfo extends StatefulWidget {
   @override
   _BusinessInfoState createState() => _BusinessInfoState();
@@ -11,11 +13,12 @@ class _BusinessInfoState extends State<BusinessInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0a0b17),
+            backgroundColor: RhColors.colorAppBar,
             brightness: Brightness.dark,
             title: Text(
               '营业资质',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18),
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18),
             )),
         body: SingleChildScrollView(
             child: Container(
@@ -53,8 +56,8 @@ class _BusinessInfoState extends State<BusinessInfo> {
   _titleWidget(text) {
     return Text(text,
         style: TextStyle(
-            color: Color(0xff333333),
-            fontSize: 14,
+            color: RhColors.colorTitle,
+            fontSize: RhFontSize.fontSize14,
             fontWeight: FontWeight.bold));
   }
 

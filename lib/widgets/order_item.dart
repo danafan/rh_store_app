@@ -11,13 +11,12 @@ class OrderItem extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(8)),
-        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
-        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
         child: Column(
           children: <Widget>[
             Container(
-                padding:
-                    EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(10)),
+                margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(10)),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -27,8 +26,8 @@ class OrderItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(23),
                             child: Image.network(
                                 'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                                height: 46,
-                                width: 46,
+                                height: ScreenUtil().setWidth(80),
+                                width: ScreenUtil().setWidth(80),
                                 fit: BoxFit.cover),
                           ),
                           SizedBox(width: ScreenUtil().setWidth(8)),
@@ -56,8 +55,8 @@ class OrderItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       child: Image.network(
                           'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                          height: 80,
-                          width: 104,
+                          height: ScreenUtil().setHeight(110),
+                          width: ScreenUtil().setHeight(143),
                           fit: BoxFit.cover),
                     ),
                     SizedBox(width: ScreenUtil().setWidth(8)),
@@ -67,41 +66,13 @@ class OrderItem extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('胡晓川双人套餐',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize16,
-                                    fontWeight: FontWeight.bold)),
-                            Text('单价：¥98.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('数量：x1',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('平台红包：-¥10.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('积分抵扣：-¥10.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('余额抵扣：-¥0.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('用户实付金额：¥88.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
+                            _textRow('胡晓川双人套餐'),
+                            _textRow('单价：¥98.00'),
+                            _textRow('数量：x1'),
+                            _textRow('平台红包：-¥10.00'),
+                            _textRow('积分抵扣：-¥10.00'),
+                            _textRow('余额抵扣：-¥0.00'),
+                            _textRow('用户实付金额：¥88.00'),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
@@ -118,31 +89,11 @@ class OrderItem extends StatelessWidget {
                                         height: ScreenUtil().setHeight(2.6))),
                               ],
                             ),
-                            Text('付款时间：2020-08-20 13:32:48',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('核销时间：2020-08-20 13:32:48',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('退款金额：¥88.00',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('退款时间：2020-08-20 13:32:48',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8))),
-                            Text('退款原因：其他平台比这个便宜；就是不想来消费了；没时间，来不了',
-                                style: TextStyle(
-                                    color: RhColors.colorTitle,
-                                    fontSize: RhFontSize.fontSize14,
-                                    height: ScreenUtil().setHeight(2.8)))
+                            _textRow('付款时间：2020-08-20 13:32:48'),
+                            _textRow('核销时间：2020-08-20 13:32:48'),
+                            _textRow('退款金额：¥88.00'),
+                            _textRow('退款时间：2020-08-20 13:32:48'),
+                            _textRow('退款原因：其他平台比这个便宜；就是不想来消费了；没时间，来不了')
                           ],
                         ))
                   ],
@@ -158,5 +109,13 @@ class OrderItem extends StatelessWidget {
                         color: RhColors.colorPrimary)))
           ],
         ));
+  }
+
+  //每一行文字
+  _textRow(text) {
+    return Text(text,
+        style: TextStyle(
+            color: RhColors.colorTitle,
+            fontSize: RhFontSize.fontSize14));
   }
 }

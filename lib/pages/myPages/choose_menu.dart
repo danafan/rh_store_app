@@ -6,9 +6,10 @@ import '../../widgets/list_bottom.dart';
 import '../../widgets/loading_more.dart';
 
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class ChooseMenu extends StatefulWidget {
-  Map arguments;
+  final Map arguments;
   ChooseMenu({this.arguments});
   @override
   _ChooseMenuState createState() => _ChooseMenuState();
@@ -195,15 +196,18 @@ class _ChooseMenuState extends State<ChooseMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0a0b17),
+            backgroundColor: RhColors.colorAppBar,
             brightness: Brightness.dark,
-            title: Text('选择菜品', style: TextStyle(fontSize: 18)),
+            title: Text('选择菜品',
+                style: TextStyle(
+                    color: RhColors.colorWhite,
+                    fontSize: RhFontSize.fontSize18)),
             bottom: PreferredSize(
               child: Container(
                 padding: EdgeInsets.only(
                     left: ScreenUtil().setWidth(15),
                     right: ScreenUtil().setWidth(15)),
-                color: Color(0xffffffff),
+                color: RhColors.colorWhite,
                 height: ScreenUtil().setHeight(70),
                 width: double.infinity,
                 child: SearchWidget(
@@ -228,7 +232,8 @@ class _ChooseMenuState extends State<ChooseMenu> {
                         child: RefreshIndicator(
                             onRefresh: this.onRefresh,
                             child: ListView.builder(
-                                padding: EdgeInsets.only(left: 8),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: ScreenUtil().setWidth(8)),
                                 controller: this._scrollController,
                                 itemCount: this._menuList.length + 1,
                                 itemBuilder: (context, index) {
@@ -247,7 +252,7 @@ class _ChooseMenuState extends State<ChooseMenu> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: Color(0xffffffff),
+                  color: RhColors.colorWhite,
                   border: Border(
                       top: BorderSide(width: 2, color: Color(0xffF1F6F9)))),
               height: ScreenUtil().setHeight(90),
@@ -260,7 +265,7 @@ class _ChooseMenuState extends State<ChooseMenu> {
                       child: Text(
                         '已选（${_activeIdList.length}）',
                         style:
-                            TextStyle(color: Color(0xffffffff), fontSize: 14),
+                            TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14),
                       )),
                   Expanded(
                       child: InkWell(
@@ -277,11 +282,11 @@ class _ChooseMenuState extends State<ChooseMenu> {
                     child: Container(
                         alignment: Alignment.center,
                         color: _activeIdList.length > 0
-                            ? Color(0xffe25d2b)
-                            : Color(0xff8a8a8a),
+                            ? RhColors.colorPrimary
+                            : RhColors.colorDesc,
                         child: Text(_activeIdList.length > 0 ? '选好了' : '请选择',
                             style: TextStyle(
-                                color: Color(0xffffffff), fontSize: 16))),
+                                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14))),
                   ))
                 ],
               ),
@@ -309,9 +314,8 @@ class _ChooseMenuState extends State<ChooseMenu> {
       },
       child: Container(
           decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+              border: Border(bottom: BorderSide(color: RhColors.colorLine))),
           height: ScreenUtil().setHeight(130),
-          padding: EdgeInsets.only(right: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -334,18 +338,20 @@ class _ChooseMenuState extends State<ChooseMenu> {
                     Text(this._menuList[index]['name'],
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 14,
+                            color: RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize14,
                             fontWeight: FontWeight.bold)),
                     Text(
                         '¥${this._menuList[index]['price']}/${this._menuList[index]['unit']}',
-                        style:
-                            TextStyle(color: Color(0xffe25d2b), fontSize: 14))
+                        style: TextStyle(
+                            color: RhColors.colorPrimary,
+                            fontSize: RhFontSize.fontSize14))
                   ])),
               this._menuList[index]['is_select'] == true
-                  ? Icon(Icons.check_circle, size: 20, color: Color(0xffe25d2b))
+                  ? Icon(Icons.check_circle,
+                      size: 20, color: RhColors.colorPrimary)
                   : Icon(Icons.check_circle_outline,
-                      size: 20, color: Color(0xff8a8a8a))
+                      size: 20, color: RhColors.colorDesc)
             ],
           )),
     );
@@ -359,22 +365,30 @@ class _ChooseMenuState extends State<ChooseMenu> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('没有任何菜品哦，快去添加吧~',
-                style: TextStyle(color: Color(0xff333333), fontSize: 14)),
+                style: TextStyle(
+                    color: RhColors.colorTitle,
+                    fontSize: RhFontSize.fontSize14)),
             SizedBox(height: ScreenUtil().setHeight(10)),
             InkWell(
               onTap: () {
-                Map arg = {'pageType': '1','id':this._categoryId,'name':this._categoryName};
+                Map arg = {
+                  'pageType': '1',
+                  'id': this._categoryId,
+                  'name': this._categoryName
+                };
                 Navigator.pushNamed(context, '/add_menu', arguments: arg);
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Color(0xffe25d2b),
+                    color: RhColors.colorPrimary,
                     borderRadius: BorderRadius.circular(3)),
                 alignment: Alignment.center,
                 width: ScreenUtil().setWidth(150),
                 height: ScreenUtil().setHeight(60),
                 child: Text('去添加',
-                    style: TextStyle(color: Color(0xffffffff), fontSize: 13)),
+                    style: TextStyle(
+                        color: RhColors.colorWhite,
+                        fontSize: RhFontSize.fontSize12)),
               ),
             )
           ],

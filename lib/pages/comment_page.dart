@@ -5,6 +5,8 @@ import '../widgets/list_bottom.dart';
 import '../widgets/loading_more.dart';
 import '../widgets/comment_item.dart';
 
+import '../service/config_tool.dart';
+
 class CommentPage extends StatefulWidget {
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -78,7 +80,7 @@ class _CommentPageState extends State<CommentPage> {
             preferredSize:
                 Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(90)),
             child: AppBar(
-              backgroundColor: Color(0xff0a0b17),
+              backgroundColor: RhColors.colorAppBar,
               brightness: Brightness.dark,
               title: _topLabel(),
             )),
@@ -107,78 +109,37 @@ class _CommentPageState extends State<CommentPage> {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-          Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('综合评分',
-                    style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Text('4.8',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 18)),
-                    Text('(分)',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12))
-                  ],
-                )
-              ]),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('评价总数',
-                    style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Text('762',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 18)),
-                    Text('(条)',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12))
-                  ],
-                )
-              ]),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('好评率',
-                    style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Text('89',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 18)),
-                    Text('(%)',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12))
-                  ],
-                )
-              ])
+          _topItem('综合评分', '4.8', '分'),
+          _topItem('评价总数', '762', '条'),
+          _topItem('好评率', '89', '%')
         ]));
   }
+}
+
+//顶部每个item
+_topItem(title, num, unit) {
+  return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text(title,
+            style: TextStyle(
+                color: RhColors.colorWhite,
+                fontSize: RhFontSize.fontSize14,
+                fontWeight: FontWeight.bold)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Text(num,
+                style: TextStyle(
+                    color: RhColors.colorPrimary,
+                    fontSize: RhFontSize.fontSize18)),
+            Text('($unit)',
+                style: TextStyle(
+                    color: RhColors.colorPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12))
+          ],
+        )
+      ]);
 }

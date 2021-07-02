@@ -2,34 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../service/toast_tool.dart';
 import '../widgets/dialog_widget.dart';
 
+import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
+
 class PackageItem extends StatelessWidget {
-  String _itemType;
-  int _index;
-  PackageItem(this._itemType, this._index);
+  final String itemType;
+  final int index;
+  PackageItem({this.itemType, this.index});
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(15)),
         child: Slidable(
-          key: ValueKey("$_index"),
+          key: ValueKey(index),
           //左侧滑动部分
-          actions: leftActionsArray(this._itemType, context),
+          actions: leftActionsArray(this.itemType, context),
           //右侧滑动部分
-          secondaryActions: rightActionsArray(this._itemType, context),
+          secondaryActions: rightActionsArray(this.itemType, context),
           //滑动的交互效果
           actionPane: SlidableDrawerActionPane(),
           //item内容
-          child: _packageItem(this._itemType),
+          child: _packageItem(this.itemType),
         ));
   }
 
   //item内容
   _packageItem(_itemType) {
     String _desc = ""; //中间提示文字
-    Color _descColor = Color(0xff8a8a8a); //提示文字颜色
+    Color _descColor = RhColors.colorDesc; //提示文字颜色
     if (_itemType == '1') {
       //已上架
       _desc = '已售12';
@@ -50,20 +52,20 @@ class PackageItem extends StatelessWidget {
       _descColor = Color(0xffE5A751);
     }
     return Container(
-      color: Color(0xffffffff),
+      color: RhColors.colorWhite,
       child: Row(
         children: <Widget>[
           Image.network(
               'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-              height: ScreenUtil().setHeight(150),
-              width: ScreenUtil().setHeight(195),
+              height: ScreenUtil().setHeight(130),
+              width: ScreenUtil().setHeight(169),
               fit: BoxFit.cover),
           SizedBox(
             width: ScreenUtil().setWidth(10),
           ),
           Expanded(
               child: Container(
-                  height: ScreenUtil().setHeight(140),
+                  height: ScreenUtil().setHeight(120),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,32 +76,34 @@ class PackageItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 14,
+                            color: RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize14,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '${_desc}',
-                        style: TextStyle(color: _descColor, fontSize: 14),
+                        _desc,
+                        style: TextStyle(
+                            color: _descColor, fontSize: RhFontSize.fontSize12),
                       ),
                       RichText(
                           text: TextSpan(
                               text: '¥',
                               style: TextStyle(
-                                  fontSize: 14, color: Color(0xffe25d2b)),
+                                  fontSize: RhFontSize.fontSize14,
+                                  color: RhColors.colorPrimary),
                               children: <TextSpan>[
                             TextSpan(
                                 text: '108  ',
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: RhFontSize.fontSize16,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xffe25d2b))),
+                                    color: RhColors.colorPrimary)),
                             TextSpan(
                                 text: '¥198',
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
-                                    fontSize: 14,
-                                    color: Color(0xff8a8a8a)))
+                                    fontSize: RhFontSize.fontSize14,
+                                    color: RhColors.colorDesc))
                           ]))
                     ],
                   )))
@@ -113,54 +117,16 @@ class PackageItem extends StatelessWidget {
     List<Widget> _settingButton = [];
     if (_itemType == '1') {
       //已上架
-      _settingButton.add(_iconSlideAction(
-          Icons.vertical_align_top, '置顶', Color(0xffe25d2b), () {
-        showDialog<Null>(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: DialogWidget(
-                  title: '提示',
-                  content_widget: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
-                    child: Text('确认将该商品展示在第一位?'),
-                  ),
-                  cancel_fun: () {},
-                  confirm_fun: () {
-                    ToastTool.toastWidget(context, msg: '已置顶');
-                  }),
-            );
-          },
-        ).then((val) {});
-      }));
+      _showDialog(_settingButton, context, Icons.vertical_align_top, '置顶',
+          RhColors.colorPrimary, '确认将该商品展示在第一位?', _itemType);
     } else if (_itemType == '2' || _itemType == '3') {
       //已下架/审核通过
-      _settingButton
-          .add(_iconSlideAction(Icons.check, '上架', Color(0xffe25d2b), () {
-        showDialog<Null>(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: DialogWidget(
-                  title: '提示',
-                  content_widget: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
-                    child: Text('确认上架该商品?'),
-                  ),
-                  cancel_fun: () {},
-                  confirm_fun: () {
-                    ToastTool.toastWidget(context, msg: '已上架');
-                  }),
-            );
-          },
-        ).then((val) {});
-      }));
+      _showDialog(_settingButton, context, Icons.check, '上架',
+          RhColors.colorPrimary, '确认上架该商品?', _itemType);
     } else if (_itemType == '4') {
       //审核拒绝
       _settingButton
-          .add(_iconSlideAction(Icons.edit, '重新编辑', Color(0xffe25d2b), () {
+          .add(_iconSlideAction(Icons.edit, '重新编辑', RhColors.colorPrimary, () {
         Map arg = {'pageType': '2'};
         Navigator.pushNamed(context, '/created_package', arguments: arg);
       }));
@@ -173,75 +139,44 @@ class PackageItem extends StatelessWidget {
     List<Widget> _settingButton = [];
     if (_itemType == '1') {
       //已上架
-      _settingButton.add(_iconSlideAction(
-          Icons.vertical_align_bottom, '下架', Color(0xff8a8a8a), () {
-        showDialog<Null>(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: DialogWidget(
-                  title: '提示',
-                  content_widget: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
-                    child: Text('确认下架该商品?'),
-                  ),
-                  cancel_fun: () {},
-                  confirm_fun: () {
-                    ToastTool.toastWidget(context, msg: '已下架');
-                  }),
-            );
-          },
-        ).then((val) {});
-      }));
+      _showDialog(_settingButton, context, Icons.vertical_align_bottom, '下架',
+          RhColors.colorDesc, '确认下架该商品?', _itemType);
     } else if (_itemType == '2' || _itemType == '3' || _itemType == '4') {
       //已下架/审核通过/审核拒绝
-      _settingButton
-          .add(_iconSlideAction(Icons.delete, '删除', Color(0xff8a8a8a), () {
-        showDialog<Null>(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: DialogWidget(
-                  title: '提示',
-                  content_widget: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
-                    child: Text('确认删除该商品?'),
-                  ),
-                  cancel_fun: () {},
-                  confirm_fun: () {
-                    ToastTool.toastWidget(context, msg: '已删除');
-                  }),
-            );
-          },
-        ).then((val) {});
-      }));
+      _showDialog(_settingButton, context, Icons.delete, '删除',
+          RhColors.colorDesc, '确认删除该商品?', _itemType);
     } else if (_itemType == '5') {
       //待审核
-      _settingButton.add(
-          _iconSlideAction(Icons.keyboard_return, '撤销', Color(0xff8a8a8a), () {
-        showDialog<Null>(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: DialogWidget(
-                  title: '提示',
-                  content_widget: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
-                    child: Text('撤销后平台将不再审核该商品，并删除该商品，确认撤销?'),
-                  ),
-                  cancel_fun: () {},
-                  confirm_fun: () {
-                    ToastTool.toastWidget(context, msg: '已撤销');
-                  }),
-            );
-          },
-        ).then((val) {});
-      }));
+      _showDialog(_settingButton, context, Icons.keyboard_return, '撤销',
+          RhColors.colorDesc, '撤销后平台将不再审核该商品，并删除该商品，确认撤销?', _itemType);
     }
     return _settingButton;
+  }
+
+  //可滑动的部分
+  _showDialog(
+      _settingButton, context, icon, caption, color, toastText, itemType) {
+    _settingButton.add(_iconSlideAction(icon, caption, color, () {
+      showDialog<Null>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: DialogWidget(
+                title: '提示',
+                content_widget: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: ScreenUtil().setHeight(30)),
+                  child: Text(toastText),
+                ),
+                cancel_fun: () {},
+                confirm_fun: () {
+                  Navigator.pop(context);
+                  ToastTool.toastWidget(context, msg: '类型ID：$itemType');
+                }),
+          );
+        },
+      ).then((val) {});
+    }));
   }
 
   //滑动的按钮组件

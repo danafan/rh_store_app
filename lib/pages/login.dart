@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   //手机号正则
   final _phoneRegExp = new RegExp(r'^1[3456789]\d{9}$');
   //倒计时计时器
-  var _timer = null;
+  var _timer;
   //倒计时时间
   int _countdownTime = 60;
   //获取验证码文字
@@ -29,10 +29,12 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    super.dispose();
+    this._phoneController.dispose();
+    this._codeController.dispose();
     if (_timer != null) {
       _timer.cancel();
     }
+    super.dispose();
   }
 
   @override

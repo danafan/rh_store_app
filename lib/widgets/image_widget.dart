@@ -1,10 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageWidget extends StatefulWidget {
-  List imageFileList;
+  final List imageFileList;
   final callBack;
   
   ImageWidget({this.imageFileList,this.callBack});
@@ -19,7 +18,7 @@ class _ImageWidgetState extends State<ImageWidget> {
       child: Image.file(
         widget.imageFileList[0],
         width: ScreenUtil().setWidth(195),
-        height: ScreenUtil().setWidth(195),
+        height: ScreenUtil().setWidth(150),
         fit: BoxFit.cover,
       ),
       onTap: () {

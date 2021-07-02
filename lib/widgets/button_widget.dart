@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
 class ButtonWidget extends StatelessWidget {
-  String text = "";
+  final String text;
   final buttonBack;
   ButtonWidget({this.text, this.buttonBack});
   @override

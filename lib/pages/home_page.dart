@@ -474,7 +474,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                   color: RhColors.colorPrimary,
                   fontSize: 20,
-                  fontWeight: FontWeight.w600)),
+                  fontWeight: FontWeight.bold)),
         ]);
   }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/screen_util.dart';
+
 import '../../widgets/button_widget.dart';
+
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class CashPage extends StatefulWidget {
   @override
@@ -16,13 +18,20 @@ class _CashPageState extends State<CashPage> {
   final _cashMoneyController = TextEditingController();
 
   @override
+  void dispose() {
+    _cashMoneyController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('提现',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: GestureDetector(
           behavior: HitTestBehavior.translucent,
@@ -39,25 +48,26 @@ class _CashPageState extends State<CashPage> {
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Color(0xffffffff)),
+                    color: RhColors.colorWhite),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text('到账银行',
                           style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: 16,
+                              color: RhColors.colorTitle,
+                              fontSize: RhFontSize.fontSize16,
                               fontWeight: FontWeight.bold)),
                       RichText(
                         text: TextSpan(
-                            text: '中国工商银行',
-                            style: TextStyle(
-                                fontSize: 16, color: Color(0xff333333)),
+                            style: TextStyle(fontSize: RhFontSize.fontSize14),
                             children: <TextSpan>[
                               TextSpan(
+                                  text: '中国工商银行',
+                                  style: TextStyle(color: RhColors.colorTitle)),
+                              TextSpan(
                                   text: '（3053）',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Color(0xffe25d2b)))
+                                  style:
+                                      TextStyle(color: RhColors.colorPrimary))
                             ]),
                       )
                     ]),
@@ -69,28 +79,28 @@ class _CashPageState extends State<CashPage> {
                     EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Color(0xffffffff)),
+                    color: RhColors.colorWhite),
                 child: Column(children: <Widget>[
                   Container(
                     alignment: Alignment.centerLeft,
                     height: ScreenUtil().setHeight(90),
                     child: Text('提现金额',
                         style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 16,
+                            color: RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize16,
                             fontWeight: FontWeight.bold)),
                   ),
                   TextField(
                     controller: this._cashMoneyController,
                     style: TextStyle(
-                        color: Color(0xffe25d2b),
-                        fontSize: 22,
+                        color: RhColors.colorPrimary,
+                        fontSize: RhFontSize.fontSize18,
                         fontWeight: FontWeight.bold),
-                    cursorColor: Color(0xffe25d2b),
+                    cursorColor: RhColors.colorPrimary,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: '请输入提现金额',
-                      hintStyle: TextStyle(fontSize: 22),
+                      hintStyle: TextStyle(fontSize: RhFontSize.fontSize18),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(15)),
@@ -100,9 +110,10 @@ class _CashPageState extends State<CashPage> {
                   SizedBox(height: ScreenUtil().setHeight(10)),
                   Row(
                     children: <Widget>[
-                      Text('可提现金额 ${_withdrawable} 元',
+                      Text('可提现金额 $_withdrawable 元',
                           style: TextStyle(
-                              fontSize: 14, color: Color(0xff8a8a8a))),
+                              fontSize: RhFontSize.fontSize14,
+                              color: RhColors.colorDesc)),
                       SizedBox(width: ScreenUtil().setWidth(30)),
                       InkWell(
                         onTap: () {
@@ -112,7 +123,8 @@ class _CashPageState extends State<CashPage> {
                         },
                         child: Text('全部提现',
                             style: TextStyle(
-                                fontSize: 14, color: Color(0xffe25d2b))),
+                                fontSize: RhFontSize.fontSize14,
+                                color: RhColors.colorPrimary)),
                       )
                     ],
                   ),

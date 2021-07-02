@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../service/config_tool.dart';
+
 class UploadImg extends StatefulWidget {
   final callBack;
   UploadImg({this.callBack});
@@ -20,17 +22,19 @@ class _UploadImgState extends State<UploadImg> {
     return InkWell(
         onTap: this.getImage,
         child: Container(
-          color: Color(0xffF1F6F9),
+          color: RhColors.colorLine,
           width: ScreenUtil().setWidth(195),
-          height: ScreenUtil().setWidth(195),
+          height: ScreenUtil().setWidth(150),
           alignment: Alignment.center,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.camera_alt, color: Color(0xff8a8a8a), size: 24),
+                Icon(Icons.camera_alt, color: RhColors.colorDesc, size: 24),
                 Text(
                   '上传图片',
-                  style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14),
+                  style: TextStyle(
+                      color: RhColors.colorDesc,
+                      fontSize: RhFontSize.fontSize14),
                 )
               ]),
         ));

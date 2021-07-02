@@ -3,10 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
 
 //添加分类的弹框
 class DialogWidget extends StatefulWidget {
-  Map packageItem;
+  final Map packageItem;
   final dialogCallBack;
   DialogWidget({this.packageItem, this.dialogCallBack});
 
@@ -25,7 +26,6 @@ class _DialogWidgetState extends State<DialogWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     packageItem = widget.packageItem;
     _cateNameController.text = packageItem['cateName'];
@@ -35,7 +35,6 @@ class _DialogWidgetState extends State<DialogWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     this._cateNameController.dispose();
     this._numController.dispose();
@@ -57,8 +56,8 @@ class _DialogWidgetState extends State<DialogWidget> {
                 alignment: Alignment.center,
                 child: Text('添加',
                     style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 16,
+                        color: RhColors.colorTitle,
+                        fontSize: RhFontSize.fontSize16,
                         fontWeight: FontWeight.bold))),
             Divider(height: ScreenUtil().setHeight(1)),
             Container(
@@ -69,18 +68,20 @@ class _DialogWidgetState extends State<DialogWidget> {
                         BoxConstraints(maxHeight: ScreenUtil().setHeight(60)),
                     child: TextField(
                       controller: this._cateNameController,
-                      style: TextStyle(color: Color(0xff333333), fontSize: 16),
-                      cursorColor: Color(0xff8a8a8a),
+                      style: TextStyle(
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize14),
+                      cursorColor: RhColors.colorDesc,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         hintText: '分类名称 如 主食',
-                        hintStyle: TextStyle(fontSize: 16),
+                        hintStyle: TextStyle(fontSize: RhFontSize.fontSize14),
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                            borderSide: BorderSide(
+                                color: RhColors.colorDesc, width: 1)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                            borderSide: BorderSide(
+                                color: RhColors.colorDesc, width: 1)),
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: ScreenUtil().setWidth(15)),
                       ),
@@ -92,7 +93,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                       children: <Widget>[
                         Checkbox(
                           value: this._isMulti,
-                          activeColor: Color(0xffe25d2b),
+                          activeColor: RhColors.colorPrimary,
                           onChanged: (value) {
                             this.setState(() {
                               _isMulti = value;
@@ -101,14 +102,17 @@ class _DialogWidgetState extends State<DialogWidget> {
                         ),
                         Text(
                           '多选多',
-                          style:
-                              TextStyle(color: Color(0xff333333), fontSize: 16),
+                          style: TextStyle(
+                              color: RhColors.colorTitle,
+                              fontSize: RhFontSize.fontSize14),
                         )
                       ],
                     )),
                 Text(
                   '*如勾选则该分类将变为多选多的形式，如3选1，5选2等，分类名称也将自动拼接',
-                  style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                  style: TextStyle(
+                      color: RhColors.colorPrimary,
+                      fontSize: RhFontSize.fontSize12),
                 ),
                 SizedBox(height: ScreenUtil().setHeight(15)),
                 if (this._isMulti)
@@ -120,19 +124,20 @@ class _DialogWidgetState extends State<DialogWidget> {
                           FilteringTextInputFormatter.digitsOnly, //数字，只能是整数
                         ],
                         controller: this._numController,
-                        style:
-                            TextStyle(color: Color(0xff333333), fontSize: 16),
-                        cursorColor: Color(0xff8a8a8a),
+                        style: TextStyle(
+                            color: RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize14),
+                        cursorColor: RhColors.colorDesc,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: '可选数量（大于0的正整数）',
-                          hintStyle: TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(fontSize: RhFontSize.fontSize14),
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Color(0xff8a8a8a), width: 1)),
+                                  color: RhColors.colorDesc, width: 1)),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Color(0xff8a8a8a), width: 1)),
+                                  color: RhColors.colorDesc, width: 1)),
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(15)),
                         ),
@@ -141,7 +146,9 @@ class _DialogWidgetState extends State<DialogWidget> {
                 if (this._isMulti)
                   Text(
                     '*可选数量为该分类下菜品数量中可选的数量，如3选1中的 ‘1’',
-                    style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                    style: TextStyle(
+                        color: RhColors.colorPrimary,
+                        fontSize: RhFontSize.fontSize12),
                   )
               ]),
             ),
@@ -160,7 +167,8 @@ class _DialogWidgetState extends State<DialogWidget> {
                               child: Text(
                                 '取消',
                                 style: TextStyle(
-                                    color: Color(0xff333333), fontSize: 14),
+                                    color: RhColors.colorTitle,
+                                    fontSize: RhFontSize.fontSize14),
                               )))),
                   Expanded(
                       child: InkWell(
@@ -187,11 +195,11 @@ class _DialogWidgetState extends State<DialogWidget> {
                           },
                           child: Container(
                               alignment: Alignment.center,
-                              color: Color(0xffe25d2b),
+                              color: RhColors.colorPrimary,
                               child: Text('确认',
                                   style: TextStyle(
-                                      color: Color(0xffffffff),
-                                      fontSize: 14)))))
+                                      color: RhColors.colorWhite,
+                                      fontSize: RhFontSize.fontSize14)))))
                 ]))
           ])),
         ));

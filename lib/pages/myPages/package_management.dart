@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../widgets/package_list.dart';
 
+import '../../service/config_tool.dart';
+
 class PackageManagement extends StatefulWidget {
   @override
   _PackageManagementState createState() => _PackageManagementState();
@@ -22,7 +24,6 @@ class _PackageManagementState extends State<PackageManagement>
   @override
   void dispose() {
     this._tabController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -30,14 +31,15 @@ class _PackageManagementState extends State<PackageManagement>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text('套餐管理',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
           actions: <Widget>[
             InkWell(
                 onTap: () {
-                  Map arg = {'pageType': '1'};    //1:新建套餐；2:编辑套餐
+                  Map arg = {'pageType': '1'}; //1:新建套餐；2:编辑套餐
                   Navigator.pushNamed(context, '/created_package',
                       arguments: arg);
                 },
@@ -46,12 +48,14 @@ class _PackageManagementState extends State<PackageManagement>
                   children: <Widget>[
                     Icon(
                       Icons.add,
-                      color: Color(0xffe25d2b),
-                      size: 16,
+                      color: RhColors.colorPrimary,
+                      size: RhFontSize.fontSize16,
                     ),
                     Text(
                       '新建',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14),
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14),
                     ),
                     SizedBox(width: ScreenUtil().setWidth(30))
                   ],
@@ -62,15 +66,17 @@ class _PackageManagementState extends State<PackageManagement>
                   Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(80)),
               child: Container(
                 height: ScreenUtil().setHeight(80),
-                color: Color(0xffffffff),
+                color: RhColors.colorWhite,
                 child: TabBar(
                     controller: this._tabController,
-                    labelColor: Color(0xff333333),
-                    unselectedLabelColor: Color(0xff333333),
-                    labelStyle:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                    unselectedLabelStyle: TextStyle(fontSize: 15),
-                    indicatorColor: Theme.of(context).primaryColor,
+                    labelColor: RhColors.colorTitle,
+                    unselectedLabelColor: RhColors.colorTitle,
+                    labelStyle: TextStyle(
+                        fontSize: RhFontSize.fontSize14,
+                        fontWeight: FontWeight.bold),
+                    unselectedLabelStyle:
+                        TextStyle(fontSize: RhFontSize.fontSize14),
+                    indicatorColor: RhColors.colorPrimary,
                     indicatorWeight: 4.0,
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: <Widget>[
@@ -85,13 +91,13 @@ class _PackageManagementState extends State<PackageManagement>
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           //已上架
-          PackageList('1'),
+          PackageList(listType:'1'),
           //待上架
-          PackageList('2'),
+          PackageList(listType:'2'),
           //待审核
-          PackageList('3'),
+          PackageList(listType:'3'),
           //已拒绝
-          PackageList('4')
+          PackageList(listType:'4')
         ],
       ),
     );

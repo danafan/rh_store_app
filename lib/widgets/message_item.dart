@@ -17,7 +17,7 @@ class _MessageItemState extends State<MessageItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: widget._messageItem['isRead'] == '0'?RhColors.colorPrimary:Color(0xffffffff),
+          color: widget._messageItem['isRead'] == '0'?Color(0x0ce25d2b):Color(0xffffffff),
           border: Border(bottom: BorderSide(color: Color(0xffEDF0F7)))),
       height: ScreenUtil().setHeight(120),
       child: Row(

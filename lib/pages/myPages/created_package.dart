@@ -1,15 +1,16 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/package_dialog.dart';
 import '../../widgets/button_widget.dart';
+import '../../widgets/upload_img.dart';
 
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class CreatedPackage extends StatefulWidget {
-  Map arguments;
+  final Map arguments;
   CreatedPackage({this.arguments});
   @override
   _CreatedPackageState createState() => _CreatedPackageState();
@@ -55,29 +56,28 @@ class _CreatedPackageState extends State<CreatedPackage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this._pageType = widget.arguments['pageType'];
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     this._nameController.dispose();
     this._priceController.dispose();
     this._remarkController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text(
             '${this._pageType == '1' ? '新建' : '编辑'}套餐',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18),
           )),
       body: SingleChildScrollView(
           child: GestureDetector(
@@ -86,69 +86,43 @@ class _CreatedPackageState extends State<CreatedPackage> {
                 // 触摸收起键盘
                 FocusScope.of(context).requestFocus(FocusNode());
               },
-              child: Column(children: <Widget>[
-                //名称
-                Container(
-                    color: Color(0xffffffff),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(15)),
-                    height: ScreenUtil().setHeight(90),
-                    child: Row(children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                            text: '*',
+              child: Container(
+                  color: RhColors.colorWhite,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(15)),
+                  child: Column(children: <Widget>[
+                    //名称
+                    Container(
+                        height: ScreenUtil().setHeight(90),
+                        child: Row(children: <Widget>[
+                          _labelTitle('名称'),
+                          Expanded(
+                              child: TextField(
+                            controller: this._nameController,
                             style: TextStyle(
-                                fontSize: 18, color: Color(0xffe25d2b)),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: '名称',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Color(0xff333333))),
-                            ]),
-                      ),
-                      Expanded(
-                          child: TextField(
-                        controller: this._nameController,
-                        style:
-                            TextStyle(color: Color(0xff333333), fontSize: 16),
-                        cursorColor: Color(0xffe25d2b),
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: '套餐名称，30字以内...',
-                          hintStyle: TextStyle(fontSize: 16),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(15)),
-                        ),
-                      ))
-                    ])),
-                Divider(height: 1),
-                //图片
-                SingleChildScrollView(
-                  child: Container(
-                      color: Color(0xffffffff),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(15)),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              height: ScreenUtil().setHeight(90),
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    text: '*',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Color(0xffe25d2b)),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: '图片',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Color(0xff333333))),
-                                    ]),
-                              ),
+                                color: RhColors.colorTitle,
+                                fontSize: RhFontSize.fontSize16),
+                            cursorColor: RhColors.colorDesc,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: '套餐名称，30字以内...',
+                              hintStyle: TextStyle(
+                                  fontSize: RhFontSize.fontSize16,
+                                  color: RhColors.colorDesc),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(15)),
                             ),
+                          ))
+                        ])),
+                    Divider(height: 1),
+                    //图片
+                    SingleChildScrollView(
+                      child: Container(
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                            _labelTitle('图片'),
                             SizedBox(width: ScreenUtil().setWidth(15)),
                             Expanded(
                                 child: Container(
@@ -167,48 +141,34 @@ class _CreatedPackageState extends State<CreatedPackage> {
                                         .toList(),
                                   ),
                                   this._imageList.length < 5
-                                      ? _upLoadWidget()
+                                      ? UploadImg(callBack: (_imgFile) {
+                                          this.setState(() {
+                                            this._imageList.add(_imgFile);
+                                          });
+                                        })
                                       : SizedBox(height: 0),
                                   SizedBox(height: ScreenUtil().setHeight(15)),
                                   Text('*最多5张，建议图片比例1:1.3',
                                       style: TextStyle(
-                                          color: Color(0xffe25d2b),
-                                          fontSize: 12)),
+                                          color: RhColors.colorPrimary,
+                                          fontSize: RhFontSize.fontSize12)),
                                   Text('默认第一张为封面图，长按可切换或删除',
                                       style: TextStyle(
-                                          color: Color(0xffe25d2b),
-                                          fontSize: 12)),
+                                          color: RhColors.colorPrimary,
+                                          fontSize: RhFontSize.fontSize12)),
                                   SizedBox(height: ScreenUtil().setHeight(15))
                                 ])))
                           ])),
-                ),
-                Divider(height: 1),
-                // 内容
-                SingleChildScrollView(
-                  child: Container(
-                      color: Color(0xffffffff),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(15)),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                                height: ScreenUtil().setHeight(90),
-                                alignment: Alignment.centerLeft,
-                                child:  RichText(
-                          text: TextSpan(
-                              text: '*',
-                              style: TextStyle(
-                                  fontSize: 18, color: Color(0xffe25d2b)),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: '内容',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xff333333))),
-                              ]),
-                        ),),
+                    ),
+                    Divider(height: 1),
+                    // 内容
+                    SingleChildScrollView(
+                      child: Container(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                            _labelTitle('内容'),
                             SizedBox(width: ScreenUtil().setWidth(15)),
                             Expanded(
                                 child: Container(
@@ -219,125 +179,113 @@ class _CreatedPackageState extends State<CreatedPackage> {
                                 SizedBox(height: ScreenUtil().setHeight(15))
                             ])))
                           ])),
-                ),
-                Divider(height: 1),
-                // 价格
-                Container(
-                    color: Color(0xffffffff),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(15)),
-                    height: ScreenUtil().setHeight(90),
-                    child: Row(children: <Widget>[
-                       RichText(
-                          text: TextSpan(
-                              text: '*',
+                    ),
+                    Divider(height: 1),
+                    // 价格
+                    Container(
+                        height: ScreenUtil().setHeight(90),
+                        child: Row(children: <Widget>[
+                          _labelTitle('价格'),
+                          SizedBox(
+                            width: ScreenUtil().setWidth(10),
+                          ),
+                          Text('¥',
                               style: TextStyle(
-                                  fontSize: 18, color: Color(0xffe25d2b)),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: '价格',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xff333333))),
-                              ]),
-                        ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(10),
-                      ),
-                      Text('¥',
-                          style: TextStyle(
-                              color: Color(0xffe25d2b), fontSize: 16)),
-                      Expanded(
-                          child: TextField(
-                        controller: this._priceController,
-                        style:
-                            TextStyle(color: Color(0xff333333), fontSize: 16),
-                        cursorColor: Color(0xffe25d2b),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: '输入用户购买的价格',
-                          hintStyle: TextStyle(fontSize: 16),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(15)),
-                        ),
-                      ))
-                    ])),
-                Divider(height: 1),
-                // 审核后直接上架
-                Container(
-                    color: Color(0xffffffff),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(15)),
-                    height: ScreenUtil().setHeight(90),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text('审核通过后直接上架',
-                              style: TextStyle(
-                                  color: Color(0xff333333), fontSize: 16)),
-                          Switch(
-                              value: this._isShelves,
-                              activeColor: Color(0xffe25d2b),
-                              onChanged: (value) {
-                                this.setState(() {
-                                  _isShelves = value;
-                                });
-                              })
-                        ])),
-                Divider(height: 1),
-                // 备注
-                Container(
-                    color: Color(0xffffffff),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(15)),
-                    height: ScreenUtil().setHeight(180),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('备注',
-                              style: TextStyle(
-                                  color: Color(0xff333333), fontSize: 16)),
+                                  color: RhColors.colorPrimary,
+                                  fontSize: RhFontSize.fontSize16)),
                           Expanded(
                               child: TextField(
-                            controller: this._remarkController,
+                            controller: this._priceController,
                             style: TextStyle(
-                                color: Color(0xff333333), fontSize: 16),
-                            cursorColor: Color(0xffe25d2b),
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 5,
+                                color: RhColors.colorTitle,
+                                fontSize: RhFontSize.fontSize16),
+                            cursorColor: RhColors.colorPrimary,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              hintText: '用于特殊说明，展示在用户端套餐内容下面，不超过120字...',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintText: '输入用户购买的价格',
+                              hintStyle:
+                                  TextStyle(fontSize: RhFontSize.fontSize16),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: ScreenUtil().setWidth(15)),
                             ),
                           ))
                         ])),
-                Divider(height: 1),
-                SizedBox(height: ScreenUtil().setHeight(50)),
-                ButtonWidget(
-                    text: '提交',
-                    buttonBack: () {
-                      final _moneyRegExp = new RegExp(
-                          r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
-                      if (this._nameController.text == '') {
-                        ToastTool.toastWidget(context, msg: '请输入套餐名称');
-                      } else if (this._imageList.length == 0) {
-                        ToastTool.toastWidget(context, msg: '至少上传一张图片');
-                      } else if (this._packageList.length == 0) {
-                        ToastTool.toastWidget(context, msg: '至少上传一个商品');
-                      } else if (this._priceController.text == '') {
-                        ToastTool.toastWidget(context, msg: '请输入购买价格');
-                      } else if (!_moneyRegExp
-                          .hasMatch(this._priceController.text)) {
-                            ToastTool.toastWidget(context, msg: '价格需大于0且最多两位小数');
-                      } else {
-                        print('已成功');
-                      }
-                    })
-              ]))),
+                    Divider(height: 1),
+                    // 审核后直接上架
+                    Container(
+                        height: ScreenUtil().setHeight(90),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('审核通过后直接上架',
+                                  style: TextStyle(
+                                      color: RhColors.colorTitle,
+                                      fontSize: RhFontSize.fontSize16)),
+                              Switch(
+                                  value: this._isShelves,
+                                  activeColor: RhColors.colorPrimary,
+                                  onChanged: (value) {
+                                    this.setState(() {
+                                      _isShelves = value;
+                                    });
+                                  })
+                            ])),
+                    Divider(height: 1),
+                    // 备注
+                    Container(
+                        height: ScreenUtil().setHeight(180),
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('备注',
+                                  style: TextStyle(
+                                      color: RhColors.colorTitle,
+                                      fontSize: RhFontSize.fontSize16)),
+                              Expanded(
+                                  child: TextField(
+                                controller: this._remarkController,
+                                style: TextStyle(
+                                    color: RhColors.colorTitle,
+                                    fontSize: RhFontSize.fontSize16),
+                                cursorColor: RhColors.colorPrimary,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  hintText: '用于特殊说明，展示在用户端套餐内容下面，不超过120字...',
+                                  hintStyle: TextStyle(
+                                      fontSize: RhFontSize.fontSize16),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: ScreenUtil().setWidth(15)),
+                                ),
+                              ))
+                            ])),
+                    Divider(height: 1),
+                    SizedBox(height: ScreenUtil().setHeight(50)),
+                    ButtonWidget(
+                        text: '提交',
+                        buttonBack: () {
+                          final _moneyRegExp = new RegExp(
+                              r'^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$');
+                          if (this._nameController.text == '') {
+                            ToastTool.toastWidget(context, msg: '请输入套餐名称');
+                          } else if (this._imageList.length == 0) {
+                            ToastTool.toastWidget(context, msg: '至少上传一张图片');
+                          } else if (this._packageList.length == 0) {
+                            ToastTool.toastWidget(context, msg: '至少上传一个商品');
+                          } else if (this._priceController.text == '') {
+                            ToastTool.toastWidget(context, msg: '请输入购买价格');
+                          } else if (!_moneyRegExp
+                              .hasMatch(this._priceController.text)) {
+                            ToastTool.toastWidget(context,
+                                msg: '价格需大于0且最多两位小数');
+                          } else {
+                            print('已成功');
+                          }
+                        }),
+                    SizedBox(height: ScreenUtil().setHeight(50)),
+                  ])))),
     );
   }
 
@@ -379,20 +327,22 @@ class _CreatedPackageState extends State<CreatedPackage> {
           });
         },
         child: Container(
-          width: 70,
-          height: 26,
+          width: ScreenUtil().setWidth(130),
+          height: ScreenUtil().setHeight(42),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Color(0xffe25d2b),
-              borderRadius: BorderRadius.circular(13)),
+              color: RhColors.colorPrimary,
+              borderRadius: BorderRadius.circular(ScreenUtil().setHeight(21))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.control_point, color: Color(0xffffffff), size: 18),
+              Icon(Icons.control_point, color: RhColors.colorWhite, size: 16),
               SizedBox(width: 3),
               Text(
                 '添加',
-                style: TextStyle(color: Color(0xffffffff), fontSize: 14),
+                style: TextStyle(
+                    color: RhColors.colorWhite,
+                    fontSize: RhFontSize.fontSize14),
               )
             ],
           ),
@@ -405,7 +355,7 @@ class _CreatedPackageState extends State<CreatedPackage> {
   _cateBox() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
-        color: Color(0xffF1F6F9),
+        color: RhColors.colorLine,
         child: Column(children: <Widget>[
           Column(
               children: this
@@ -466,8 +416,8 @@ class _CreatedPackageState extends State<CreatedPackage> {
                             ? '${this._packageList[i]['cateName']}（${this._packageList[i]['totalNum']}选${this._packageList[i]['selectNum']}）'
                             : '${this._packageList[i]['cateName']}',
                         style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 16,
+                            color: RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize14,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -496,12 +446,13 @@ class _CreatedPackageState extends State<CreatedPackage> {
                             Row(
                               children: <Widget>[
                                 Icon(Icons.lens,
-                                    color: Color(0xff8a8a8a), size: 10),
+                                    color: RhColors.colorDesc, size: 10),
                                 SizedBox(width: ScreenUtil().setWidth(10)),
                                 Text(
                                   "${this._packageList[i]['menuList'][index]['name']}",
                                   style: TextStyle(
-                                      color: Color(0xff8a8a8a), fontSize: 14),
+                                      color: RhColors.colorDesc,
+                                      fontSize: RhFontSize.fontSize14),
                                 )
                               ],
                             ),
@@ -512,12 +463,14 @@ class _CreatedPackageState extends State<CreatedPackage> {
                                       this._editMenuNum(i, index, '1');
                                     },
                                     child: Icon(Icons.remove_circle_outline,
-                                        color: Color(0xffe25d2b), size: 20)),
+                                        color: RhColors.colorPrimary,
+                                        size: 20)),
                                 SizedBox(width: ScreenUtil().setWidth(6)),
                                 Text(
                                   "${this._packageList[i]['menuList'][index]['num']}${this._packageList[i]['menuList'][index]['unit']}",
                                   style: TextStyle(
-                                      color: Color(0xff8a8a8a), fontSize: 14),
+                                      color: RhColors.colorDesc,
+                                      fontSize: RhFontSize.fontSize14),
                                 ),
                                 SizedBox(width: ScreenUtil().setWidth(6)),
                                 InkWell(
@@ -525,7 +478,8 @@ class _CreatedPackageState extends State<CreatedPackage> {
                                       this._editMenuNum(i, index, '2');
                                     },
                                     child: Icon(Icons.add_circle,
-                                        color: Color(0xffe25d2b), size: 20)),
+                                        color: RhColors.colorPrimary,
+                                        size: 20)),
                               ],
                             )
                           ],
@@ -559,8 +513,11 @@ class _CreatedPackageState extends State<CreatedPackage> {
                 child: Container(
                     child: Row(children: <Widget>[
                   Text('添加菜品',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14)),
-                  Icon(Icons.add, size: 16, color: Color(0xffe25d2b))
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14)),
+                  Icon(Icons.add,
+                      size: RhFontSize.fontSize16, color: RhColors.colorPrimary)
                 ])))
           ]),
     );
@@ -569,7 +526,7 @@ class _CreatedPackageState extends State<CreatedPackage> {
   //底部弹款分类列表
   _categoryWidget(state) {
     return Container(
-        color: Color(0xffF1F6F9),
+        color: RhColors.colorLine,
         width: ScreenUtil().setWidth(220),
         child: ListView.builder(
             itemCount: this._cateList.length,
@@ -581,7 +538,9 @@ class _CreatedPackageState extends State<CreatedPackage> {
                     });
                   },
                   child: Container(
-                      padding: EdgeInsets.only(left: 8, right: 8),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: RhColors.colorWhite))),
                       height: ScreenUtil().setHeight(70),
                       alignment: Alignment.center,
                       child: Text(
@@ -589,9 +548,9 @@ class _CreatedPackageState extends State<CreatedPackage> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: this._activeCateIndex == index
-                                ? Color(0xffe25d2b)
-                                : Color(0xff333333),
-                            fontSize: 16,
+                                ? RhColors.colorPrimary
+                                : RhColors.colorTitle,
+                            fontSize: RhFontSize.fontSize16,
                             fontWeight: FontWeight.bold),
                       )));
             }));
@@ -600,30 +559,29 @@ class _CreatedPackageState extends State<CreatedPackage> {
   //底部弹框显示分类下菜品列表
   _menulistWidget(state, i) {
     return Expanded(
-        flex: 1,
         child: Container(
             child: ListView.builder(
-                padding: EdgeInsets.only(left: 8, right: 8),
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 itemCount: this._menuList.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        bool is_have = false;
-                        int list_i;
+                        bool _isHave = false;
+                        int _listI;
                         for (var id = 0;
                             id < _packageList[i]['menuList'].length;
                             id++) {
                           if (this._menuList[index]['id'] ==
                               _packageList[i]['menuList'][id]['id']) {
-                            is_have = true;
-                            list_i = id;
+                            _isHave = true;
+                            _listI = id;
                           }
                         }
                         //修改全局的状态
                         this.setState(() {
                           _activeMenuIndex = index;
-                          if (is_have) {
-                            _packageList[i]['menuList'][list_i]['num'] += 1;
+                          if (_isHave) {
+                            _packageList[i]['menuList'][_listI]['num'] += 1;
                           } else {
                             Map ff = {
                               'id': this._menuList[index]['id'],
@@ -643,7 +601,7 @@ class _CreatedPackageState extends State<CreatedPackage> {
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom:
-                                      BorderSide(color: Color(0xffF1F6F9)))),
+                                      BorderSide(color: RhColors.colorLine))),
                           height: ScreenUtil().setHeight(70),
                           alignment: Alignment.center,
                           child: Row(
@@ -653,15 +611,15 @@ class _CreatedPackageState extends State<CreatedPackage> {
                               Text(this._menuList[index]['name'],
                                   style: TextStyle(
                                       color: this._activeMenuIndex == index
-                                          ? Color(0xffe25d2b)
-                                          : Color(0xff333333),
-                                      fontSize: 14)),
+                                          ? RhColors.colorPrimary
+                                          : RhColors.colorTitle,
+                                      fontSize: RhFontSize.fontSize14)),
                               Text('¥${this._menuList[index]['price']}',
                                   style: TextStyle(
                                       color: this._activeMenuIndex == index
-                                          ? Color(0xffe25d2b)
-                                          : Color(0xff333333),
-                                      fontSize: 14))
+                                          ? RhColors.colorPrimary
+                                          : RhColors.colorTitle,
+                                      fontSize: RhFontSize.fontSize14))
                             ],
                           )));
                 })));
@@ -678,15 +636,15 @@ class _CreatedPackageState extends State<CreatedPackage> {
               TextSpan(
                 text: '合计：¥',
                 style: TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 14,
+                  color: RhColors.colorTitle,
+                  fontSize: RhFontSize.fontSize14,
                 ),
               ),
               TextSpan(
                 text: '${_totalFun()}',
                 style: TextStyle(
-                    color: Color(0xff333333),
-                    fontSize: 18,
+                    color: RhColors.colorTitle,
+                    fontSize: RhFontSize.fontSize18,
                     fontWeight: FontWeight.bold),
               ),
             ],
@@ -729,26 +687,24 @@ class _CreatedPackageState extends State<CreatedPackage> {
     return _totalPirce;
   }
 
-  //上传图片(组件)
-  _upLoadWidget() {
-    return InkWell(
-        onTap: this.getImage,
-        child: Container(
-          margin: EdgeInsets.only(top: ScreenUtil().setWidth(15)),
-          color: Color(0xffF1F6F9),
-          width: ScreenUtil().setWidth(195),
-          height: ScreenUtil().setWidth(150),
-          alignment: Alignment.center,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.camera_alt, color: Color(0xff8a8a8a), size: 24),
-                Text(
-                  '套餐图片',
-                  style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14),
-                )
-              ]),
-        ));
+  //每一行的label
+  _labelTitle(title) {
+    return Container(
+      height: ScreenUtil().setHeight(90),
+      alignment: Alignment.centerLeft,
+      child: RichText(
+        text: TextSpan(
+            text: '*',
+            style: TextStyle(
+                fontSize: RhFontSize.fontSize16,
+                fontWeight: FontWeight.bold,
+                color: RhColors.colorPrimary),
+            children: <TextSpan>[
+              TextSpan(
+                  text: title, style: TextStyle(color: RhColors.colorTitle)),
+            ]),
+      ),
+    );
   }
 
   //图片组件
@@ -824,18 +780,6 @@ class _CreatedPackageState extends State<CreatedPackage> {
         );
       },
     );
-  }
-
-  //获取相册
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    this.setState(() {
-      if (pickedFile != null) {
-        this._imageList.add(File(pickedFile.path));
-      } else {
-        print('没有选择图片');
-      }
-    });
   }
 
   //修改某菜品的数量

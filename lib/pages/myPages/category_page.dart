@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:flutter_slidable/flutter_slidable.dart';
+
+import '../../service/config_tool.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -24,22 +25,22 @@ class _CategoryPageState extends State<CategoryPage> {
     {'id': '2', 'name': '青椒肉丝', 'price': 22, 'num': 1, 'unit': '碗'},
     {'id': '3', 'name': '小炒肉', 'price': 18, 'num': 1, 'unit': '盆'}
   ];
-  //选中的菜品下标
-  int _activeMenuIndex;
 
   @override
   void initState() {
     super.initState();
-    print('重新请求');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
-          title: Text('分类管理', style: TextStyle(fontSize: 18))),
+          title: Text('分类管理',
+              style: TextStyle(
+                  color: RhColors.colorWhite,
+                  fontSize: RhFontSize.fontSize18))),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -55,7 +56,7 @@ class _CategoryPageState extends State<CategoryPage> {
   //上面左侧所有分类列表
   _categoryWidget() {
     return Container(
-        color: Color(0xfff0f5f8),
+        color: RhColors.colorLine,
         width: ScreenUtil().setWidth(220),
         alignment: Alignment.center,
         child: this._cateList.length == 0
@@ -70,9 +71,10 @@ class _CategoryPageState extends State<CategoryPage> {
                         });
                       },
                       child: Container(
-                          padding: EdgeInsets.only(left: 8, right: 8),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(8)),
                           color: this._activeCateIndex == index
-                              ? Color(0xffffffff)
+                              ? RhColors.colorWhite
                               : Color(0xfff6fbfe),
                           height: ScreenUtil().setHeight(90),
                           alignment: Alignment.center,
@@ -81,9 +83,9 @@ class _CategoryPageState extends State<CategoryPage> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: this._activeCateIndex == index
-                                    ? Color(0xffe25d2b)
-                                    : Color(0xff333333),
-                                fontSize: 16,
+                                    ? RhColors.colorPrimary
+                                    : RhColors.colorTitle,
+                                fontSize: RhFontSize.fontSize16,
                                 fontWeight: FontWeight.bold),
                           )));
                 }));
@@ -97,7 +99,6 @@ class _CategoryPageState extends State<CategoryPage> {
       child: this._menuList.length == 0
           ? Text('暂无菜品')
           : ListView.builder(
-              padding: EdgeInsets.only(left: 8),
               itemCount: this._menuList.length,
               itemBuilder: (context, index) {
                 return Slidable(
@@ -117,7 +118,7 @@ class _CategoryPageState extends State<CategoryPage> {
   List<Widget> rightActionsArray(index, context) {
     List<Widget> _settingButton = [];
     _settingButton
-        .add(_iconSlideAction(Icons.delete, '移除', Color(0xff8a8a8a), () {
+        .add(_iconSlideAction(Icons.delete, '移除', RhColors.colorDesc, () {
       print('删除');
     }));
     return _settingButton;
@@ -143,9 +144,9 @@ class _CategoryPageState extends State<CategoryPage> {
   _menuItemWidget(index) {
     return Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+            border: Border(bottom: BorderSide(color: RhColors.colorLine))),
         height: ScreenUtil().setHeight(130),
-        padding: EdgeInsets.only(right: 8),
+        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(8)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -168,12 +169,14 @@ class _CategoryPageState extends State<CategoryPage> {
                   Text(this._menuList[index]['name'],
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 14,
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize14,
                           fontWeight: FontWeight.bold)),
                   Text(
                       '¥${this._menuList[index]['price']}/${this._menuList[index]['unit']}',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14))
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14))
                 ])),
           ],
         ));
@@ -187,7 +190,7 @@ class _CategoryPageState extends State<CategoryPage> {
             Navigator.pushNamed(context, '/category_management');
           },
           child: Container(
-              color: Color(0xfff9f9f9),
+              color: RhColors.colorWhite,
               width: ScreenUtil().setWidth(220),
               alignment: Alignment.center,
               child: Row(
@@ -195,30 +198,36 @@ class _CategoryPageState extends State<CategoryPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text('管理',
-                        style:
-                            TextStyle(color: Color(0xffe25d2b), fontSize: 14)),
+                        style: TextStyle(
+                            color: RhColors.colorPrimary,
+                            fontSize: RhFontSize.fontSize14)),
                     SizedBox(width: ScreenUtil().setWidth(8)),
                     Icon(Icons.playlist_play,
-                        size: 22, color: Color(0xffe25d2b))
+                        size: 22, color: RhColors.colorPrimary)
                   ]))),
       Expanded(
           child: InkWell(
         onTap: () {
-          Map arg = {'id': this._cateList[_activeCateIndex]['id'],'name':this._cateList[_activeCateIndex]['name']};
+          Map arg = {
+            'id': this._cateList[_activeCateIndex]['id'],
+            'name': this._cateList[_activeCateIndex]['name']
+          };
           Navigator.pushNamed(context, '/choose_menu', arguments: arg);
         },
         child: Container(
             height: ScreenUtil().setHeight(90),
-            color: Color(0xffe25d2b),
+            color: RhColors.colorPrimary,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.add_circle_outline,
-                      size: 18, color: Color(0xffffffff)),
+                      size: RhFontSize.fontSize18, color: RhColors.colorWhite),
                   SizedBox(width: ScreenUtil().setWidth(8)),
                   Text('加入菜品',
-                      style: TextStyle(color: Color(0xffffffff), fontSize: 14)),
+                      style: TextStyle(
+                          color: RhColors.colorWhite,
+                          fontSize: RhFontSize.fontSize14)),
                 ])),
       ))
     ]);

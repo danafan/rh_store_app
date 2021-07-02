@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../widgets/dialog_widget.dart';
+
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class CategoryManagement extends StatefulWidget {
   @override
@@ -24,12 +26,20 @@ class _CategoryManagementState extends State<CategoryManagement> {
   String _cateId = "";
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
-          title: Text('分类管理', style: TextStyle(fontSize: 18)),
+          title: Text('分类管理',
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
           actions: <Widget>[
             InkWell(
                 onTap: () {
@@ -62,12 +72,14 @@ class _CategoryManagementState extends State<CategoryManagement> {
                   children: <Widget>[
                     Icon(
                       Icons.add,
-                      color: Color(0xffe25d2b),
-                      size: 16,
+                      color: RhColors.colorPrimary,
+                      size: RhFontSize.fontSize16,
                     ),
                     Text(
                       '新增',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14),
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14),
                     ),
                     SizedBox(width: ScreenUtil().setWidth(30))
                   ],
@@ -88,7 +100,7 @@ class _CategoryManagementState extends State<CategoryManagement> {
         height: ScreenUtil().setHeight(110),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+            border: Border(bottom: BorderSide(color: RhColors.colorLine))),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -99,11 +111,13 @@ class _CategoryManagementState extends State<CategoryManagement> {
                   Text('${_categoryList[index]['name']}',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 16,
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize16,
                           fontWeight: FontWeight.bold)),
                   Text('${_categoryList[index]['menu_num']}件商品',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14))
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14))
                 ])),
             Container(
                 width: ScreenUtil().setWidth(180),
@@ -145,7 +159,7 @@ class _CategoryManagementState extends State<CategoryManagement> {
                         });
                       },
                       child: Icon(Icons.border_color,
-                          size: 22, color: Color(0xff8a8a8a)),
+                          size: 22, color: RhColors.colorDesc),
                     ),
                     // 删除
                     InkWell(
@@ -176,7 +190,7 @@ class _CategoryManagementState extends State<CategoryManagement> {
                         ).then((val) {});
                       },
                       child: Icon(Icons.delete,
-                          size: 22, color: Color(0xff8a8a8a)),
+                          size: 22, color: RhColors.colorDesc),
                     ),
                   ],
                 ))
@@ -190,16 +204,16 @@ class _CategoryManagementState extends State<CategoryManagement> {
         constraints: BoxConstraints(maxHeight: ScreenUtil().setHeight(60)),
         child: TextField(
           controller: this._nameController,
-          style: TextStyle(color: Color(0xff333333), fontSize: 16),
-          cursorColor: Color(0xff8a8a8a),
+          style: TextStyle(color: RhColors.colorTitle, fontSize: 16),
+          cursorColor: RhColors.colorDesc,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             hintText: '分类名称',
-            hintStyle: TextStyle(fontSize: 16),
+            hintStyle: TextStyle(fontSize: RhFontSize.fontSize16),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                borderSide: BorderSide(color: RhColors.colorDesc, width: 1)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                borderSide: BorderSide(color: RhColors.colorDesc, width: 1)),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
           ),

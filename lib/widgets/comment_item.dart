@@ -1,36 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
 import '../service/toast_tool.dart';
-
+import '../service/config_tool.dart';
 
 class CommentItem extends StatefulWidget {
   @override
   _CommentItemState createState() => _CommentItemState();
-}
-
-class FadeRoute extends PageRouteBuilder {
-  final Widget page;
-  FadeRoute({this.page})
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-        );
 }
 
 class _CommentItemState extends State<CommentItem> {
@@ -39,7 +15,6 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _replyValue.dispose();
     super.dispose();
   }
@@ -47,16 +22,16 @@ class _CommentItemState extends State<CommentItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(8)),
-        padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
+            color: RhColors.colorWhite, borderRadius: BorderRadius.circular(8)),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
                 Widget>[
           // 顶部用户信息等
           Container(
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+              margin: EdgeInsets.only(bottom: ScreenUtil().setWidth(10)),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -65,8 +40,8 @@ class _CommentItemState extends State<CommentItem> {
                         borderRadius: BorderRadius.circular(23),
                         child: Image.network(
                             'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                            height: 46,
-                            width: 46,
+                            height: ScreenUtil().setWidth(80),
+                            width: ScreenUtil().setWidth(80),
                             fit: BoxFit.cover),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(18)),
@@ -77,32 +52,30 @@ class _CommentItemState extends State<CommentItem> {
                             Text(
                               '伪装的幸福',
                               style: TextStyle(
-                                  color: Color(0xff333E47),
-                                  fontSize: 15,
+                                  color: RhColors.colorTitle,
+                                  fontSize: RhFontSize.fontSize14,
                                   fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: <Widget>[
                                 Icon(Icons.grade,
-                                    size: 18,
-                                    color: Theme.of(context).primaryColor),
+                                    size: 18, color: RhColors.colorPrimary),
                                 Icon(Icons.grade,
-                                    size: 18,
-                                    color: Theme.of(context).primaryColor),
+                                    size: 18, color: RhColors.colorPrimary),
                                 Icon(Icons.grade,
-                                    size: 18,
-                                    color: Theme.of(context).primaryColor)
+                                    size: 18, color: RhColors.colorPrimary)
                               ],
                             )
                           ])
                     ]),
                     Stack(
-                        overflow: Overflow.visible,
+                        clipBehavior: Clip.none,
                         alignment: Alignment.center,
                         children: <Widget>[
                           Text('2020-08-29',
                               style: TextStyle(
-                                  color: Color(0xff8a8a8a), fontSize: 14)),
+                                  color: RhColors.colorDesc,
+                                  fontSize: RhFontSize.fontSize14)),
                           Positioned(
                               top: ScreenUtil().setHeight(5),
                               child: Container(
@@ -125,7 +98,10 @@ class _CommentItemState extends State<CommentItem> {
               margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
               child: Text(
                 '3月18日，西安市报告1例本土确诊病例。该确诊病例为西安市第八医院封闭隔离病区检验师。经省市专家组初步研判，该病例系在封闭隔离病区内意外暴露造成偶发感染',
-                style: TextStyle(color: Color(0xff333333), fontSize: 14),
+                style: TextStyle(
+                  color: RhColors.colorTitle,
+                  fontSize: RhFontSize.fontSize14,
+                ),
               )),
           //评论的图片
           Container(
@@ -180,32 +156,30 @@ class _CommentItemState extends State<CommentItem> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              color: Color(0xff8a8a8a), fontSize: 14))),
+                              color: RhColors.colorDesc,
+                              fontSize: RhFontSize.fontSize14))),
                   SizedBox(width: 20),
                   Text('x1',
-                      style: TextStyle(color: Color(0xff8a8a8a), fontSize: 14)),
+                      style: TextStyle(
+                          color: RhColors.colorDesc,
+                          fontSize: RhFontSize.fontSize14)),
                 ],
               )),
           //商家回复
           Container(
-              decoration: BoxDecoration(color: Color(0xffEFF1EC)),
+              decoration: BoxDecoration(color: RhColors.colorLine),
               padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
               margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
               child: RichText(
                 text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(fontSize: RhFontSize.fontSize14),
                   children: <TextSpan>[
                     TextSpan(
                         text: '商家回复：',
-                        style:
-                            TextStyle(color: Color(0xff333E47), fontSize: 14)),
+                        style: TextStyle(color: RhColors.colorPrimary)),
                     TextSpan(
                         text: '感谢您的支持！好的火锅全体工作人员祝您生活愉快!',
-                        style:
-                            TextStyle(color: Color(0xff333333), fontSize: 14)),
+                        style: TextStyle(color: RhColors.colorDesc)),
                   ],
                 ),
               )),
@@ -229,9 +203,8 @@ class _CommentItemState extends State<CommentItem> {
                       ),
                       Text('申诉',
                           style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: 14
-                          ))
+                              color: RhColors.colorTitle,
+                              fontSize: RhFontSize.fontSize14))
                     ],
                   )),
               InkWell(
@@ -247,32 +220,31 @@ class _CommentItemState extends State<CommentItem> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Expanded(
-                                  flex: 1,
                                   child: Container(
-                                    constraints: BoxConstraints(
-                                        minHeight: ScreenUtil().setHeight(50),
-                                        maxHeight: ScreenUtil().setHeight(150)),
-                                    child: TextField(
-                                      maxLines: null,
-                                      autofocus: true,
-                                      // keyboardType: TextInputType.multiline,
-                                      controller: this._replyValue,
-                                      decoration: InputDecoration(
-                                          hintText: '最多120字',
-                                          hintStyle: TextStyle(fontSize: 14.0),
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.all(
-                                              ScreenUtil().setWidth(12)),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xff8a8a8a)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xff8a8a8a)),
-                                          )),
-                                    ),
-                                  )),
+                                constraints: BoxConstraints(
+                                    minHeight: ScreenUtil().setHeight(50),
+                                    maxHeight: ScreenUtil().setHeight(150)),
+                                child: TextField(
+                                  maxLines: null,
+                                  autofocus: true,
+                                  controller: this._replyValue,
+                                  decoration: InputDecoration(
+                                      hintText: '最多120字',
+                                      hintStyle: TextStyle(
+                                          fontSize: RhFontSize.fontSize14),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(
+                                          ScreenUtil().setWidth(12)),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: RhColors.colorDesc),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: RhColors.colorDesc),
+                                      )),
+                                ),
+                              )),
                               SizedBox(width: 5),
                               InkWell(
                                   onTap: () {
@@ -288,8 +260,9 @@ class _CommentItemState extends State<CommentItem> {
                                               BorderRadius.circular(3)),
                                       child: Text('回复',
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14))))
+                                              color: RhColors.colorWhite,
+                                              fontSize:
+                                                  RhFontSize.fontSize14))))
                             ],
                           ),
                         );
@@ -301,12 +274,13 @@ class _CommentItemState extends State<CommentItem> {
                       height: ScreenUtil().setHeight(42),
                       width: ScreenUtil().setWidth(110),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xff8a8a8a)),
+                          border: Border.all(color: RhColors.colorDesc),
                           borderRadius: BorderRadius.circular(21)),
                       child: Text(
                         '回复',
-                        style:
-                            TextStyle(color: Color(0xff8a8a8a), fontSize: 14),
+                        style: TextStyle(
+                            color: RhColors.colorDesc,
+                            fontSize: RhFontSize.fontSize14),
                       )))
             ],
           ))

@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:image_picker/image_picker.dart';
 
-import '../../service/picker_tool.dart';
 import '../../widgets/dialog_widget.dart';
+
+import '../../service/picker_tool.dart';
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class StoreSetting extends StatefulWidget {
   @override
@@ -47,13 +48,20 @@ class _StoreSettingState extends State<StoreSetting> {
   }
 
   @override
+  void dispose() {
+    _textFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('店铺设置',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -205,12 +213,12 @@ class _StoreSettingState extends State<StoreSetting> {
   }
 
   //每一行
-  _rowItem(title, is_only, _widget) {
+  _rowItem(title, isOnly, _widget) {
     return Container(
       padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
       decoration: BoxDecoration(
-          color: Color(0xffffffff),
-          border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+          color: RhColors.colorWhite,
+          border: Border(bottom: BorderSide(color: RhColors.colorLine))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -220,16 +228,17 @@ class _StoreSettingState extends State<StoreSetting> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('${title}',
+                  Text(title,
                       style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 15,
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize14,
                           fontWeight: FontWeight.bold)),
                   Offstage(
-                      offstage: is_only,
+                      offstage: isOnly,
                       child: Text('*每月允许修改一次',
                           style: TextStyle(
-                              color: Color(0xffe25d2b), fontSize: 12)))
+                              color: RhColors.colorPrimary,
+                              fontSize: RhFontSize.fontSize12)))
                 ]),
           ),
           Expanded(child: _widget)
@@ -246,15 +255,16 @@ class _StoreSettingState extends State<StoreSetting> {
         Expanded(
             child: Container(
           alignment: Alignment.centerRight,
-          child: Text('${text}',
-              style: TextStyle(fontSize: 14, color: Color(0xff333333)),
+          child: Text(text,
+              style: TextStyle(
+                  fontSize: RhFontSize.fontSize14, color: RhColors.colorTitle),
               overflow: TextOverflow.ellipsis),
         )),
         SizedBox(width: ScreenUtil().setWidth(8)),
         Offstage(
             offstage: offstage,
             child: Icon(Icons.arrow_forward_ios,
-                size: 16, color: Color(0xff8a8a8a)))
+                size: RhFontSize.fontSize16, color: RhColors.colorDesc))
       ],
     );
   }
@@ -268,7 +278,7 @@ class _StoreSettingState extends State<StoreSetting> {
       });
       print(this._imageList);
     } else {
-      print('没有选择图片');
+      ToastTool.toastWidget(context, msg: '没有选择图片');
     }
   }
 
@@ -278,16 +288,16 @@ class _StoreSettingState extends State<StoreSetting> {
         constraints: BoxConstraints(maxHeight: ScreenUtil().setHeight(60)),
         child: TextField(
           controller: this._textFieldController,
-          style: TextStyle(color: Color(0xff333333), fontSize: 16),
-          cursorColor: Color(0xff8a8a8a),
+          style: TextStyle(color: RhColors.colorTitle, fontSize: RhFontSize.fontSize14),
+          cursorColor: RhColors.colorTitle,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(fontSize: 16),
+            hintStyle: TextStyle(fontSize: RhFontSize.fontSize16),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                borderSide: BorderSide(color: RhColors.colorDesc, width: 1)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1)),
+                borderSide: BorderSide(color: RhColors.colorDesc, width: 1)),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
           ),

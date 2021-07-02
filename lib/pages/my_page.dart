@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/screen_util.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/dialog_widget.dart';
 
+import '../service/config_tool.dart';
+
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
@@ -17,7 +19,7 @@ class _MyPageState extends State<MyPage> {
           preferredSize:
               Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(180)),
           child: AppBar(
-            backgroundColor: Color(0xff0a0b17),
+            backgroundColor: RhColors.colorAppBar,
             brightness: Brightness.dark,
             flexibleSpace: Column(
               children: <Widget>[
@@ -26,9 +28,10 @@ class _MyPageState extends State<MyPage> {
               ],
             ),
           )),
-      body: Container(
+      body: SingleChildScrollView(
+          child: Container(
         padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
-        child: ListView(
+        child: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
@@ -56,8 +59,8 @@ class _MyPageState extends State<MyPage> {
                         Text(
                           '我的钱包',
                           style: TextStyle(
-                              color: Color(0xff333333),
-                              fontSize: 16,
+                              color: RhColors.colorTitle,
+                              fontSize: RhFontSize.fontSize16,
                               fontWeight: FontWeight.bold),
                         ),
                         InkWell(
@@ -66,7 +69,8 @@ class _MyPageState extends State<MyPage> {
                             },
                             child: Text('账单>>',
                                 style: TextStyle(
-                                    color: Color(0xff8a8a8a), fontSize: 14)))
+                                    color: RhColors.colorDesc,
+                                    fontSize: RhFontSize.fontSize14)))
                       ],
                     ),
                   ),
@@ -131,8 +135,8 @@ class _MyPageState extends State<MyPage> {
                     child: Text(
                       '系统工具',
                       style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 16,
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize16,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -193,7 +197,7 @@ class _MyPageState extends State<MyPage> {
                 })
           ],
         ),
-      ),
+      )),
     );
   }
 
@@ -209,8 +213,8 @@ class _MyPageState extends State<MyPage> {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
                 'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                height: ScreenUtil().setHeight(130),
-                width: ScreenUtil().setHeight(169),
+                height: ScreenUtil().setHeight(110),
+                width: ScreenUtil().setHeight(143),
                 fit: BoxFit.cover),
           ),
           SizedBox(width: ScreenUtil().setWidth(20)),
@@ -224,7 +228,7 @@ class _MyPageState extends State<MyPage> {
                 Text('盛宴海鲜自助餐厅',
                     style: TextStyle(
                         color: Color(0xffd1b171),
-                        fontSize: 18,
+                        fontSize: RhFontSize.fontSize16,
                         fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1),
@@ -260,7 +264,7 @@ class _MyPageState extends State<MyPage> {
               width: ScreenUtil().setHeight(16)),
           Text(
             '营业中',
-            style: TextStyle(fontSize: 11, color: Color(0xff333333)),
+            style: TextStyle(fontSize: 11, color: RhColors.colorTitle),
           )
         ],
       ),
@@ -273,17 +277,17 @@ class _MyPageState extends State<MyPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          '${title}',
+          title,
           style: TextStyle(
-              color: Color(0XFF333333),
-              fontSize: 15,
+              color: RhColors.colorTitle,
+              fontSize: RhFontSize.fontSize14,
               fontWeight: FontWeight.bold),
         ),
         Text(
-          '${value}',
+          value,
           style: TextStyle(
-              color: Color(0XFF333333),
-              fontSize: 20,
+              color: RhColors.colorTitle,
+              fontSize: RhFontSize.fontSize18,
               fontWeight: FontWeight.bold),
         )
       ],
@@ -294,15 +298,15 @@ class _MyPageState extends State<MyPage> {
   _toolWidget(label, icon, path) {
     return InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/${path}');
+          Navigator.pushNamed(context, '/$path');
         },
         child: Container(
           width: ScreenUtil().setWidth(160),
           child: Column(children: <Widget>[
             Icon(icon, size: 28),
             Text(
-              '${label}',
-              style: TextStyle(color: Color(0xff333333), fontSize: 15),
+              label,
+              style: TextStyle(color: RhColors.colorTitle, fontSize: RhFontSize.fontSize14),
             )
           ]),
         ));
