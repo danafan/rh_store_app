@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 
-import '../widgets/dialog_widget.dart';
-import '../widgets/order_detail.dart';
-import '../service/toast_tool.dart';
+import '../../widgets/dialog_widget.dart';
+import './order_detail.dart';
+
+import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 /// 扫码页面
 class QRScannerPage extends StatefulWidget {
@@ -27,10 +29,10 @@ class _QRScannerPageState extends State<QRScannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text('扫码核销',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+              style: TextStyle(color:RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
         ),
         body: _buildBody());
   }
@@ -40,7 +42,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
       ScanView(
         controller: controller,
         scanAreaScale: 0.7,
-        scanLineColor: Color(0xffe25d2b),
+        scanLineColor: RhColors.colorPrimary,
         onCapture: (String data) async {
           await showResult(data);
           controller.resume();
@@ -53,7 +55,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
           builder: (BuildContext context, StateSetter setState) {
             stateSetter = setState;
             return MaterialButton(
-                child: Icon(lightIcon, size: 30, color: Color(0xffffffff)),
+                child: Icon(lightIcon, size: 30, color: RhColors.colorWhite),
                 onPressed: () {
                   controller.toggleTorchMode();
                   if (lightIcon == Icons.flash_on) {
@@ -70,7 +72,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
         right: 50,
         bottom: 100,
         child: MaterialButton(
-            child: Icon(Icons.image, size: 30, color: Color(0xffffffff)),
+            child: Icon(Icons.image, size: 30, color: RhColors.colorWhite),
             onPressed: () async {
               await pickImage();
             }),
@@ -87,13 +89,13 @@ class _QRScannerPageState extends State<QRScannerPage> {
         return Dialog(
           child: DialogWidget(
               title: '订单详情',
-              content_widget: OrderDetail(data:dataMap),
-              cancel_fun: () {},
-              confirm_fun: () {
+              contentWidget: OrderDetail(data:dataMap),
+              cancelFun: () {},
+              confirmFun: () {
                 ToastTool.toastWidget(context, msg: '订单已核销!');
                 Navigator.of(context).pop();
               },
-              confim_text:'立即核销'
+              confimText:'立即核销'
               ),
         );
       },

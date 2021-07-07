@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission/permission.dart';
 
 import './router/router.dart';
+import './service/config_tool.dart';
 
 
 Future<void> main() async {
@@ -16,7 +17,7 @@ Future<void> main() async {
   runApp(MyApp());
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
-      statusBarColor: Color(0xff0a0b17),
+      statusBarColor: RhColors.colorAppBar,
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
@@ -35,9 +36,9 @@ class _MyAppState extends State<MyApp> {
       allowFontScaling: false,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/navigator',
+        initialRoute: '/login_regis',
         onGenerateRoute: onGenerateRoute,
-        theme: ThemeData(primaryColor: Color(0xffe25d2b)),
+        theme: ThemeData(primaryColor: RhColors.colorPrimary),
       ),
     );
   }

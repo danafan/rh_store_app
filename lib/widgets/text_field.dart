@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../service/config_tool.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final controller;
-  String hintText;
-  String keyboardType;
+  final String hintText;
+  final String keyboardType;
 
   TextFieldWidget({this.controller, this.hintText, this.keyboardType});
 
@@ -18,13 +19,14 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     return Expanded(
         child: TextField(
       controller: widget.controller,
-      style: TextStyle(color: Color(0xff333333), fontSize: 14),
+      style: TextStyle(
+          color: RhColors.colorTitle, fontSize: RhFontSize.fontSize14),
       keyboardType: widget.keyboardType == '1'
           ? TextInputType.text
           : TextInputType.number,
       decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: 14),
+          hintStyle: TextStyle(fontSize: RhFontSize.fontSize14),
           border: InputBorder.none),
     ));
   }

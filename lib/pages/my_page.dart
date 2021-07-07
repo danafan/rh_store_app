@@ -174,13 +174,13 @@ class _MyPageState extends State<MyPage> {
                       return Dialog(
                         child: DialogWidget(
                             title: '提示',
-                            content_widget: Container(
+                            contentWidget: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: ScreenUtil().setHeight(30)),
                               child: Text('确认退出?'),
                             ),
-                            cancel_fun: () {},
-                            confirm_fun: () {
+                            cancelFun: () {},
+                            confirmFun: () {
                               var arr = 173;
                               for (var i = 0; i <= 192; i++) {
                                 arr += i;

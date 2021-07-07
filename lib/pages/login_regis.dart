@@ -3,15 +3,18 @@ import 'package:flutter_screenutil/screen_util.dart';
 
 import '../widgets/button_widget.dart';
 
+import '../service/config_tool.dart';
+
 class LoginRegis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text('签约/登录',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -31,15 +34,13 @@ class LoginRegis extends StatelessWidget {
                       text: '新商户签约',
                       buttonBack: () {
                         Map arg = {'pageType': '1'};
-                        Navigator.pushNamed(context, '/login',
-                            arguments: arg);
+                        Navigator.pushNamed(context, '/login', arguments: arg);
                       }),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   InkWell(
                     onTap: () {
                       Map arg = {'pageType': '2'};
-                        Navigator.pushNamed(context, '/login',
-                            arguments: arg);
+                      Navigator.pushNamed(context, '/login', arguments: arg);
                     },
                     child: Container(
                         width: ScreenUtil().setWidth(680),
@@ -48,11 +49,12 @@ class LoginRegis extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                                 ScreenUtil().setHeight(40)),
-                            border: Border.all(color: Color(0xffe25d2b))),
+                            border: Border.all(color: RhColors.colorPrimary)),
                         child: Text(
                           '商户登录',
-                          style:
-                              TextStyle(color: Color(0xffe25d2b), fontSize: 16),
+                          style: TextStyle(
+                              color: RhColors.colorPrimary,
+                              fontSize: RhFontSize.fontSize16),
                         )),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(50)),
@@ -61,8 +63,8 @@ class LoginRegis extends StatelessWidget {
                       Text(
                         '热乎优选商家版',
                         style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xff333333),
+                            fontSize: RhFontSize.fontSize16,
+                            color: RhColors.colorTitle,
                             fontWeight: FontWeight.bold),
                       )
                     ],
@@ -70,17 +72,23 @@ class LoginRegis extends StatelessWidget {
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   Text(
                     '「热乎优选商家版」是本地美食推荐平台‘热乎优选’的商家端系统，功能包括订单管理、用户评价管理、财务管理、商品管理等主要功能，实现一站式服务，产品具有操作简单，功能全面，体验流畅等特色',
-                    style: TextStyle(fontSize: 12, color: Color(0xff8a8a8a)),
+                    style: TextStyle(
+                        fontSize: RhFontSize.fontSize12,
+                        color: RhColors.colorDesc),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   Text(
                     '签约流程：手机号注册 -> 商户信息验证 -> 法人身份信息验证 -> 超级管理员信息验证 -> 超级管理员签约 ->完成注册',
-                    style: TextStyle(fontSize: 12, color: Color(0xff8a8a8a)),
+                    style: TextStyle(
+                        fontSize: RhFontSize.fontSize12,
+                        color: RhColors.colorDesc),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   Text(
                     '签约需准备材料：管理员手机号（用于登录系统）、常用联系人信息、法人身份证、店铺营业执照、店铺食品经营许可证',
-                    style: TextStyle(fontSize: 12, color: Color(0xff8a8a8a)),
+                    style: TextStyle(
+                        fontSize: RhFontSize.fontSize12,
+                        color: RhColors.colorDesc),
                   )
                 ],
               )),

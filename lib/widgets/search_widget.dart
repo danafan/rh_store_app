@@ -1,26 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SearchWidget extends StatelessWidget {
+import '../service/config_tool.dart';
+
+class SearchWidget extends StatefulWidget {
   final callBack;
   SearchWidget({this.callBack});
+
+  @override
+  _SearchWidgetState createState() => _SearchWidgetState();
+}
+
+class _SearchWidgetState extends State<SearchWidget> {
   //搜索内容
   final _searchController = new TextEditingController();
+
+  @override
+  void dispose() {
+    this._searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Icon(Icons.search, color: Color(0xffe25d2b)),
+        Icon(Icons.search, color: RhColors.colorPrimary),
         Expanded(
             child: TextField(
           controller: this._searchController,
-          style: TextStyle(color: Color(0xff333333), fontSize: 16),
+          style: TextStyle(color: RhColors.colorTitle, fontSize: RhFontSize.fontSize16),
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             hintText: '输入菜品名称',
-            hintStyle: TextStyle(fontSize: 16),
+            hintStyle: TextStyle(fontSize: RhFontSize.fontSize16),
             border: OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
@@ -28,11 +42,11 @@ class SearchWidget extends StatelessWidget {
         )),
         InkWell(
             onTap: () {
-              this.callBack(this._searchController.text);
+              widget.callBack(this._searchController.text);
             },
             child: Container(
                 decoration: BoxDecoration(
-                    color: Color(0xffe25d2b),
+                    color: RhColors.colorPrimary,
                     borderRadius: BorderRadius.all(
                         Radius.circular(ScreenUtil().setHeight(25)))),
                 width: ScreenUtil().setWidth(120),
@@ -40,7 +54,7 @@ class SearchWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   '搜索',
-                  style: TextStyle(color: Color(0xffffffff), fontSize: 13),
+                  style: TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14),
                 )))
       ],
     );

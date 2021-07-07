@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../widgets/package_list.dart';
+import './packagePages/package_list.dart';
 
 import '../../service/config_tool.dart';
 
-class PackageManagement extends StatefulWidget {
+class PackagePage extends StatefulWidget {
   @override
-  _PackageManagementState createState() => _PackageManagementState();
+  _PackagePageState createState() => _PackagePageState();
 }
 
-class _PackageManagementState extends State<PackageManagement>
+class _PackagePageState extends State<PackagePage>
     with SingleTickerProviderStateMixin {
   //TabBar控制器
   TabController _tabController;

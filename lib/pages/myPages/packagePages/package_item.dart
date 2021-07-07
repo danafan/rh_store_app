@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../widgets/dialog_widget.dart';
+import '../../../widgets/dialog_widget.dart';
 
-import '../service/toast_tool.dart';
-import '../service/config_tool.dart';
+import '../../../service/toast_tool.dart';
+import '../../../service/config_tool.dart';
 
 class PackageItem extends StatelessWidget {
   final String itemType;
@@ -163,13 +163,13 @@ class PackageItem extends StatelessWidget {
           return Dialog(
             child: DialogWidget(
                 title: '提示',
-                content_widget: Container(
+                contentWidget: Container(
                   padding: EdgeInsets.symmetric(
                       vertical: ScreenUtil().setHeight(30)),
                   child: Text(toastText),
                 ),
-                cancel_fun: () {},
-                confirm_fun: () {
+                cancelFun: () {},
+                confirmFun: () {
                   Navigator.pop(context);
                   ToastTool.toastWidget(context, msg: '类型ID：$itemType');
                 }),

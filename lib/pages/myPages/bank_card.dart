@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../widgets/button_widget.dart';
 import '../../widgets/dialog_widget.dart';
+
 import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class BankCard extends StatefulWidget {
   @override
@@ -82,11 +84,12 @@ class _BankCardState extends State<BankCard> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0a0b17),
+            backgroundColor: RhColors.colorAppBar,
             brightness: Brightness.dark,
             title: Text(
               '银行卡管理',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18),
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18),
             )),
         body: Container(
           padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
@@ -104,22 +107,24 @@ class _BankCardState extends State<BankCard> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text('这里是银行卡的审核状态',
-            style: TextStyle(color: Color(0xff333333), fontSize: 14)),
+            style: TextStyle(
+                color: RhColors.colorTitle, fontSize: RhFontSize.fontSize14)),
         SizedBox(height: ScreenUtil().setHeight(10)),
         InkWell(
           onTap: () {
-            Map arg = {'pageType': '1', 'id': ''};
             Navigator.pushNamed(context, '/edit_bank');
           },
           child: Container(
             decoration: BoxDecoration(
-                color: Color(0xffe25d2b),
+                color: RhColors.colorPrimary,
                 borderRadius: BorderRadius.circular(3)),
             alignment: Alignment.center,
             width: ScreenUtil().setWidth(150),
             height: ScreenUtil().setHeight(60),
             child: Text('去绑定',
-                style: TextStyle(color: Color(0xffffffff), fontSize: 13)),
+                style: TextStyle(
+                    color: RhColors.colorWhite,
+                    fontSize: RhFontSize.fontSize14)),
           ),
         )
       ],
@@ -140,7 +145,9 @@ class _BankCardState extends State<BankCard> {
               )),
           width: double.infinity,
           height: ScreenUtil().setHeight(180),
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(10),
+              vertical: ScreenUtil().setHeight(10)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -155,13 +162,13 @@ class _BankCardState extends State<BankCard> {
                     children: <Widget>[
                       Text("${this._bankName}",
                           style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontSize: 16,
+                              color: RhColors.colorWhite,
+                              fontSize: RhFontSize.fontSize16,
                               fontWeight: FontWeight.bold)),
                       SizedBox(height: ScreenUtil().setHeight(5)),
                       Text('个人',
                           style:
-                              TextStyle(color: Color(0xffffffff), fontSize: 14))
+                              TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14))
                     ],
                   )
                 ],
@@ -171,7 +178,7 @@ class _BankCardState extends State<BankCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text('${this._bankCount}',
-                      style: TextStyle(color: Color(0xffffffff), fontSize: 20))
+                      style: TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18))
                 ],
               )
             ],
@@ -189,10 +196,10 @@ class _BankCardState extends State<BankCard> {
               decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(ScreenUtil().setHeight(40)),
-                  border: Border.all(color: Color(0xffe25d2b))),
+                  border: Border.all(color: RhColors.colorPrimary)),
               child: Text(
                 '更换',
-                style: TextStyle(color: Color(0xffe25d2b), fontSize: 16),
+                style: TextStyle(color: RhColors.colorPrimary, fontSize: RhFontSize.fontSize16),
               )),
         ),
         SizedBox(height: ScreenUtil().setHeight(20)),
@@ -205,13 +212,13 @@ class _BankCardState extends State<BankCard> {
                   return Dialog(
                     child: DialogWidget(
                         title: '提示',
-                        content_widget: Container(
+                        contentWidget: Container(
                           padding: EdgeInsets.symmetric(
                               vertical: ScreenUtil().setHeight(30)),
                           child: Text('确认解除绑定?'),
                         ),
-                        cancel_fun: () {},
-                        confirm_fun: () {
+                        cancelFun: () {},
+                        confirmFun: () {
                           ToastTool.toastWidget(context, msg: '银行卡已解除');
                         }),
                   );

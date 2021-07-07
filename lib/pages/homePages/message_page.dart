@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../widgets/message_list.dart';
+import './message_list.dart';
+
+import '../../service/config_tool.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -29,31 +31,34 @@ class _MessagePageState extends State<MessagePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text('消息中心',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+              style: TextStyle(
+                  color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
           bottom: PreferredSize(
               preferredSize:
                   Size(ScreenUtil().setWidth(750), ScreenUtil().setHeight(80)),
               child: Container(
                 height: ScreenUtil().setHeight(80),
-                color: Color(0xffffffff),
+                color: RhColors.colorWhite,
                 child: TabBar(
                     controller: this._tabController,
-                    labelColor: Color(0xff333333),
-                    unselectedLabelColor: Color(0xff333333),
-                    labelStyle:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                    unselectedLabelStyle: TextStyle(fontSize: 15),
-                    indicatorColor: Theme.of(context).primaryColor,
+                    labelColor: RhColors.colorTitle,
+                    unselectedLabelColor: RhColors.colorTitle,
+                    labelStyle: TextStyle(
+                        fontSize: RhFontSize.fontSize16,
+                        fontWeight: FontWeight.bold),
+                    unselectedLabelStyle:
+                        TextStyle(fontSize: RhFontSize.fontSize16),
+                    indicatorColor: RhColors.colorPrimary,
                     indicatorWeight: 4.0,
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: <Widget>[Tab(text: '系统消息'), Tab(text: '平台公告')]),
               ))),
       body: TabBarView(
         controller: this._tabController,
-        children: <Widget>[MessageList('1'), MessageList('2')],
+        children: <Widget>[MessageList(listType:'1'), MessageList(listType:'2')],
       ),
     );
   }

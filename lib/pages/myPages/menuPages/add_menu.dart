@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../widgets/button_widget.dart';
+import '../../../widgets/button_widget.dart';
 
-import '../../service/picker_tool.dart';
-import '../../service/toast_tool.dart';
-import '../../service/config_tool.dart';
+import '../../../service/picker_tool.dart';
+import '../../../service/toast_tool.dart';
+import '../../../service/config_tool.dart';
 
 class AddMenu extends StatefulWidget {
   final Map arguments;

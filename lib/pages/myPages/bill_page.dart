@@ -189,7 +189,7 @@ class _BillPageState extends State<BillPage> {
                         if (this._isLoad) {
                           return LoadingMore();
                         } else {
-                          return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
+                          return ListBottom(toastContent:this._isOver ? '到底了' : '上拉加载更多');
                         }
                       }
                     }, childCount: this._commentList.length + 1),

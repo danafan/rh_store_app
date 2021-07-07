@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/row_widget.dart';
 import '../widgets/text_field.dart';
+
 import '../service/picker_tool.dart';
 import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
 
 class IntoAdmin extends StatefulWidget {
   @override
@@ -29,7 +31,6 @@ class _IntoAdminState extends State<IntoAdmin> {
   final _phoneController = new TextEditingController();
   //邮箱
   final _emailController = new TextEditingController();
-  
 
   @override
   void initState() {
@@ -37,13 +38,23 @@ class _IntoAdminState extends State<IntoAdmin> {
   }
 
   @override
+  void dispose() {
+    this._nameController.dispose();
+    this._cardIdController.dispose();
+    this._phoneController.dispose();
+    this._emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('超级管理员信息',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: SingleChildScrollView(
           child: GestureDetector(
@@ -55,16 +66,19 @@ class _IntoAdminState extends State<IntoAdmin> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                   Container(
+                  Container(
                     decoration: BoxDecoration(
+                        color: Color(0x0ce25d2b),
                         border: Border(
-                            bottom: BorderSide(color: Color(0xffF1F6F9)))),
+                            bottom: BorderSide(color: RhColors.colorLine))),
                     padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(20),
                         vertical: ScreenUtil().setHeight(3)),
                     child: Text(
                       '超级管理员需在开户后进行签约，并可接收日常重要管理信息和进行资金操作，请确定其为商户法定代表人或负责人!',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize12),
                     ),
                   ),
                   RowWidget(
@@ -99,12 +113,12 @@ class _IntoAdminState extends State<IntoAdmin> {
                                         this._adminTypeList[this._activeIndex]
                                             ['name'],
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff333333))),
+                                            fontSize: RhFontSize.fontSize14,
+                                            color: RhColors.colorTitle)),
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(8)),
                                   Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: Color(0xff8a8a8a))
+                                      size: 16, color: RhColors.colorDesc)
                                 ],
                               ))),
                       alignment: 'center'),
@@ -143,14 +157,15 @@ class _IntoAdminState extends State<IntoAdmin> {
                       ButtonWidget(
                           text: '提交',
                           buttonBack: () {
+                            ToastTool.toastWidget(context, msg: '请输入管理员姓名');
                             // if (this._nameController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入管理员姓名');
+                            // ToastTool.toastWidget(context, msg: '请输入管理员姓名');
                             // } else if (this._cardIdController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入管理员身份证号码');
+                            // ToastTool.toastWidget(context, msg: '请输入管理员身份证号码');
                             // } else if (this._cardIdController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入管理员手机号码');
+                            // ToastTool.toastWidget(context, msg: '请输入管理员手机号码');
                             // } else if (this._emailController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入管理员邮箱');
+                            // ToastTool.toastWidget(context, msg: '请输入管理员邮箱');
                             // } else {
                             //   Map req = {
                             //     'contact_type': this._adminTypeList[this._activeIndex]
@@ -162,7 +177,8 @@ class _IntoAdminState extends State<IntoAdmin> {
                             //   };
                             //   Navigator.pushNamedAndRemoveUntil(context, '/navigator',(route) => route == null);
                             // }
-                            Navigator.pushNamedAndRemoveUntil(context, '/navigator',(route) => route == null);
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                '/navigator', (route) => route == null);
                           })
                     ],
                   )

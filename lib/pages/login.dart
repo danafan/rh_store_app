@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
 import '../widgets/button_widget.dart';
+
 import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
 
 class Login extends StatefulWidget {
-  Map arguments;
+  final Map arguments;
   Login({this.arguments});
   @override
   _LoginState createState() => _LoginState();
@@ -41,10 +43,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff0a0b17),
+          backgroundColor: RhColors.colorAppBar,
           brightness: Brightness.dark,
           title: Text(widget.arguments['pageType'] == '1' ? '新商户签约' : '商户登录',
-              style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+              style: TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
         ),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
@@ -68,17 +70,17 @@ class _LoginState extends State<Login> {
                   SizedBox(height: ScreenUtil().setHeight(50)),
                   Container(
                       decoration: BoxDecoration(
-                          color: Color(0xffEDF2F6),
+                          color: RhColors.colorLine,
                           borderRadius: BorderRadius.circular(5)),
                       child: TextField(
                         controller: this._phoneController,
                         style:
-                            TextStyle(color: Color(0xff333333), fontSize: 16),
-                        cursorColor: Color(0xff333333),
+                            TextStyle(color: RhColors.colorTitle, fontSize: RhFontSize.fontSize16),
+                        cursorColor: RhColors.colorTitle,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: '请输入手机号码',
-                          hintStyle: TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(fontSize: RhFontSize.fontSize16),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(15)),
@@ -87,7 +89,7 @@ class _LoginState extends State<Login> {
                   SizedBox(height: ScreenUtil().setHeight(10)),
                   Container(
                       decoration: BoxDecoration(
-                          color: Color(0xffEDF2F6),
+                          color: RhColors.colorLine,
                           borderRadius: BorderRadius.circular(5)),
                       child: Row(
                         children: <Widget>[
@@ -95,12 +97,12 @@ class _LoginState extends State<Login> {
                               child: TextField(
                             controller: this._codeController,
                             style: TextStyle(
-                                color: Color(0xff333333), fontSize: 16),
-                            cursorColor: Color(0xff333333),
+                                color: RhColors.colorTitle, fontSize: RhFontSize.fontSize16),
+                            cursorColor: RhColors.colorTitle,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: '请输入验证码',
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: TextStyle(fontSize: RhFontSize.fontSize16),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: ScreenUtil().setWidth(15)),
@@ -130,8 +132,8 @@ class _LoginState extends State<Login> {
                                   _codeText,
                                   style: TextStyle(
                                       color: this._countdownTime == 6
-                                          ? Color(0xffe25d2b)
-                                          : Color(0xff8a8a8a)),
+                                          ? RhColors.colorPrimary
+                                          : RhColors.colorDesc),
                                 )),
                           ),
                         ],

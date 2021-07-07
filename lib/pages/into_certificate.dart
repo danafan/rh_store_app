@@ -8,6 +8,7 @@ import '../widgets/text_field.dart';
 import '../widgets/image_widget.dart';
 
 import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
 
 class IntoCertificate extends StatefulWidget {
   @override
@@ -32,13 +33,23 @@ class _IntoCertificateState extends State<IntoCertificate> {
   }
 
   @override
+  void dispose() {
+    this._storeNameController.dispose();
+    this._referredController.dispose();
+    this._urlController.dispose();
+    this._idNoController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('商户信息',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: SingleChildScrollView(
           child: GestureDetector(
@@ -52,14 +63,15 @@ class _IntoCertificateState extends State<IntoCertificate> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
+                        color: Color(0x0ce25d2b),
                         border: Border(
-                            bottom: BorderSide(color: Color(0xffF1F6F9)))),
+                            bottom: BorderSide(color: RhColors.colorLine))),
                     padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(20),
                         vertical: ScreenUtil().setHeight(3)),
                     child: Text(
                       '商户信息用途是为商家注册微信商户号，热乎优选承诺保护商家隐私安全，信息绝不外露，请放心填写!',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                      style: TextStyle(color: RhColors.colorPrimary, fontSize: RhFontSize.fontSize12),
                     ),
                   ),
                   RowWidget(
@@ -114,7 +126,7 @@ class _IntoCertificateState extends State<IntoCertificate> {
                             child: Text(
                               '*营业执照图片',
                               style: TextStyle(
-                                  color: Color(0xffe25d2b), fontSize: 12),
+                                  color: RhColors.colorPrimary, fontSize: RhFontSize.fontSize12),
                             ),
                           ),
                         ],
@@ -127,16 +139,17 @@ class _IntoCertificateState extends State<IntoCertificate> {
                       ButtonWidget(
                           text: '提交',
                           buttonBack: () {
+                            ToastTool.toastWidget(context, msg: '请输入商家名称');
                             // if (this._storeNameController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入商家名称');
+                            // ToastTool.toastWidget(context, msg: '请输入商家名称');
                             // } else if (this._referredController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入商家简称');
+                            // ToastTool.toastWidget(context, msg: '请输入商家简称');
                             // } else if (this._urlController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入商家链接');
+                            // ToastTool.toastWidget(context, msg: '请输入商家链接');
                             // } else if (this._idNoController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入证件号');
+                            // ToastTool.toastWidget(context, msg: '请输入证件号');
                             // } else if (this._certificateImg.length == 0) {
-                              // ToastTool.toastWidget(context, msg: '请上传证件图片');
+                            // ToastTool.toastWidget(context, msg: '请上传证件图片');
                             // } else {
                             //   Map req = {
                             //     'merchant_name': this._storeNameController.text,

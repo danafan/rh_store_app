@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../service/picker_tool.dart';
-import '../../widgets/button_widget.dart';
-import '../../widgets/row_widget.dart';
-import '../../widgets/text_field.dart';
-import '../../service/toast_tool.dart';
+import '../../../widgets/button_widget.dart';
+import '../../../widgets/row_widget.dart';
+import '../../../widgets/text_field.dart';
+
+import '../../../service/toast_tool.dart';
+import '../../../service/picker_tool.dart';
+import '../../../service/config_tool.dart';
 
 class EditBank extends StatefulWidget {
   @override
@@ -44,13 +46,20 @@ class _EditBankState extends State<EditBank> {
   }
 
   @override
+  void dispose() {
+    this._countController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('设置银行卡',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: SingleChildScrollView(
           child: GestureDetector(
@@ -94,12 +103,12 @@ class _EditBankState extends State<EditBank> {
                                         this._accountTypeList[
                                             this._accountTypeIndex]['name'],
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff333333))),
+                                            fontSize: RhFontSize.fontSize14,
+                                            color: RhColors.colorTitle)),
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(8)),
                                   Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: Color(0xff8a8a8a))
+                                      size: 16, color: RhColors.colorDesc)
                                 ],
                               ))),
                       alignment: 'center'),
@@ -127,12 +136,12 @@ class _EditBankState extends State<EditBank> {
                                     alignment: Alignment.centerLeft,
                                     child: Text(this._bankList[this._bankIndex],
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff333333))),
+                                            fontSize: RhFontSize.fontSize14,
+                                            color: RhColors.colorTitle)),
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(8)),
                                   Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: Color(0xff8a8a8a))
+                                      size: 16, color: RhColors.colorDesc)
                                 ],
                               ))),
                       alignment: 'center'),
@@ -175,12 +184,12 @@ class _EditBankState extends State<EditBank> {
                                         this._addressList[this._addressIndex]
                                             ['name'],
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff333333))),
+                                            fontSize: RhFontSize.fontSize14,
+                                            color: RhColors.colorTitle)),
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(8)),
                                   Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: Color(0xff8a8a8a))
+                                      size: 16, color: RhColors.colorDesc)
                                 ],
                               ))),
                       alignment: 'center'),
@@ -191,12 +200,14 @@ class _EditBankState extends State<EditBank> {
                       children: <Widget>[
                         Text(
                           '提交审核后，系统会自动汇款0.01元至新账户，验证是否可正常使用。',
-                          style:
-                              TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                          style: TextStyle(
+                              color: RhColors.colorPrimary,
+                              fontSize: RhFontSize.fontSize12),
                         ),
                         Text('可在【银行卡】页面查看审核结果',
                             style: TextStyle(
-                                color: Color(0xffe25d2b), fontSize: 12))
+                                color: RhColors.colorPrimary,
+                                fontSize: RhFontSize.fontSize12))
                       ],
                     ),
                   ),

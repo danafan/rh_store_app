@@ -1,20 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import './package_item.dart';
-import './loading_more.dart';
-import './list_bottom.dart';
+import './order_item.dart';
+import '../../widgets/loading_more.dart';
+import '../../widgets/list_bottom.dart';
 
-class PackageList extends StatefulWidget {
-  final String listType; //套餐列表筛选条件（1:已上架；2:待上架；3:待审核；4:已拒绝）
-  PackageList({this.listType});
+class OrderList extends StatefulWidget {
+  final String listType; //订单列表筛选条件（1:全部；2:待核销；3:已完成；4:已退款）
+  OrderList({this.listType});
   @override
-  _PackageListState createState() => _PackageListState();
+  _OrderListState createState() => _OrderListState();
 }
 
-class _PackageListState extends State<PackageList> {
-  //套餐列表
-  List<String> packageList = [];
+class _OrderListState extends State<OrderList> {
+  //订单列表
+  List<Map> orderList = [];
   //是否加载
   bool _isLoad = false;
   //所有数据加载完毕
@@ -24,16 +24,16 @@ class _PackageListState extends State<PackageList> {
   @override
   void initState() {
     super.initState();
-    List<String> newsList = ['1', '2', '3', '4', '5'];
+    List<Map> newsList = [{'orderStatus':'1'},{'orderStatus':'2'},{'orderStatus':'3'}];
     //初始化列表数据
-    this.packageList.addAll(newsList);
+    orderList.addAll(newsList);
     //监听列表滚动
     this._scrollController.addListener(() {
       // 滑动到底部的关键判断
       if (!this._isLoad &&
           this._scrollController.position.pixels >=
               this._scrollController.position.maxScrollExtent) {
-        if (this.packageList.length == 5) {
+        if (this.orderList.length == 5) {
           //如果所有数据加载完毕
           setState(() {
             this._isOver = true;
@@ -53,10 +53,10 @@ class _PackageListState extends State<PackageList> {
   //加载更多数据
   Future loadMoreData() {
     return Future.delayed(Duration(seconds: 3), () {
-      List<String> newsList = ['1', '2', '3', '4', '5'];
+      List<Map> newsList = [{'orderStatus':'1'},{'orderStatus':'2'},{'orderStatus':'3'}];
       setState(() {
         this._isLoad = false;
-        this.packageList.addAll(newsList);
+        this.orderList.addAll(newsList);
       });
     });
   }
@@ -71,7 +71,6 @@ class _PackageListState extends State<PackageList> {
   @override
   void dispose() {
     this._scrollController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -80,18 +79,17 @@ class _PackageListState extends State<PackageList> {
     return RefreshIndicator(
       onRefresh: this.onRefresh,
       child: ListView.builder(
-          padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
           controller: this._scrollController,
-          itemCount: this.packageList.length + 1,
+          itemCount: this.orderList.length + 1,
           itemBuilder: (context, index) {
-            if (index < this.packageList.length) {
-              return PackageItem(
-                  itemType: this.packageList[index], index: index);
+            if (index < this.orderList.length) {
+              return OrderItem(orderInfo:this.orderList[index]);
             } else {
               if (this._isLoad) {
                 return LoadingMore();
               } else {
-                return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
+                return ListBottom(toastContent:this._isOver ? '到底了' : '上拉加载更多');
               }
             }
           }),

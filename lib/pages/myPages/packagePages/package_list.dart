@@ -1,47 +1,40 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import './message_item.dart';
-import './loading_more.dart';
-import './list_bottom.dart';
+import './package_item.dart';
 
-class MessageList extends StatefulWidget {
-  String _listType = '1'; //套餐列表筛选条件（1:系统消息；2:平台公告）
-  MessageList(this._listType);
+import '../../../widgets/loading_more.dart';
+import '../../../widgets/list_bottom.dart';
+
+class PackageList extends StatefulWidget {
+  final String listType; //套餐列表筛选条件（1:已上架；2:待上架；3:待审核；4:已拒绝）
+  PackageList({this.listType});
   @override
-  _MessageListState createState() => _MessageListState();
+  _PackageListState createState() => _PackageListState();
 }
 
-class _MessageListState extends State<MessageList> {
-  //消息列表
-  List<Map> _messageList = [];
+class _PackageListState extends State<PackageList> {
+  //套餐列表
+  List<String> packageList = [];
   //是否加载
   bool _isLoad = false;
   //所有数据加载完毕
   bool _isOver = false;
   ScrollController _scrollController = new ScrollController();
-  //筛选条件
-  String _listType;
 
   @override
   void initState() {
     super.initState();
-    _listType = widget._listType;
-    List<Map> newsList = [
-      {'id': '1', 'type': '1', 'isRead': '0'},
-      {'id': '2', 'type': '2', 'isRead': '0'},
-      {'id': '3', 'type': '3', 'isRead': '1'}
-    ];
+    List<String> newsList = ['1', '2', '3', '4', '5'];
     //初始化列表数据
-    this._messageList.addAll(newsList);
+    this.packageList.addAll(newsList);
     //监听列表滚动
     this._scrollController.addListener(() {
       // 滑动到底部的关键判断
       if (!this._isLoad &&
           this._scrollController.position.pixels >=
               this._scrollController.position.maxScrollExtent) {
-        if (this._messageList.length == 5) {
+        if (this.packageList.length == 5) {
           //如果所有数据加载完毕
           setState(() {
             this._isOver = true;
@@ -61,14 +54,10 @@ class _MessageListState extends State<MessageList> {
   //加载更多数据
   Future loadMoreData() {
     return Future.delayed(Duration(seconds: 3), () {
-      List<Map> newsList = [
-        {'id': '1', 'type': '1', 'isRead': '0'},
-        {'id': '2', 'type': '2', 'isRead': '0'},
-        {'id': '3', 'type': '3', 'isRead': '1'}
-      ];
+      List<String> newsList = ['1', '2', '3', '4', '5'];
       setState(() {
         this._isLoad = false;
-        this._messageList.addAll(newsList);
+        this.packageList.addAll(newsList);
       });
     });
   }
@@ -83,7 +72,6 @@ class _MessageListState extends State<MessageList> {
   @override
   void dispose() {
     this._scrollController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -92,16 +80,18 @@ class _MessageListState extends State<MessageList> {
     return RefreshIndicator(
       onRefresh: this.onRefresh,
       child: ListView.builder(
+          padding: EdgeInsets.all(8),
           controller: this._scrollController,
-          itemCount: this._messageList.length + 1,
+          itemCount: this.packageList.length + 1,
           itemBuilder: (context, index) {
-            if (index < this._messageList.length) {
-              return MessageItem(this._listType,this._messageList[index]);
+            if (index < this.packageList.length) {
+              return PackageItem(
+                  itemType: this.packageList[index], index: index);
             } else {
               if (this._isLoad) {
                 return LoadingMore();
               } else {
-                return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
+                return ListBottom(toastContent:this._isOver ? '到底了' : '上拉加载更多');
               }
             }
           }),

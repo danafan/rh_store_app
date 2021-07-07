@@ -6,7 +6,7 @@ import '../service/toast_tool.dart';
 import '../service/config_tool.dart';
 
 import '../widgets/dialog_widget.dart';
-import '../widgets/order_detail.dart';
+import './homePages/order_detail.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             title: Text('盛宴海鲜自助餐厅',
                 style: TextStyle(
                     color: Color(0xffd1b171),
-                    fontSize: RhFontSize.fontSize18,
+                    fontSize: RhFontSize.fontSize16,
                     fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1),
@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                     return Dialog(
                       child: DialogWidget(
                           title: '输码核销',
-                          content_widget: Container(
+                          contentWidget: Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: ScreenUtil().setHeight(30)),
                             child: Container(
@@ -290,12 +290,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )),
                           ),
-                          cancel_fun: () {
+                          cancelFun: () {
                             this.setState(() {
                               _codeController.text = "";
                             });
                           },
-                          confirm_fun: () {
+                          confirmFun: () {
                             if (this._codeController.text == '') {
                               ToastTool.toastWidget(context, msg: '请输入订单核销码');
                             } else {
@@ -306,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                               this.showResult('data');
                             }
                           },
-                          confim_text: '立即查找'),
+                          confimText: '立即查找'),
                     );
                   },
                 ).then((val) {});
@@ -333,13 +333,13 @@ class _HomePageState extends State<HomePage> {
         return Dialog(
           child: DialogWidget(
               title: '订单详情',
-              content_widget: OrderDetail(data: dataMap),
-              cancel_fun: () {},
-              confirm_fun: () {
+              contentWidget: OrderDetail(data: dataMap),
+              cancelFun: () {},
+              confirmFun: () {
                 ToastTool.toastWidget(context, msg: '订单已核销!');
                 Navigator.of(context).pop();
               },
-              confim_text: '立即核销'),
+              confimText: '立即核销'),
         );
       },
     ).then((val) {});

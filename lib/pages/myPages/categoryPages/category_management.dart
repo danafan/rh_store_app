@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../widgets/dialog_widget.dart';
+import '../../../widgets/dialog_widget.dart';
 
-import '../../service/toast_tool.dart';
-import '../../service/config_tool.dart';
+import '../../../service/toast_tool.dart';
+import '../../../service/config_tool.dart';
 
 class CategoryManagement extends StatefulWidget {
   @override
@@ -49,13 +49,13 @@ class _CategoryManagementState extends State<CategoryManagement> {
                       return Dialog(
                         child: DialogWidget(
                             title: '新增分类',
-                            content_widget: _contentWidget(),
-                            cancel_fun: () {
+                            contentWidget: _contentWidget(),
+                            cancelFun: () {
                               this.setState(() {
                                 this._nameController.text = "";
                               });
                             },
-                            confirm_fun: () {
+                            confirmFun: () {
                               ToastTool.toastWidget(context, msg: '添加成功');
                               print(this._nameController.text);
                             }),
@@ -138,13 +138,13 @@ class _CategoryManagementState extends State<CategoryManagement> {
                             return Dialog(
                               child: DialogWidget(
                                   title: '编辑分类',
-                                  content_widget: _contentWidget(),
-                                  cancel_fun: () {
+                                  contentWidget: _contentWidget(),
+                                  cancelFun: () {
                                     this.setState(() {
                                       this._nameController.text = "";
                                     });
                                   },
-                                  confirm_fun: () {
+                                  confirmFun: () {
                                     //编辑
                                     print('编辑');
                                     print(this._cateId);
@@ -173,15 +173,15 @@ class _CategoryManagementState extends State<CategoryManagement> {
                             return Dialog(
                               child: DialogWidget(
                                   title: '提示',
-                                  content_widget: Container(
+                                  contentWidget: Container(
                                       padding: EdgeInsets.only(
                                           top: ScreenUtil().setHeight(30),
                                           bottom: ScreenUtil().setHeight(30)),
                                       child: Text('确认删除该分类？')),
-                                  cancel_fun: () {
+                                  cancelFun: () {
                                     print('取消删除');
                                   },
-                                  confirm_fun: () {
+                                  confirmFun: () {
                                     ToastTool.toastWidget(context, msg: '已删除');
                                     print(this._cateId);
                                   }),

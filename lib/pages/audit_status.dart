@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../service/config_tool.dart';
+
 class AuditStatus extends StatefulWidget {
   @override
   _AuditStatusState createState() => _AuditStatusState();
@@ -10,10 +12,10 @@ class _AuditStatusState extends State<AuditStatus> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title:
-            Text('', style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            Text('', style: TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: Container(
         alignment: Alignment.center,

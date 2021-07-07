@@ -6,25 +6,25 @@ import '../pages/commentPages/complaint.dart';
 import '../pages/myPages/bill_page.dart';
 import '../pages/myPages/cash_page.dart';
 import '../pages/myPages/store_setting.dart';
-import '../pages/myPages/business_hours.dart';
-import '../pages/myPages/business_info.dart';
-import '../pages/myPages/package_management.dart';
-import '../pages/myPages/created_package.dart';
+import '../pages/myPages/storeStting/business_hours.dart';
+import '../pages/myPages/storeStting/business_info.dart';
+import '../pages/myPages/package_page.dart';
+import '../pages/myPages/packagePages/created_package.dart';
 import '../pages/myPages/category_page.dart';
 import '../pages/myPages/menu_page.dart';
-import '../pages/myPages/add_menu.dart';
-import '../pages/myPages/choose_menu.dart';
-import '../pages/myPages/category_management.dart';
+import '../pages/myPages/menuPages/add_menu.dart';
+import '../pages/myPages/categoryPages/choose_menu.dart';
+import '../pages/myPages/categoryPages/category_management.dart';
 import '../pages/myPages/bank_card.dart';
-import '../pages/myPages/edit_bank.dart';
+import '../pages/myPages/bankCard/edit_bank.dart';
 import '../pages/login_regis.dart';
 import '../pages/login.dart';
 import '../pages/into_certificate.dart';
 import '../pages/into_identity.dart';
 import '../pages/into_admin.dart';
 import '../pages/audit_status.dart';
-import '../pages/qr_code_scanner.dart';
-import '../pages/message_page.dart';
+import '../pages/homePages/qr_code_scanner.dart';
+import '../pages/homePages/message_page.dart';
 
 //配置路由
 final routes = {
@@ -36,7 +36,7 @@ final routes = {
   '/store_setting': (context) => StoreSetting(),
   '/business_hours': (context) => BusinessHours(),
   '/business_info': (context) => BusinessInfo(),
-  '/package_management': (context) => PackageManagement(),
+  '/package_management': (context) => PackagePage(),
   '/created_package': (context, {arguments}) =>
       CreatedPackage(arguments: arguments),
   '/category_page': (context) => CategoryPage(),

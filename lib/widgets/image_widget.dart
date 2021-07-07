@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../service/config_tool.dart';
 
 class ImageWidget extends StatefulWidget {
   final List imageFileList;
   final callBack;
-  
-  ImageWidget({this.imageFileList,this.callBack});
+
+  ImageWidget({this.imageFileList, this.callBack});
   @override
   _ImageWidgetState createState() => _ImageWidgetState();
 }
@@ -22,7 +23,11 @@ class _ImageWidgetState extends State<ImageWidget> {
         fit: BoxFit.cover,
       ),
       onTap: () {
-        var arg = {'images': widget.imageFileList, 'index': 0, 'heroTag': '111'};
+        var arg = {
+          'images': widget.imageFileList,
+          'index': 0,
+          'heroTag': '111'
+        };
         Navigator.pushNamed(context, '/photo_view', arguments: arg);
       },
       onLongPress: () {
@@ -47,7 +52,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                           alignment: Alignment.center,
                           child: Text('删除',
                               style: TextStyle(
-                                  color: Color(0xff333333), fontSize: 16)))),
+                                  color: RhColors.colorTitle,
+                                  fontSize: RhFontSize.fontSize16)))),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   InkWell(
                       onTap: () {
@@ -58,7 +64,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                           alignment: Alignment.center,
                           child: Text('取消',
                               style: TextStyle(
-                                  color: Color(0xffe25d2b), fontSize: 16)))),
+                                  color: RhColors.colorPrimary,
+                                  fontSize: RhFontSize.fontSize16)))),
                 ],
               ),
             );

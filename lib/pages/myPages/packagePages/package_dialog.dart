@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../service/toast_tool.dart';
-import '../service/config_tool.dart';
+import '../../../service/toast_tool.dart';
+import '../../../service/config_tool.dart';
 
 //添加分类的弹框
 class DialogWidget extends StatefulWidget {

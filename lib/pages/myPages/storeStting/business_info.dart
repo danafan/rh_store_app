@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
-import '../../service/config_tool.dart';
+import '../../../service/config_tool.dart';
 
 class BusinessInfo extends StatefulWidget {
   @override

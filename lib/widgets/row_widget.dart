@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../service/config_tool.dart';
+
 class RowWidget extends StatefulWidget {
-  String label;
-  Widget expandWidget;
-  String alignment;
+  final String label;
+  final Widget expandWidget;
+  final String alignment;
   
   RowWidget({this.label,this.expandWidget,this.alignment});
   @override
@@ -22,7 +24,7 @@ class _RowWidgetState extends State<RowWidget> {
                 : ScreenUtil().setHeight(5)),
         decoration: BoxDecoration(
             color: Color(0xffffffff),
-            border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+            border: Border(bottom: BorderSide(color: RhColors.colorLine))),
         child: Row(
             crossAxisAlignment: widget.alignment == 'start'
                 ? CrossAxisAlignment.start
@@ -32,8 +34,8 @@ class _RowWidgetState extends State<RowWidget> {
                 width: ScreenUtil().setWidth(180),
                 child: Text(widget.label,
                     style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: 15,
+                        color: RhColors.colorTitle,
+                        fontSize: RhFontSize.fontSize14,
                         fontWeight: FontWeight.bold)),
               ),
               widget.expandWidget

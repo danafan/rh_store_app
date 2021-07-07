@@ -4,20 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../service/config_tool.dart';
 
 class DialogWidget extends StatefulWidget {
-  String title;
-  var content_widget;
-  final cancel_fun;
-  final confirm_fun;
-  String cancel_text;
-  String confim_text;
+  final String title;
+  final dynamic contentWidget;
+  final dynamic cancelFun;
+  final dynamic confirmFun;
+  final String cancelText;
+  final String confimText;
   DialogWidget(
       {this.title,
-      this.content_widget,
-      this.cancel_fun,
-      this.confirm_fun,
-      this.cancel_text = '取消',
-      this.confim_text = '确认'});
-
+      this.contentWidget,
+      this.cancelFun,
+      this.confirmFun,
+      this.cancelText = '取消',
+      this.confimText = '确认'});
   @override
   _DialogWidgetState createState() => _DialogWidgetState();
 }
@@ -44,7 +43,7 @@ class _DialogWidgetState extends State<DialogWidget> {
           Divider(height: ScreenUtil().setHeight(1)),
           Container(
             padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
-            child: widget.content_widget,
+            child: widget.contentWidget,
           ),
           Divider(height: ScreenUtil().setHeight(1)),
           Container(
@@ -53,13 +52,13 @@ class _DialogWidgetState extends State<DialogWidget> {
                 Expanded(
                     child: InkWell(
                         onTap: () {
-                          widget.cancel_fun();
+                          widget.cancelFun();
                           Navigator.of(context).pop();
                         },
                         child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              widget.cancel_text,
+                              widget.cancelText,
                               style: TextStyle(
                                   color: RhColors.colorTitle,
                                   fontSize: RhFontSize.fontSize14),
@@ -67,7 +66,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                 Expanded(
                     child: InkWell(
                         onTap: () {
-                          widget.confirm_fun();
+                          widget.confirmFun();
                         },
                         child: Container(
                             decoration: BoxDecoration(
@@ -75,7 +74,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                                 borderRadius: BorderRadius.only(
                                     bottomRight: Radius.circular(5))),
                             alignment: Alignment.center,
-                            child: Text(widget.confim_text,
+                            child: Text(widget.confimText,
                                 style: TextStyle(
                                     color: RhColors.colorWhite,
                                     fontSize: RhFontSize.fontSize14)))))

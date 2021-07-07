@@ -3,7 +3,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class PhotoView extends StatefulWidget {
-  Map arguments;
+  final Map arguments;
   PhotoView({this.arguments});
   @override
   _PhotoViewState createState() => _PhotoViewState();
@@ -18,7 +18,6 @@ class _PhotoViewState extends State<PhotoView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     images = widget.arguments['images'];
     currentIndex = widget.arguments['index'];

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 
 import '../service/config_tool.dart';
 
-import '../widgets/order_list.dart';
+import './orderPages/order_list.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -74,13 +74,13 @@ class _OrderPageState extends State<OrderPage>
           controller: this._tabController,
           children: <Widget>[
             //全部
-            OrderList('1'),
+            OrderList(listType:'1'),
             //待核销
-            OrderList('2'),
+            OrderList(listType:'2'),
             //已完成
-            OrderList('3'),
+            OrderList(listType:'3'),
             //已退款
-            OrderList('4')
+            OrderList(listType:'4')
           ],
         ));
   }

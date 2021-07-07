@@ -145,13 +145,13 @@ class _StoreSettingState extends State<StoreSetting> {
                       return Dialog(
                         child: DialogWidget(
                             title: '联系人',
-                            content_widget: _contentWidget('联系人'),
-                            cancel_fun: () {
+                            contentWidget: _contentWidget('联系人'),
+                            cancelFun: () {
                               this.setState(() {
                                 this._textFieldController.text = "";
                               });
                             },
-                            confirm_fun: () {
+                            confirmFun: () {
                               print('提交编辑联系人');
                               print(this._textFieldController.text);
                             }),
@@ -176,13 +176,13 @@ class _StoreSettingState extends State<StoreSetting> {
                       return Dialog(
                         child: DialogWidget(
                             title: '联系电话',
-                            content_widget: _contentWidget('联系电话'),
-                            cancel_fun: () {
+                            contentWidget: _contentWidget('联系电话'),
+                            cancelFun: () {
                               this.setState(() {
                                 this._textFieldController.text = "";
                               });
                             },
-                            confirm_fun: () {
+                            confirmFun: () {
                               print('提交编辑联系电话');
                               print(this._textFieldController.text);
                             }),

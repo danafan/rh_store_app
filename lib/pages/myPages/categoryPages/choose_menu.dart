@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../widgets/search_widget.dart';
-import '../../widgets/list_bottom.dart';
-import '../../widgets/loading_more.dart';
+import '../../../widgets/search_widget.dart';
+import '../../../widgets/list_bottom.dart';
+import '../../../widgets/loading_more.dart';
+import '../../../widgets/empty_widget.dart';
 
-import '../../service/toast_tool.dart';
-import '../../service/config_tool.dart';
+import '../../../service/toast_tool.dart';
+import '../../../service/config_tool.dart';
 
 class ChooseMenu extends StatefulWidget {
   final Map arguments;
@@ -18,8 +19,6 @@ class ChooseMenu extends StatefulWidget {
 class _ChooseMenuState extends State<ChooseMenu> {
   //传递过来的分类ID
   String _categoryId = "";
-  //传递过来的分类名称
-  String _categoryName = "";
   //所有菜品列表
   List _menuList = [];
   //选中的菜品ID列表
@@ -58,7 +57,6 @@ class _ChooseMenuState extends State<ChooseMenu> {
     });
     this.setState(() {
       _categoryId = widget.arguments['id'];
-      _categoryName = widget.arguments['name'];
     });
   }
 
@@ -212,6 +210,7 @@ class _ChooseMenuState extends State<ChooseMenu> {
                 width: double.infinity,
                 child: SearchWidget(
                   callBack: (e) {
+                    FocusScope.of(context).requestFocus(FocusNode());
                     print(e);
                   },
                 ),
@@ -222,33 +221,47 @@ class _ChooseMenuState extends State<ChooseMenu> {
           children: <Widget>[
             Expanded(
                 child: this._menuList.length == 0
-                    ? _emptyWidget()
-                    : GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          // 触摸收起键盘
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        child: RefreshIndicator(
-                            onRefresh: this.onRefresh,
-                            child: ListView.builder(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: ScreenUtil().setWidth(8)),
-                                controller: this._scrollController,
-                                itemCount: this._menuList.length + 1,
-                                itemBuilder: (context, index) {
-                                  if (index < this._menuList.length) {
-                                    return _menuItemWidget(index);
-                                  } else {
-                                    if (this._isLoad) {
-                                      return LoadingMore();
-                                    } else {
-                                      return ListBottom(
-                                          this._isOver ? '到底了' : '上拉加载更多');
-                                    }
-                                  }
-                                })),
-                      )),
+                    ? EmptyWidget(cateId: this._categoryId)
+                    : RefreshIndicator(
+                        onRefresh: this.onRefresh,
+                        child: ListView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: ScreenUtil().setWidth(8)),
+                            controller: this._scrollController,
+                            itemCount: this._menuList.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index < this._menuList.length) {
+                                return InkWell(
+                                    onTap: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      this.setState(() {
+                                        this._menuList[index]['is_select'] =
+                                            !this._menuList[index]['is_select'];
+                                        _activeIdList = [];
+                                      });
+                                      for (var i = 0;
+                                          i < this._menuList.length;
+                                          i++) {
+                                        if (this._menuList[i]['is_select'] ==
+                                            true) {
+                                          this.setState(() {
+                                            _activeIdList
+                                                .add(this._menuList[i]['id']);
+                                          });
+                                        }
+                                      }
+                                    },
+                                    child: _menuItemWidget(index));
+                              } else {
+                                if (this._isLoad) {
+                                  return LoadingMore();
+                                } else {
+                                  return ListBottom(
+                                      toastContent:this._isOver ? '到底了' : '上拉加载更多');
+                                }
+                              }
+                            }))),
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -264,8 +277,9 @@ class _ChooseMenuState extends State<ChooseMenu> {
                       color: Color(0xff0C0D0D),
                       child: Text(
                         '已选（${_activeIdList.length}）',
-                        style:
-                            TextStyle(color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14),
+                        style: TextStyle(
+                            color: RhColors.colorWhite,
+                            fontSize: RhFontSize.fontSize14),
                       )),
                   Expanded(
                       child: InkWell(
@@ -286,7 +300,8 @@ class _ChooseMenuState extends State<ChooseMenu> {
                             : RhColors.colorDesc,
                         child: Text(_activeIdList.length > 0 ? '选好了' : '请选择',
                             style: TextStyle(
-                                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize14))),
+                                color: RhColors.colorWhite,
+                                fontSize: RhFontSize.fontSize14))),
                   ))
                 ],
               ),
@@ -297,100 +312,46 @@ class _ChooseMenuState extends State<ChooseMenu> {
 
   //某一个菜品
   _menuItemWidget(index) {
-    return InkWell(
-      onTap: () {
-        this.setState(() {
-          this._menuList[index]['is_select'] =
-              !this._menuList[index]['is_select'];
-          _activeIdList = [];
-        });
-        for (var i = 0; i < this._menuList.length; i++) {
-          if (this._menuList[i]['is_select'] == true) {
-            this.setState(() {
-              _activeIdList.add(this._menuList[i]['id']);
-            });
-          }
-        }
-      },
-      child: Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: RhColors.colorLine))),
-          height: ScreenUtil().setHeight(130),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              //菜品图片
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Image.network(
-                    'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                    height: ScreenUtil().setHeight(110),
-                    width: ScreenUtil().setHeight(110),
-                    fit: BoxFit.cover),
-              ),
-              SizedBox(width: ScreenUtil().setWidth(10)),
-              //名称和价格
-              Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                    Text(this._menuList[index]['name'],
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: RhColors.colorTitle,
-                            fontSize: RhFontSize.fontSize14,
-                            fontWeight: FontWeight.bold)),
-                    Text(
-                        '¥${this._menuList[index]['price']}/${this._menuList[index]['unit']}',
-                        style: TextStyle(
-                            color: RhColors.colorPrimary,
-                            fontSize: RhFontSize.fontSize14))
-                  ])),
-              this._menuList[index]['is_select'] == true
-                  ? Icon(Icons.check_circle,
-                      size: 20, color: RhColors.colorPrimary)
-                  : Icon(Icons.check_circle_outline,
-                      size: 20, color: RhColors.colorDesc)
-            ],
-          )),
-    );
-  }
-
-  //空列表
-  _emptyWidget() {
     return Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: RhColors.colorLine))),
+        height: ScreenUtil().setHeight(130),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('没有任何菜品哦，快去添加吧~',
-                style: TextStyle(
-                    color: RhColors.colorTitle,
-                    fontSize: RhFontSize.fontSize14)),
-            SizedBox(height: ScreenUtil().setHeight(10)),
-            InkWell(
-              onTap: () {
-                Map arg = {
-                  'pageType': '1',
-                  'id': this._categoryId,
-                  'name': this._categoryName
-                };
-                Navigator.pushNamed(context, '/add_menu', arguments: arg);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: RhColors.colorPrimary,
-                    borderRadius: BorderRadius.circular(3)),
-                alignment: Alignment.center,
-                width: ScreenUtil().setWidth(150),
-                height: ScreenUtil().setHeight(60),
-                child: Text('去添加',
-                    style: TextStyle(
-                        color: RhColors.colorWhite,
-                        fontSize: RhFontSize.fontSize12)),
-              ),
-            )
+            //菜品图片
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.network(
+                  'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
+                  height: ScreenUtil().setHeight(110),
+                  width: ScreenUtil().setHeight(110),
+                  fit: BoxFit.cover),
+            ),
+            SizedBox(width: ScreenUtil().setWidth(10)),
+            //名称和价格
+            Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                  Text(this._menuList[index]['name'],
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize14,
+                          fontWeight: FontWeight.bold)),
+                  Text(
+                      '¥${this._menuList[index]['price']}/${this._menuList[index]['unit']}',
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14))
+                ])),
+            this._menuList[index]['is_select'] == true
+                ? Icon(Icons.check_circle,
+                    size: 20, color: RhColors.colorPrimary)
+                : Icon(Icons.check_circle_outline,
+                    size: 20, color: RhColors.colorDesc)
           ],
         ));
   }

@@ -5,6 +5,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../widgets/search_widget.dart';
 import '../../widgets/list_bottom.dart';
 import '../../widgets/loading_more.dart';
+import '../../widgets/empty_widget.dart';
+import '../../widgets/dialog_widget.dart';
+
+import '../../service/config_tool.dart';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -48,6 +52,12 @@ class _MenuPageState extends State<MenuPage> {
     });
   }
 
+  @override
+  void dispose() {
+    this._scrollController.dispose();
+    super.dispose();
+  }
+
   //加载更多数据
   Future _loadMoreData() {
     return Future.delayed(Duration(seconds: 2), () {
@@ -83,18 +93,13 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   @override
-  void dispose() {
-    this._scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xff0a0b17),
+            backgroundColor: RhColors.colorAppBar,
             brightness: Brightness.dark,
-            title: Text('菜单管理', style: TextStyle(fontSize: 18)),
+            title:
+                Text('菜单管理', style: TextStyle(fontSize: RhFontSize.fontSize18)),
             actions: <Widget>[
               InkWell(
                   onTap: () {
@@ -106,13 +111,14 @@ class _MenuPageState extends State<MenuPage> {
                     children: <Widget>[
                       Icon(
                         Icons.add,
-                        color: Color(0xffe25d2b),
+                        color: RhColors.colorPrimary,
                         size: 16,
                       ),
                       Text(
                         '添加菜品',
-                        style:
-                            TextStyle(color: Color(0xffe25d2b), fontSize: 14),
+                        style: TextStyle(
+                            color: RhColors.colorPrimary,
+                            fontSize: RhFontSize.fontSize14),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(30))
                     ],
@@ -123,11 +129,13 @@ class _MenuPageState extends State<MenuPage> {
                 padding: EdgeInsets.only(
                     left: ScreenUtil().setWidth(15),
                     right: ScreenUtil().setWidth(15)),
-                color: Color(0xffffffff),
+                color: RhColors.colorWhite,
                 height: ScreenUtil().setHeight(70),
                 width: double.infinity,
                 child: SearchWidget(
                   callBack: (e) {
+                    // 触摸收起键盘
+                    FocusScope.of(context).requestFocus(FocusNode());
                     print(e);
                   },
                 ),
@@ -135,54 +143,66 @@ class _MenuPageState extends State<MenuPage> {
               preferredSize: Size(double.infinity, ScreenUtil().setHeight(60)),
             )),
         body: this._menuList.length == 0
-            ? _emptyWidget()
-            : GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  // 触摸收起键盘
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: RefreshIndicator(
-                    onRefresh: this.onRefresh,
-                    child: ListView.builder(
-                        padding: EdgeInsets.only(left: 8),
-                        controller: this._scrollController,
-                        itemCount: this._menuList.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index < this._menuList.length) {
-                            return Slidable(
-                                key: ValueKey("$index"),
-                                //右侧滑动部分
-                                secondaryActions:
-                                    rightActionsArray(index, context),
-                                //滑动的交互效果
-                                actionPane: SlidableDrawerActionPane(),
-                                //item内容
-                                child: InkWell(
-                                    onTap: () {
-                                      Map arg = {'pageType': '2'};
-                                      Navigator.pushNamed(context, '/add_menu',
-                                          arguments: arg);
-                                    },
-                                    child: _menuItemWidget(index)));
-                          } else {
-                            if (this._isLoad) {
-                              return LoadingMore();
-                            } else {
-                              return ListBottom(
-                                  this._isOver ? '到底了' : '上拉加载更多');
-                            }
-                          }
-                        })),
-              ));
+            ? EmptyWidget(cateId: '')
+            : RefreshIndicator(
+                onRefresh: this.onRefresh,
+                child: ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(8)),
+                    controller: this._scrollController,
+                    itemCount: this._menuList.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < this._menuList.length) {
+                        return Slidable(
+                            key: ValueKey("$index"),
+                            //右侧滑动部分
+                            secondaryActions: rightActionsArray(index, context),
+                            //滑动的交互效果
+                            actionPane: SlidableDrawerActionPane(),
+                            //item内容
+                            child: InkWell(
+                                onTap: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  Map arg = {'pageType': '2'};
+                                  Navigator.pushNamed(context, '/add_menu',
+                                      arguments: arg);
+                                },
+                                child: _menuItemWidget(index)));
+                      } else {
+                        if (this._isLoad) {
+                          return LoadingMore();
+                        } else {
+                          return ListBottom(toastContent:this._isOver ? '到底了' : '上拉加载更多');
+                        }
+                      }
+                    })));
   }
 
   //右侧可滑动的部分
   List<Widget> rightActionsArray(index, context) {
     List<Widget> _settingButton = [];
     _settingButton
-        .add(_iconSlideAction(Icons.delete, '删除', Color(0xff8a8a8a), () {
-      print('删除');
+        .add(_iconSlideAction(Icons.delete, '删除', RhColors.colorDesc, () {
+      showDialog<Null>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: DialogWidget(
+                title: '提示',
+                contentWidget: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: ScreenUtil().setHeight(30)),
+                  child: Text('确认删除?'),
+                ),
+                cancelFun: () {},
+                confirmFun: () {
+                  Navigator.pop(context);
+                  print('已删除');
+                }),
+          );
+        },
+      ).then((val) {});
     }));
     return _settingButton;
   }
@@ -207,9 +227,8 @@ class _MenuPageState extends State<MenuPage> {
   _menuItemWidget(index) {
     return Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xffF1F6F9)))),
+            border: Border(bottom: BorderSide(color: RhColors.colorLine))),
         height: ScreenUtil().setHeight(130),
-        padding: EdgeInsets.only(right: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -232,44 +251,16 @@ class _MenuPageState extends State<MenuPage> {
                   Text(this._menuList[index]['name'],
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Color(0xff333333),
-                          fontSize: 14,
+                          color: RhColors.colorTitle,
+                          fontSize: RhFontSize.fontSize14,
                           fontWeight: FontWeight.bold)),
                   Text(
                       '¥${this._menuList[index]['price']}/${this._menuList[index]['unit']}',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 14))
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize14))
                 ])),
-            Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xff8a8a8a))
-          ],
-        ));
-  }
-
-  //空列表
-  _emptyWidget() {
-    return Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('没有任何菜品哦，快去添加吧~',
-                style: TextStyle(color: Color(0xff333333), fontSize: 14)),
-            SizedBox(height: ScreenUtil().setHeight(10)),
-            InkWell(
-              onTap: () {
-                    Map arg = {'pageType': '1','id':''};
-                    Navigator.pushNamed(context, '/add_menu', arguments: arg);
-                  },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color(0xffe25d2b),
-                    borderRadius: BorderRadius.circular(3)),
-                alignment: Alignment.center,
-                width: ScreenUtil().setWidth(150),
-                height: ScreenUtil().setHeight(60),
-                child: Text('去添加',
-                    style: TextStyle(color: Color(0xffffffff), fontSize: 13)),
-              ),
-            )
+            Icon(Icons.arrow_forward_ios, size: 16, color: RhColors.colorDesc)
           ],
         ));
   }

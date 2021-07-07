@@ -5,7 +5,7 @@ import 'package:rh_store_app/widgets/button_widget.dart';
 import '../../service/config_tool.dart';
 
 class Complaint extends StatefulWidget {
-  Map arguments;
+  final Map arguments;
   Complaint({this.arguments});
   @override
   _ComplaintState createState() => _ComplaintState();
@@ -98,6 +98,7 @@ class _ComplaintState extends State<Complaint> {
                   ButtonWidget(
                       text: '提交',
                       buttonBack: () {
+                        print(this._id);
                         print('提交');
                       })
                 ],

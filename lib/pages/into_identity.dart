@@ -6,8 +6,10 @@ import '../widgets/upload_img.dart';
 import '../widgets/row_widget.dart';
 import '../widgets/text_field.dart';
 import '../widgets/image_widget.dart';
+
 import '../service/picker_tool.dart';
 import '../service/toast_tool.dart';
+import '../service/config_tool.dart';
 
 class IntoIdentity extends StatefulWidget {
   @override
@@ -32,13 +34,21 @@ class _IntoIdentityState extends State<IntoIdentity> {
   }
 
   @override
+  void dispose() {
+    this._nameController.dispose();
+    this._cardIdController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff0a0b17),
+        backgroundColor: RhColors.colorAppBar,
         brightness: Brightness.dark,
         title: Text('法人身份信息',
-            style: TextStyle(color: Color(0xffffffff), fontSize: 18)),
+            style: TextStyle(
+                color: RhColors.colorWhite, fontSize: RhFontSize.fontSize18)),
       ),
       body: SingleChildScrollView(
           child: GestureDetector(
@@ -52,14 +62,17 @@ class _IntoIdentityState extends State<IntoIdentity> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
+                        color: Color(0x0ce25d2b),
                         border: Border(
-                            bottom: BorderSide(color: Color(0xffF1F6F9)))),
+                            bottom: BorderSide(color: RhColors.colorLine))),
                     padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(20),
                         vertical: ScreenUtil().setHeight(3)),
                     child: Text(
                       '法人身份信息用途是为商家注册微信商户号，热乎优选承诺保护商家隐私安全，信息绝不外露，请放心填写!',
-                      style: TextStyle(color: Color(0xffe25d2b), fontSize: 12),
+                      style: TextStyle(
+                          color: RhColors.colorPrimary,
+                          fontSize: RhFontSize.fontSize12),
                     ),
                   ),
                   RowWidget(
@@ -100,7 +113,8 @@ class _IntoIdentityState extends State<IntoIdentity> {
                             child: Text(
                               '*法定代表人身份证人像面',
                               style: TextStyle(
-                                  color: Color(0xffe25d2b), fontSize: 12),
+                                  color: RhColors.colorPrimary,
+                                  fontSize: RhFontSize.fontSize12),
                             ),
                           ),
                         ],
@@ -130,7 +144,8 @@ class _IntoIdentityState extends State<IntoIdentity> {
                             child: Text(
                               '*法定代表人身份证国徽面',
                               style: TextStyle(
-                                  color: Color(0xffe25d2b), fontSize: 12),
+                                  color: RhColors.colorPrimary,
+                                  fontSize: RhFontSize.fontSize12),
                             ),
                           ),
                         ],
@@ -164,7 +179,7 @@ class _IntoIdentityState extends State<IntoIdentity> {
                                         Text(_idCardValidTime,
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xff333333))),
+                                                color: RhColors.colorTitle)),
                                         SizedBox(
                                             width: ScreenUtil().setWidth(10)),
                                         Offstage(
@@ -177,7 +192,7 @@ class _IntoIdentityState extends State<IntoIdentity> {
                                               },
                                               child: Icon(
                                                 Icons.cancel,
-                                                color: Color(0xff8a8a8a),
+                                                color: RhColors.colorDesc,
                                                 size: 18,
                                               ),
                                             ))
@@ -186,7 +201,7 @@ class _IntoIdentityState extends State<IntoIdentity> {
                                   ),
                                   SizedBox(width: ScreenUtil().setWidth(8)),
                                   Icon(Icons.arrow_forward_ios,
-                                      size: 16, color: Color(0xff8a8a8a))
+                                      size: 16, color: RhColors.colorDesc)
                                 ],
                               ))),
                       alignment: 'center'),
@@ -197,14 +212,15 @@ class _IntoIdentityState extends State<IntoIdentity> {
                       ButtonWidget(
                           text: '提交',
                           buttonBack: () {
+                            ToastTool.toastWidget(context, msg: '请输入法人真实姓名');
                             // if (this._nameController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入法人真实姓名');
+                            // ToastTool.toastWidget(context, msg: '请输入法人真实姓名');
                             // } else if (this._cardIdController.text == '') {
-                              // ToastTool.toastWidget(context, msg: '请输入法人身份证号码');
+                            // ToastTool.toastWidget(context, msg: '请输入法人身份证号码');
                             // } else if (this._positiveImg.length == 0) {
-                               // ToastTool.toastWidget(context, msg: '请上传法人身份证人像面图片');
+                            // ToastTool.toastWidget(context, msg: '请上传法人身份证人像面图片');
                             // } else if (this._reverseImg.length == 0) {
-                              // ToastTool.toastWidget(context, msg: '请上传法人身份证国徽面图片');
+                            // ToastTool.toastWidget(context, msg: '请上传法人身份证国徽面图片');
                             // } else {
                             //   Map req = {
                             //     'id_card_name': this._nameController.text,

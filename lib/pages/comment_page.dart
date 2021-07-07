@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 
 import '../widgets/list_bottom.dart';
 import '../widgets/loading_more.dart';
-import '../widgets/comment_item.dart';
+import './commentPages/comment_item.dart';
 
 import '../service/config_tool.dart';
 
@@ -97,7 +97,7 @@ class _CommentPageState extends State<CommentPage> {
                     if (this._isLoad) {
                       return LoadingMore();
                     } else {
-                      return ListBottom(this._isOver ? '到底了' : '上拉加载更多');
+                      return ListBottom(toastContent:this._isOver ? '到底了' : '上拉加载更多');
                     }
                   }
                 })));
@@ -138,7 +138,7 @@ _topItem(title, num, unit) {
                 style: TextStyle(
                     color: RhColors.colorPrimary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 12))
+                    fontSize: RhFontSize.fontSize12))
           ],
         )
       ]);

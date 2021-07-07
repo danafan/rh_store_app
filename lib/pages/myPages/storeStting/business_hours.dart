@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../service/picker_tool.dart';
-import '../../widgets/button_widget.dart';
+import '../../../service/picker_tool.dart';
+import '../../../widgets/button_widget.dart';
 
-import '../../service/toast_tool.dart';
+import '../../../service/toast_tool.dart';
 
 class BusinessHours extends StatefulWidget {
   @override
@@ -215,7 +215,7 @@ class _BusinessHoursState extends State<BusinessHours> {
           JhPickerTool.showArrayPicker(context, data: _dataArr,
               clickCallBack: (List indexArr, var str) {
             this.setState(() {
-              this._timeArr[i]['${type}'] = str[0] + ':' + str[1];
+              this._timeArr[i]['$type'] = str[0] + ':' + str[1];
             });
           }, normalIndex: _selectIndexArr);
         },
@@ -226,7 +226,7 @@ class _BusinessHoursState extends State<BusinessHours> {
           decoration: BoxDecoration(
               border: Border.all(color: Color(0xff8a8a8a)),
               borderRadius: BorderRadius.circular(5)),
-          child: Text('${timeStr}',
+          child: Text('$timeStr',
               style: TextStyle(color: Color(0xff333333), fontSize: 16)),
         ));
   }

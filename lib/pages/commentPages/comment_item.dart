@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
-import '../service/toast_tool.dart';
-import '../service/config_tool.dart';
+import '../../service/toast_tool.dart';
+import '../../service/config_tool.dart';
 
 class CommentItem extends StatefulWidget {
   @override
@@ -12,6 +12,8 @@ class CommentItem extends StatefulWidget {
 class _CommentItemState extends State<CommentItem> {
   //回复内容
   final _replyValue = TextEditingController();
+  //是否显示全部
+  bool _isAll = true;
 
   @override
   void dispose() {
@@ -70,9 +72,9 @@ class _CommentItemState extends State<CommentItem> {
                     ]),
                     Stack(
                         clipBehavior: Clip.none,
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerRight,
                         children: <Widget>[
-                          Text('2020-08-29',
+                          Text('2020-08-29 13:24:58',
                               style: TextStyle(
                                   color: RhColors.colorDesc,
                                   fontSize: RhFontSize.fontSize14)),
@@ -93,59 +95,106 @@ class _CommentItemState extends State<CommentItem> {
                                           fontWeight: FontWeight.bold))))
                         ])
                   ])),
-          //评论的文字
-          Container(
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
-              child: Text(
-                '3月18日，西安市报告1例本土确诊病例。该确诊病例为西安市第八医院封闭隔离病区检验师。经省市专家组初步研判，该病例系在封闭隔离病区内意外暴露造成偶发感染',
-                style: TextStyle(
-                  color: RhColors.colorTitle,
-                  fontSize: RhFontSize.fontSize14,
-                ),
-              )),
-          //评论的图片
-          Container(
-            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
-            child: Wrap(
-              spacing: 5,
-              runSpacing: 5,
-              children: <Widget>[
-                InkWell(
-                    onTap: () {
-                      var arg = {
-                        'images': [
+          Offstage(
+              offstage: !this._isAll,
+              child: Container(
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    '3月18日，西安市报告1例本土确诊病例。该确诊病例为西安市第八医院封闭隔离病区检验师。经省市专家组初步研判，该病例系在封闭隔离病区内意外暴露造成偶发感染',
+                    style: TextStyle(
+                      color: RhColors.colorTitle,
+                      fontSize: RhFontSize.fontSize14,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ))),
+          Offstage(
+              offstage: this._isAll,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                //评论的文字
+                Container(
+                    margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                    child: Text(
+                      '3月18日，西安市报告1例本土确诊病例。该确诊病例为西安市第八医院封闭隔离病区检验师。经省市专家组初步研判，该病例系在封闭隔离病区内意外暴露造成偶发感染',
+                      style: TextStyle(
+                        color: RhColors.colorTitle,
+                        fontSize: RhFontSize.fontSize14,
+                      ),
+                    )),
+                //评论的图片
+                Container(
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                  child: Wrap(
+                    spacing: 5,
+                    runSpacing: 5,
+                    children: <Widget>[
+                      InkWell(
+                          onTap: () {
+                            var arg = {
+                              'images': [
+                                'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
+                                'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg'
+                              ],
+                              'index': 0,
+                              'heroTag': '111'
+                            };
+                            Navigator.pushNamed(context, '/photo_view',
+                                arguments: arg);
+                          },
+                          child: Image.network(
+                              'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
+                              height: ScreenUtil().setWidth(180),
+                              width: ScreenUtil().setWidth(180),
+                              fit: BoxFit.cover)),
+                      Image.network(
                           'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                          'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg'
-                        ],
-                        'index': 0,
-                        'heroTag': '111'
-                      };
-                      Navigator.pushNamed(context, '/photo_view',
-                          arguments: arg);
-                    },
-                    child: Image.network(
-                        'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                        height: ScreenUtil().setWidth(180),
-                        width: ScreenUtil().setWidth(180),
-                        fit: BoxFit.cover)),
-                Image.network(
-                    'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                    height: ScreenUtil().setWidth(180),
-                    width: ScreenUtil().setWidth(180),
-                    fit: BoxFit.cover),
-                Image.network(
-                    'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                    height: ScreenUtil().setWidth(180),
-                    width: ScreenUtil().setWidth(180),
-                    fit: BoxFit.cover),
-                Image.network(
-                    'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
-                    height: ScreenUtil().setWidth(180),
-                    width: ScreenUtil().setWidth(180),
-                    fit: BoxFit.cover)
-              ],
-            ),
+                          height: ScreenUtil().setWidth(180),
+                          width: ScreenUtil().setWidth(180),
+                          fit: BoxFit.cover),
+                      Image.network(
+                          'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
+                          height: ScreenUtil().setWidth(180),
+                          width: ScreenUtil().setWidth(180),
+                          fit: BoxFit.cover),
+                      Image.network(
+                          'https://img.ivsky.com/img/tupian/t/202002/28/riben_meishi-001.jpg',
+                          height: ScreenUtil().setWidth(180),
+                          width: ScreenUtil().setWidth(180),
+                          fit: BoxFit.cover)
+                    ],
+                  ),
+                ),
+              ])),
+          InkWell(
+            onTap: () {
+              this.setState(() {
+                this._isAll = !this._isAll;
+              });
+            },
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(this._isAll?'展开':'收起',
+                      style: TextStyle(
+                          color: RhColors.colorDesc,
+                          fontSize: RhFontSize.fontSize12)),
+                  this._isAll
+                      ? Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 16,
+                          color: RhColors.colorDesc,
+                        )
+                      : Icon(
+                          Icons.keyboard_arrow_up,
+                          size: 16,
+                          color: RhColors.colorDesc,
+                        )
+                ]),
           ),
+          SizedBox(height: ScreenUtil().setHeight(10)),
           // 购买的商品
           Container(
               margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
