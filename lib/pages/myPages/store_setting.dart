@@ -121,6 +121,7 @@ class _StoreSettingState extends State<StoreSetting> {
               InkWell(
                 onTap: () {
                   // ToastTool.toastWidget(context, msg: '本月您已修改过店铺地址，下个月再试试吧～');
+                  Navigator.pushNamed(context, '/map_page');
                   print('调用地图获取位置');
                 },
                 child: _rowExpandWidget('杭州市萧山区城厢街道127号', false),

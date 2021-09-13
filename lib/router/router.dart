@@ -6,6 +6,7 @@ import '../pages/commentPages/complaint.dart';
 import '../pages/myPages/bill_page.dart';
 import '../pages/myPages/cash_page.dart';
 import '../pages/myPages/store_setting.dart';
+import '../pages/map_page.dart';
 import '../pages/myPages/storeStting/business_hours.dart';
 import '../pages/myPages/storeStting/business_info.dart';
 import '../pages/myPages/package_page.dart';
@@ -34,6 +35,7 @@ final routes = {
   '/bill_page': (context) => BillPage(),
   '/cash_page': (context) => CashPage(),
   '/store_setting': (context) => StoreSetting(),
+  '/map_page': (context) => MapPage(),
   '/business_hours': (context) => BusinessHours(),
   '/business_info': (context) => BusinessInfo(),
   '/package_management': (context) => PackagePage(),

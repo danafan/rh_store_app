@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/login_regis',
+        // initialRoute: '/store_setting',
         onGenerateRoute: onGenerateRoute,
         theme: ThemeData(primaryColor: RhColors.colorPrimary),
       ),
